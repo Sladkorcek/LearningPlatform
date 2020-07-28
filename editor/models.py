@@ -13,7 +13,7 @@ class Document(models.Model):
     forked_from = models.ForeignKey("Document", null=True, blank=True, on_delete=models.SET_NULL)
 
     # The owner of the file, it should never be empty
-    owner = models.ForeignKey(settings.AUTH_USER_MODEL)
+    owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 
     # Each document also has three possible visiblity options:
     #   * private - only the document owner has access
@@ -39,7 +39,7 @@ class Collection(models.Model):
     image = models.ImageField(blank=True, null=True)
     
     # The creator of this collection, it should never be empty
-    owner = models.ForeignKey(settings.AUTH_USER_MODEL)
+    owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 
     # Each collection contains a list of documents
     documents = models.ManyToManyField(Document)
