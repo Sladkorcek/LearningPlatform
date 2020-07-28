@@ -1,5 +1,7 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect, reverse
 from django.core.exceptions import PermissionDenied
+from django.contrib.auth.decorators import login_required
+
 from .models import Document, Collection
 
 import markdown
@@ -23,9 +25,17 @@ def render_document(request, document_id):
         'rendered_markdown': rendered_markdown
     })
 
+@login_required
 def create_document(request):
-    raise PermissionDenied
+    # When creating a new document, first a new database object should be
+    # inserted, then user should be redirected to edit document page
+    document = Document.empty_document(request.user)
+    document.save()
+    # After the document has been saved, its id can be read and used to
+    # construct the edit url
+    return redirect(reverse('edit_document', args=(document.id, )))
 
+@login_required
 def edit_document(request, document_id):
     # First, get document by its id or display an error
     document = get_object_or_404(Document, pk=document_id)
@@ -40,8 +50,10 @@ def edit_document(request, document_id):
         'document': document,
     })
 
+@login_required
 def rename_document(request, document_id):
     raise PermissionDenied
 
+@login_required
 def set_document_visibility(request, document_id):
     raise PermissionDenied

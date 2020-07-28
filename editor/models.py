@@ -58,6 +58,13 @@ class Document(TimeStampMixin):
         elif self.visibility == Document.LINK:
             return _('Anybody with link can view')
         return _('Everybody can view')
+    
+    @staticmethod
+    def empty_document(user):
+        return Document(
+            title=_('New document'),
+            owner=user
+        )
 
 class Collection(TimeStampMixin):
     # Each collection has a title, short description and and image. Only the
