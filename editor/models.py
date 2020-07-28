@@ -52,6 +52,11 @@ class Document(TimeStampMixin):
             return False
         return True
     
+    def can_edit(self, user):
+        if user.is_authenticated:
+            return user == self.owner
+        return False
+    
     def visibility_string(self):
         if self.visibility == Document.PRIVATE:
             return _('Only you can view')

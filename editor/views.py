@@ -40,9 +40,9 @@ def edit_document(request, document_id):
     # First, get document by its id or display an error
     document = get_object_or_404(Document, pk=document_id)
 
-    # Then check if user has permissions to access this document
-    if not document.can_view(request.user):
-        return HttpResponseForbidden('The document you are trying to edit doesn\'t belong to you')
+    # Then check if user has permissions to edit this document
+    if not document.can_edit(request.user):
+        raise PermissionDenied
     
     # TODO: If the document is public, allow user to fork it
 
@@ -52,6 +52,11 @@ def edit_document(request, document_id):
 
 @login_required
 def rename_document(request, document_id):
+    document = get_object_or_404(Document, pk=document_id)
+
+    if not document.can_edit(request.user):
+        raise PermissionDenied
+
     raise PermissionDenied
 
 @login_required
