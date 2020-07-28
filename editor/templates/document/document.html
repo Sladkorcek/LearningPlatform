@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}{{ document.title }}{% endblock %}
+
+{% block head %}
+    <!-- Notebook style -->
+    <link rel="stylesheet" href="{% static 'editor/css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'editor/css/github-markdown.css' %}">
+
+    <!-- The main interactive script -->
+    <script src="{% static 'editor/js/interactive.js' %}"></script>
+
+    <!-- Standard library of interactive elements such as buttons, graphs, ... -->
+    <script src="{% static 'editor/js/interactive_elements.js' %}"></script>
+{% endblock %}
+
+{% block content %}
+<div class="markdown-body">
+    {% autoescape off %}
+        {{ rendered_markdown }}
+    {% endautoescape %}
+</div>
+{% endblock %}
