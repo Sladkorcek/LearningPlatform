@@ -29,3 +29,17 @@ class Document(models.Model):
         (PUBLIC, 'Public'),
     ]
     visibility = models.CharField(max_length=2, choices=VISIBILTY_CHOICES, default=PRIVATE)
+
+class Collection(models.Model):
+    # Each collection has a title, short description and and image. Only the
+    # title is necessary. If no image is provided, a gray image is displayed
+    # instead.
+    title = models.CharField(max_length=200)
+    description = models.TextField(blank=True)
+    image = models.ImageField(blank=True, null=True)
+    
+    # The creator of this collection, it should never be empty
+    owner = models.ForeignKey(settings.AUTH_USER_MODEL)
+
+    # Each collection contains a list of documents
+    documents = models.ManyToManyField(Document)
