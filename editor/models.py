@@ -42,6 +42,15 @@ class Document(TimeStampMixin):
     ]
     visibility = models.CharField(max_length=2, choices=VISIBILTY_CHOICES, default=PRIVATE)
 
+    def can_view(self, user):
+        # If the visibility is PUBLIC or LINK, the user can view it
+        if self.visibility == Document.PRIVATE:
+            # If user is not athenticated, they can't view private documents 
+            if user.is_authenticated:
+                return user == self.owner
+            return False
+        return True        
+
 class Collection(TimeStampMixin):
     # Each collection has a title, short description and and image. Only the
     # title is necessary. If no image is provided, a gray image is displayed

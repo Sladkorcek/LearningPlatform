@@ -1,4 +1,5 @@
 from django.shortcuts import render, get_object_or_404
+from django.http import HttpResponseForbidden
 from .models import Document, Collection
 
 import markdown
@@ -9,7 +10,13 @@ MARKDOWN_EXTENSIONS = [
 ]
 
 def render_document(request, document_id):
+    # First, get document by its id or display an error
     document = get_object_or_404(Document, pk=document_id)
+
+    # Then check if user has permissions to access this document
+    if not document.can_view(request.user):
+        return HttpResponseForbidden('The document you are trying to view is private')
+
     rendered_markdown = markdown.markdown(document.content, extensions=MARKDOWN_EXTENSIONS)
     return render(request, 'document/document.html', {
         'document': document,
