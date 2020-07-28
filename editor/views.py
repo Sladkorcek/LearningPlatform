@@ -11,6 +11,21 @@ MARKDOWN_EXTENSIONS = [
     InlineInteractiveBlockExtension()
 ]
 
+def landing_page(request):
+    return NotImplementedError
+
+def index(request):
+    # If user is not logged in, display a landing page
+    if not request.user.is_authenticated:
+        return landing_page(request)
+    
+    # Otherwise show them a list of collections and documents
+    return render(request, 'user_page.html', {
+        'user': request.user,
+        'collections': list(Collection.objects.all()),
+        'documents': list(Document.objects.all())
+    })
+
 def render_document(request, document_id):
     # First, get document by its id or display an error
     document = get_object_or_404(Document, pk=document_id)
