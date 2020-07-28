@@ -1,7 +1,19 @@
 from django.db import models
 from django.conf import settings
+from django.utils import timezone
 
-class Document(models.Model):
+# TimeStampMixin object has been copied from
+# https://stackoverflow.com/questions/3429878/automatic-creation-date-for-django-model-form-objects
+# This mixin is abstract, so any model that needs to have created_at and
+# updated_at fields can extend it
+class TimeStampMixin(models.Model):
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        abstract = True
+
+class Document(TimeStampMixin):
     # Each document has a title and a content. Document title must not be empty.
     # The content is the markdown that the user has saved into this document.
     title = models.CharField(max_length=200)
@@ -30,7 +42,7 @@ class Document(models.Model):
     ]
     visibility = models.CharField(max_length=2, choices=VISIBILTY_CHOICES, default=PRIVATE)
 
-class Collection(models.Model):
+class Collection(TimeStampMixin):
     # Each collection has a title, short description and and image. Only the
     # title is necessary. If no image is provided, a gray image is displayed
     # instead.
