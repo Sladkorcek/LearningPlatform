@@ -1,6 +1,7 @@
 from django.db import models
 from django.conf import settings
 from django.utils import timezone
+from django.utils.translation import gettext as _
 
 # TimeStampMixin object has been copied from
 # https://stackoverflow.com/questions/3429878/automatic-creation-date-for-django-model-form-objects
@@ -49,7 +50,14 @@ class Document(TimeStampMixin):
             if user.is_authenticated:
                 return user == self.owner
             return False
-        return True        
+        return True
+    
+    def visibility_string(self):
+        if self.visibility == Document.PRIVATE:
+            return _('Only you can view')
+        elif self.visibility == Document.LINK:
+            return _('Anybody with link can view')
+        return _('Everybody can view')
 
 class Collection(TimeStampMixin):
     # Each collection has a title, short description and and image. Only the
