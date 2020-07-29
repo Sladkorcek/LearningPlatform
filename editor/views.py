@@ -12,15 +12,12 @@ MARKDOWN_EXTENSIONS = [
 ]
 
 def landing_page(request):
-    return NotImplementedError
+    return render(request, 'landing_page.html')
 
-def index(request):
-    # If user is not logged in, display a landing page
-    if not request.user.is_authenticated:
-        return landing_page(request)
-    
-    # Otherwise show them a list of collections and documents
-    return render(request, 'user_page.html', {
+@login_required
+def documents(request):    
+    # Show user a list of collections and documents
+    return render(request, 'documents.html', {
         'user': request.user,
         'collections': Collection.objects.filter(owner=request.user),
         'documents': Document.objects.filter(owner=request.user)
