@@ -57,7 +57,8 @@
                         </div>
                         <a href="{% url 'display_collection' collection.id %}" class="stretched-link"></a>
                     </div>
-
+                {% empty %}
+                    <div class="no-elements">{% trans 'You have no collections yet.' %}</div>
                 {% endfor %}
             </section>
 
@@ -79,6 +80,8 @@
                                 <div class="text-muted font-weight-light">{{ document.updated_at }}</div>
                             </div>
                         </a>
+                    {% empty %}
+                        <div class="no-elements">{% trans 'You have no documents yet.' %}</div>
                     {% endfor %}
                 </ul>
 
