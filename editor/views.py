@@ -62,6 +62,16 @@ def edit_document(request, document_id):
     # Then check if user has permissions to edit this document
     if not document.can_edit(request.user):
         raise PermissionDenied
+
+    if request.method == 'POST':
+        new_content = request.POST.get('document_content', None)
+        
+        # If no new document content was received, don't update it.
+        if new_content is not None:
+            document.content = new_content
+            document.save()
+        
+        return redirect(reverse('render_document', args=(document.id, )))
     
     # TODO: If the document is public, allow user to fork it
 
