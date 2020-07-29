@@ -14,9 +14,9 @@
 {% endblock %}
 
 {% block content %}
-    <div class="uk-container uk-margin-top">
+    <div class="container">
         <h1>Editing document <strong>{{ document.title }}</strong></h1>
-        <p class="uk-text-meta">Visibility: {{ document.visibility_string }}</p>
+        <p class="text-secondary">Visibility: {{ document.visibility_string }}</p>
         <textarea name="content" id="content">{{ document.content }}</textarea>
     </div>
 {% endblock %}
