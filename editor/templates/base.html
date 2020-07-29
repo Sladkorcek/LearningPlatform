@@ -68,23 +68,6 @@
 
     </nav>
 
-    <!--<div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 bg-white border-bottom box-shadow header">
-        <a class="mr-md-auto text-dark" href="{% url 'landing_page' %}">
-            <h5 class="my-0 font-weight-normal">Pomidor</h5>
-        </a>
-
-        <nav class="my-2 my-md-0 mr-md-3">
-            {% if user.is_authenticated %}
-                <a class="p-2 text-dark" href="{% url 'documents' %}">{% trans "My documents" %}</a>
-                <a class="p-2 text-dark" href="">{% trans "Explore" %}</a>
-            {% endif %}
-        </nav>
-
-        {% if not user.is_authenticated %}
-            <a class="btn btn-outline-success" href="{% url 'login' %}">{% trans "Sign up" %}</a>
-        {% endif %}
-    </div>-->
-
     {% block content %}
     {% endblock %}  
 </body>
