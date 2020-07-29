@@ -37,6 +37,7 @@ def render_document(request, document_id):
     rendered_markdown = markdown.markdown(document.content, extensions=MARKDOWN_EXTENSIONS)
     return render(request, 'document/document.html', {
         'document': document,
+        'user_can_edit': document.can_edit(request.user),
         'rendered_markdown': rendered_markdown
     })
 
@@ -102,7 +103,7 @@ def set_document_visibility(request, document_id):
 
     document.visibility = new_visibility
     document.save()
-    
+
     return redirect(reverse('edit_document', args=(document.id, )))
 
 def display_collection(request, collection_id):

@@ -1,10 +1,14 @@
 {% extends 'base.html' %}
 
 {% load static %}
+{% load i18n %}
 
 {% block title %}{{ document.title }}{% endblock %}
 
 {% block head %}
+    <!-- Include Material icons font -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
     <!-- Notebook style -->
     <link rel="stylesheet" href="{% static 'editor/css/style.css' %}">
     <link rel="stylesheet" href="{% static 'editor/css/github-markdown.css' %}">
@@ -14,6 +18,14 @@
 
     <!-- Standard library of interactive elements such as buttons, graphs, ... -->
     <script src="{% static 'editor/js/interactive_elements.js' %}"></script>
+{% endblock %}
+
+{% block navigation %}
+    {% if user_can_edit %}
+        <a class="btn btn-sm btn-danger header-button" href="{% url 'edit_document' document.id %}">
+            <span class="material-icons-button material-icons">create</span> {% trans "Edit" %}
+        </a>
+    {% endif %}
 {% endblock %}
 
 {% block content %}

@@ -6,6 +6,9 @@
 {% block title %}Editing - {{ document.title }}{% endblock %}
 
 {% block head %}
+    <!-- Include Material icons font -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
     <!-- Custom CSS styles -->
     <link rel="stylesheet" href="{% static 'editor/css/style.css' %}">
 
@@ -15,9 +18,6 @@
 
     <!-- Script that loads markdown editor -->
     <script src="{% static 'editor/js/markdown_editor.js' %}"></script>
-
-    <!-- Include Material icons font -->
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
     <script>
         window.addEventListener('load', function() {
@@ -34,6 +34,12 @@
 
         });
     </script>
+{% endblock %}
+
+{% block navigation %}
+    <a class="btn btn-sm btn-danger header-button" href="{% url 'render_document' document.id %}">
+        <span class="material-icons-button material-icons">visibility</span> {% trans "View" %}
+    </a>
 {% endblock %}
 
 {% block content %}
