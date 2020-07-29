@@ -1,0 +1,28 @@
+{% load static %}
+{% load i18n %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>{% block title %}{% endblock %}</title>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    
+    <!-- Bootstrap native JavaScript library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap.native/3.0.10/bootstrap-native.min.js"></script>
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{% static 'editor/css/style.css' %}">
+
+    {% block head %}
+    {% endblock %}
+
+</head>
+<body>
+    {% block content %}
+    {% endblock %}  
+</body>
+</html>
