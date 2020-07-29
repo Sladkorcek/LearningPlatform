@@ -5,18 +5,27 @@
 {% block title %}Editing - {{ document.title }}{% endblock %}
 
 {% block head %}
+    <!-- Custom CSS styles -->
+    <link rel="stylesheet" href="{% static 'editor/css/style.css' %}">
+
     <!-- Markdown editor -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.css">
     <script src="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.js"></script>
 
     <!-- Script that loads markdown editor -->
     <script src="{% static 'editor/js/markdown_editor.js' %}"></script>
+
+    <!-- Include Material icons font -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 {% endblock %}
 
 {% block content %}
-    <div class="container">
-        <h1>Editing document <strong>{{ document.title }}</strong></h1>
-        <p class="text-secondary">Visibility: {{ document.visibility_string }}</p>
+    <div class="container mt-5">
+        <div>
+            <h1>Editing document <strong class="editable">{{ document.title }}</strong></h1>
+        </div>
+        
+        <p class="text-secondary">Visibility: <span class="editable">{{ document.visibility_string }}</span></p>
         <textarea name="content" id="content">{{ document.content }}</textarea>
     </div>
 {% endblock %}

@@ -4,10 +4,11 @@
 {% load i18n %}
 
 {% block head %}
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/open-iconic/1.1.1/font/css/open-iconic-bootstrap.min.css" integrity="sha256-BJ/G+e+y7bQdrYkS2RBTyNfBHpA9IuGaPmf9htub5MQ=" crossorigin="anonymous" />
-    <style>
-        .oi { margin-right: 0.5em; }
-    </style>
+    <!-- Include Material icons font -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <!-- Include custom styling for button icons -->
+    <link rel="stylesheet" href="{% static 'editor/css/style.css' %}">
 {% endblock %}
 
 {% block title %}{{ user.username }}{% endblock %}
@@ -29,7 +30,7 @@
                     <h3>{% trans "My collections" %}</h3>
                     <div>
                         <a href="{% url 'create_collection' %}" class="btn btn-sm btn-success">
-                            <span class="oi oi-book"></span> {% trans "New" %}
+                            <span class="material-icons-button material-icons">collections</span> {% trans "New" %}
                         </a>
                     </div>
                 </div>
@@ -68,7 +69,7 @@
                     <h3>{% trans "My documents" %}</h3>
                     <div>
                         <a href="{% url 'create_document' %}" class="btn btn-sm btn-success">
-                            <span class="oi oi-file"></span> {% trans "New" %}
+                            <span class="material-icons-button material-icons">note_add</span> {% trans "New" %}
                         </a>
                     </div>
                 </div>
