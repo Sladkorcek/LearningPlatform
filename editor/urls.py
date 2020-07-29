@@ -5,6 +5,9 @@ urlpatterns = [
     path('', views.landing_page, name='landing_page'),
     path('documents', views.documents, name='documents'),
 
+    # Login and registration
+    path('login', views.login, name='login'),
+
     # Endpoints for users
     path('user/<int:user_id>/', views.user_profile, name='user_profile'),
     
