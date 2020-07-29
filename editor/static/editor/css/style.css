@@ -20,7 +20,7 @@
 .box-shadow { box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05); }
 
 /* The first element after header must have a 1rem margin except if it is a subheader */
-.header + * { margin-top: 1rem !important; }
+.header + * { margin-top: 2rem !important; }
 .header + .subheader { margin-top: 0 !important; }
 
 .header-button { margin-left: 3rem; }
@@ -93,4 +93,9 @@ interactive {
 }
 .editable:hover {
     border: 1px solid #cacaca;
+}
+
+.no-elements {
+    padding: 1em;
+    background-color: #f6f6f6;
 }

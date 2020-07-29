@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect, reverse
 from django.core.exceptions import PermissionDenied
 from django.contrib.auth.decorators import login_required
-
+from django.contrib.auth.models import User
 from .models import Document, Collection
 
 import markdown
@@ -27,6 +27,12 @@ def index(request):
     })
 
 def user_profile(request, user_id):
+    user = get_object_or_404(User, pk=user_id)
+    return render(request, 'user_profile.html', {
+        'user': user,
+        'collections': Collection.objects.filter(owner=user),
+        'documents': Document.objects.filter(owner=user, visibility=Document.PUBLIC)
+    })
     raise NotImplementedError
 
 def render_document(request, document_id):
