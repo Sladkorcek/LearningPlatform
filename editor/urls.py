@@ -3,6 +3,9 @@ from . import views
 
 urlpatterns = [
     path('', views.index, name='index'),
+
+    # Endpoints for users
+    path('user/<int:user_id>/', views.user_profile, name='user_profile'),
     
     # Endpoints for accessing and editing collections
     path('collection/<int:collection_id>/', views.display_collection, name='display_collection'),

@@ -26,6 +26,9 @@ def index(request):
         'documents': Document.objects.filter(owner=request.user)
     })
 
+def user_profile(request, user_id):
+    raise NotImplementedError
+
 def render_document(request, document_id):
     # First, get document by its id or display an error
     document = get_object_or_404(Document, pk=document_id)

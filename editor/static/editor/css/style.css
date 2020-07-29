@@ -4,6 +4,8 @@
     max-width: 980px;
     margin: 0 auto;
     padding: 45px;
+    border: 1px solid #e1e4e8;
+    border-radius: 4px;
 }
 
 @media (max-width: 767px) {
@@ -17,11 +19,33 @@
 .border-bottom { border-bottom: 1px solid #e5e5e5; }
 .box-shadow { box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05); }
 
+/* The first element after header must have a 1rem margin except if it is a subheader */
+.header + * { margin-top: 1rem !important; }
+.header + .subheader { margin-top: 0 !important; }
+
 .header-button { margin-left: 3rem; }
+
+.subheader {
+    background: #f6f6f6;
+    padding: 1em;
+}
+
+a.tomato { color: #ff6347; }
+a.tomato:hover { color: #da452a; }
+.btn-tomato {
+    color: #fff;
+    background-color: #ff6347;
+    border-color: #ff6347;
+}
+.btn-tomato:hover {
+    color: #fff;
+    background-color: #da452a;
+    border-color: #c73920;
+}
 
 /* Google material icon styling for buttons */
 .material-icons-button {
-    font-size: .875rem;
+    font-size: .875rem !important;
     margin-right: 0.2em;
     position: inherit;
     vertical-align: middle;

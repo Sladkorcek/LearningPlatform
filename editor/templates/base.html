@@ -1,3 +1,4 @@
+{% load static %}
 {% load i18n %}
 
 <!DOCTYPE html>
@@ -9,8 +10,12 @@
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    
     <!-- Bootstrap native JavaScript library -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap.native/3.0.10/bootstrap-native.min.js"></script>
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{% static 'editor/css/style.css' %}">
 
     {% block head %}
     {% endblock %}
@@ -18,7 +23,7 @@
 </head>
 <body>
 
-    <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom box-shadow">
+    <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 bg-white border-bottom box-shadow header">
         <a class="mr-md-auto text-dark" href="{% url 'index' %}">
             <h5 class="my-0 font-weight-normal">Pomidor</h5>
         </a>

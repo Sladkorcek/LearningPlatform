@@ -10,7 +10,6 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
     <!-- Notebook style -->
-    <link rel="stylesheet" href="{% static 'editor/css/style.css' %}">
     <link rel="stylesheet" href="{% static 'editor/css/github-markdown.css' %}">
 
     <!-- The main interactive script -->
@@ -20,16 +19,32 @@
     <script src="{% static 'editor/js/interactive_elements.js' %}"></script>
 {% endblock %}
 
-{% block navigation %}
-    {% if user_can_edit %}
-        <a class="btn btn-sm btn-danger header-button" href="{% url 'edit_document' document.id %}">
-            <span class="material-icons-button material-icons">create</span> {% trans "Edit" %}
-        </a>
-    {% endif %}
-{% endblock %}
-
 {% block content %}
-<div class="markdown-body">
+<section class="subheader">
+    <div class="container" style="max-width: 980px;">
+        <div class="d-flex">
+            <div class="mr-md-auto">
+                <div class="lead font-weight-normal">
+                    <a href="{% url 'user_profile' document.owner.id %}" class="tomato">{{ document.owner.username }}</a> / 
+                    <a href="{% url 'render_document' document.id %}" class="font-weight-bold tomato">{{ document.title }}</a>
+                </div>
+                <div class="text-secondary"><small>
+                    {% blocktrans with date=document.created_at %}
+                        Created at: {{ date }}
+                    {% endblocktrans %}
+                </small></div>
+            </div>
+            <div>
+                {% if user_can_edit %}
+                    <a class="btn btn-sm btn-success header-button" href="{% url 'edit_document' document.id %}">
+                        <span class="material-icons-button material-icons">create</span> {% trans "Edit" %}
+                    </a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</section>
+<div class="markdown-body mt-3">
     {% autoescape off %}
         {{ rendered_markdown }}
     {% endautoescape %}

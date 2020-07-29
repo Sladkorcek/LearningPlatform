@@ -9,9 +9,6 @@
     <!-- Include Material icons font -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
-    <!-- Custom CSS styles -->
-    <link rel="stylesheet" href="{% static 'editor/css/style.css' %}">
-
     <!-- Markdown editor -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.css">
     <script src="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.js"></script>
@@ -37,7 +34,7 @@
 {% endblock %}
 
 {% block navigation %}
-    <a class="btn btn-sm btn-danger header-button" href="{% url 'render_document' document.id %}">
+    <a class="btn btn-sm btn-tomato header-button" href="{% url 'render_document' document.id %}">
         <span class="material-icons-button material-icons">visibility</span> {% trans "View" %}
     </a>
 {% endblock %}
