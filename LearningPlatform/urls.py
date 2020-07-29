@@ -23,6 +23,9 @@ urlpatterns = [
     # Django authentication system
     path('accounts/', include('django.contrib.auth.urls')),
 
+    # User sign-up app
+    path('accounts/', include("accounts.urls")),
+
     # Editor app for editing documents and collections
     path('', include('editor.urls')),
 ]
