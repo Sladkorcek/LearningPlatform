@@ -30,7 +30,7 @@ def user_profile(request, user_id):
     user = get_object_or_404(User, pk=user_id)
     return render(request, 'user_profile.html', {
         'user': user,
-        'collections': Collection.objects.filter(owner=user),
+        'collections': Collection.objects.filter(owner=user, visibility=Document.PUBLIC),
         'documents': Document.objects.filter(owner=user, visibility=Document.PUBLIC)
     })
     raise NotImplementedError
