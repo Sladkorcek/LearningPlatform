@@ -6,9 +6,6 @@
 {% block title %}Editing - {{ document.title }}{% endblock %}
 
 {% block head %}
-    <!-- Include Material icons font -->
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-
     <!-- Markdown editor -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.css">
     <script src="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.js"></script>
@@ -34,9 +31,11 @@
 {% endblock %}
 
 {% block navigation %}
-    <a class="btn btn-sm btn-tomato header-button" href="{% url 'render_document' document.id %}">
-        <span class="material-icons-button material-icons">visibility</span> {% trans "View" %}
-    </a>
+    <li class="nav-item">
+        <a class="btn btn-sm btn-tomato" href="{% url 'render_document' document.id %}" style="margin-right: 1em; margin-top: 5px;">
+            <span class="material-icons-button material-icons">visibility</span> {% trans "View" %}
+        </a>
+    </li>
 {% endblock %}
 
 {% block content %}
