@@ -9,7 +9,7 @@ def register(request):
         if form.is_valid():
             user = form.save()
             login(request, user)
-            return redirect(reverse('landing_page'))
+            return redirect(reverse('documents'))
 
     return render(request,'register.html', {
         'form': form
