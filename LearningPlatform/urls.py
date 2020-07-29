@@ -17,6 +17,12 @@ from django.contrib import admin
 from django.urls import path, include
 
 urlpatterns = [
+    # Administration page
     path('admin/', admin.site.urls),
+
+    # Django authentication system
+    path('accounts/', include('django.contrib.auth.urls')),
+
+    # Editor app for editing documents and collections
     path('', include('editor.urls')),
 ]
