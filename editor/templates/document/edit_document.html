@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 
 {% load static %}
+{% load i18n %}
 
 {% block title %}Editing - {{ document.title }}{% endblock %}
 
@@ -17,15 +18,51 @@
 
     <!-- Include Material icons font -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <script>
+        window.addEventListener('load', function() {
+            document.getElementById('document-title').onclick = function() {
+                var myModalInstance = new BSN.Modal('#rename-modal');
+                myModalInstance.show();
+            }
+        });
+    </script>
 {% endblock %}
 
 {% block content %}
     <div class="container mt-5">
         <div>
-            <h1>Editing document <strong class="editable">{{ document.title }}</strong></h1>
+            <h1>Editing document <strong id="document-title" class="editable">{{ document.title }}</strong></h1>
         </div>
         
         <p class="text-secondary">Visibility: <span class="editable">{{ document.visibility_string }}</span></p>
         <textarea name="content" id="content">{{ document.content }}</textarea>
+    </div>
+
+    <!-- Modal for renaming the document -->
+    <div class="modal fade" id="rename-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">{% trans "Rename document" %}</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="rename-form" method="POST" action="{% url 'rename_document' document.id %}">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <label for="document-name" class="col-form-label">{% trans "New title" %}</label>
+                            <input type="text" class="form-control" id="document-name" name="document_name" value="{{ document.title }}">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">{% trans "Close" %}</button>
+                    <input type="submit" class="btn btn-primary" form="rename-form" value="{% trans "Rename" %}" />
+                </div>
+            </div>
+        </div>
     </div>
 {% endblock %}
