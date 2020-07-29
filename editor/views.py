@@ -22,8 +22,8 @@ def index(request):
     # Otherwise show them a list of collections and documents
     return render(request, 'user_page.html', {
         'user': request.user,
-        'collections': list(Collection.objects.all()),
-        'documents': list(Document.objects.all())
+        'collections': Collection.objects.filter(owner=request.user),
+        'documents': Document.objects.filter(owner=request.user)
     })
 
 def render_document(request, document_id):
@@ -76,4 +76,10 @@ def rename_document(request, document_id):
 
 @login_required
 def set_document_visibility(request, document_id):
+    raise PermissionDenied
+
+def display_collection(request, collection_id):
+    raise PermissionDenied
+
+def create_collection(request):
     raise PermissionDenied
