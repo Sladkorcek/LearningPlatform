@@ -92,13 +92,13 @@ class Collection(TimeStampMixin, VisibilityMixin):
     # instead.
     title = models.CharField(max_length=200)
     description = models.TextField(blank=True)
-    image = models.ImageField(upload_to='images/collections')
+    image = models.ImageField(upload_to='images/collections', null=True, blank=True)
     
     # The creator of this collection, it should never be empty
     owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 
     # Each collection contains a list of documents
-    documents = models.ManyToManyField(Document)
+    documents = models.ManyToManyField(Document, blank=True)
 
     @staticmethod
     def from_form(form, user):

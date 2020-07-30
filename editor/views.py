@@ -100,8 +100,6 @@ def edit_document(request, document_id):
             document.save()
         
         return redirect(reverse('render_document', args=(document.id, )))
-    
-    # TODO: If the document is public, allow user to fork it
 
     return render(request, 'document/edit_document.html', {
         'document': document,
@@ -192,31 +190,6 @@ def display_collection(request, collection_id):
         'collection': collection
     })
 
-
-class NewCollectionForm(forms.Form):
-    title = forms.CharField(max_length=200)
-    description = forms.CharField()
-    visibility = forms.ChoiceField(choices=VisibilityMixin.VISIBILTY_CHOICES)
-    image = forms.ImageField(allow_empty_file=True, required=False)
-    documents = forms.ModelMultipleChoiceField(queryset=Document.objects.all(), required=False)
-
-@login_required
-def create_collection(request):
-    form = NewCollectionForm(request.POST or None, request.FILES or None)
-    if request.method == 'POST':
-        if form.is_valid():
-            collection = Collection.from_form(form.cleaned_data, request.user)
-            collection.save()
-            return redirect(reverse('display_collection', args=(collection.id, )))
-        else:
-            print(form)
-    
-    # If the request method is not POST return an empty form
-    return render(request, 'collection/create_collection.html', {
-        'form': form,
-        'documents': Document.objects.filter(owner=request.user)
-    })
-
 @login_required
 def clone_collection(request, collection_id):
     collection = get_object_or_404(Collection, pk=collection_id)
@@ -249,6 +222,23 @@ class CollectionForm(forms.ModelForm):
         fields = ['title', 'description', 'image', 'visibility', 'documents']
 
 @login_required
+def create_collection(request):
+    form = CollectionForm(request.POST or None, request.FILES or None, initial={'documents': []})
+    if request.method == 'POST':
+        if form.is_valid():
+            new_collection = form.save(commit=False)
+            new_collection.owner = request.user
+            new_collection.save()
+            form.save_m2m()
+            return redirect(reverse('display_collection', args=(new_collection.id, )))
+    
+    # If the request method is not POST return an empty form
+    return render(request, 'collection/create_collection.html', {
+        'form': form,
+        'documents': Document.objects.filter(owner=request.user)
+    })
+
+@login_required
 def edit_collection(request, collection_id):
     collection = get_object_or_404(Collection, pk=collection_id)
 
@@ -261,8 +251,11 @@ def edit_collection(request, collection_id):
             form.save()
             return redirect(reverse('display_collection', args=(collection.id, )))
     
+    all_documents = set(collection.documents.all())
+    all_documents = all_documents.union(Document.objects.filter(owner=request.user).all())
+    
     return render(request, 'collection/edit_collection.html', {
         'form': form,
-        'documents': Document.objects.filter(owner=request.user),
+        'documents': all_documents,
         'collection': collection
     })
