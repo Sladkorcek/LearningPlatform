@@ -20,7 +20,6 @@ def landing_page(request):
 def documents(request):    
     # Show user a list of collections and documents
     return render(request, 'documents.html', {
-        'user': request.user,
         'collections': Collection.objects.filter(owner=request.user),
         'documents': Document.objects.filter(owner=request.user)
     })
