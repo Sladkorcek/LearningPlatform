@@ -92,7 +92,7 @@ class Collection(TimeStampMixin, VisibilityMixin):
     # instead.
     title = models.CharField(max_length=200)
     description = models.TextField(blank=True)
-    image = models.ImageField(blank=True, null=True)
+    image = models.ImageField(upload_to='images/collections')
     
     # The creator of this collection, it should never be empty
     owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
