@@ -2,7 +2,9 @@ from django.shortcuts import render, get_object_or_404, redirect, reverse, HttpR
 from django.core.exceptions import PermissionDenied
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
-from .models import Document, Collection
+from .models import Document, Collection, VisibilityMixin
+
+from django import forms
 
 import markdown
 from .interactive_block import InlineInteractiveBlockExtension
@@ -159,5 +161,26 @@ def raw_document(request, document_id):
 def display_collection(request, collection_id):
     raise PermissionDenied
 
+class NewCollectionForm(forms.Form):
+    title = forms.CharField(max_length=200)
+    description = forms.CharField()
+    visibility = forms.ChoiceField(choices=VisibilityMixin.VISIBILTY_CHOICES)
+    image = forms.ImageField(allow_empty_file=True, required=False)
+    documents = forms.ModelMultipleChoiceField(queryset=Document.objects.all(), required=False)
+
+@login_required
 def create_collection(request):
-    raise PermissionDenied
+    form = NewCollectionForm(request.POST or None, request.FILES or None)
+    if request.method == 'POST':
+        if form.is_valid():
+            collection = Collection.from_form(form.cleaned_data, request.user)
+            collection.save()
+            return redirect(reverse('display_collection', args=(collection.id, )))
+        else:
+            print(form)
+    
+    # If the request method is not POST return an empty form
+    return render(request, 'collection/create_collection.html', {
+        'form': form,
+        'documents': Document.objects.filter(owner=request.user)
+    })

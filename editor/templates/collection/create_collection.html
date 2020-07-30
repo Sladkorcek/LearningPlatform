@@ -1,0 +1,123 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% load i18n %}
+
+{% block title %}Create new collection{% endblock %}
+
+{% block head %}
+    <script>
+
+        function onListItemClicked(event) {
+            let element = event.target;
+            if (!element || element.tagName.toLowerCase() == 'input' || element.tagName.toLowerCase() == 'tag')
+                return;
+            let checkbox = element.querySelector('input');
+            checkbox.checked = !checkbox.checked;
+        }
+
+        window.addEventListener('load', function() {
+            let documents = document.body.getElementsByClassName('list-group-item');
+            for (let i = 0; i < documents.length; i++) {
+                documents[i].addEventListener('click', onListItemClicked);
+            }
+        });
+
+    </script>
+{% endblock %}
+
+{% block navigation %}
+
+{% endblock %}
+
+{% block content %}
+    <div class="container mt-5 mb-5">
+        <form action="{% url 'create_collection' %}" method="POST" enctype='multipart/form-data'>
+            {% csrf_token %}
+            <div class="row">
+                <div class="col-sm-6">
+                    <h3>{% trans 'Create a new collection' %}</h3>
+                    <p>{% trans 'Collections are a way for you to organize documents in logical groups. A real-life analogy for a collection would be a binder.' %}</p>
+                    
+                    {% if form.non_field_errors %}
+                        <div class="alert alert-danger" role="alert">{% trans 'Error' %}: {{ form.non_field_errors }}</div>
+                    {% endif %}
+
+                    <div class="form-group">
+                        <label for="collection-title">{% trans 'Title' %} <small>{% trans '(required)' %}</small></label>
+                        {% if not form.title.errors %}
+                            <input type="text" name="{{ form.title.html_name }}" value="{{ form.title.value | default_if_none:'' }}" class="form-control" id="collection-title" placeholder="{% trans 'Advanced potion making' %}">
+                        {% else %}
+                            <input type="text" name="{{ form.title.html_name }}" value="{{ form.title.value | default_if_none:'' }}" class="form-control is-invalid" id="collection-title" placeholder="{% trans 'Advanced potion making' %}">
+                            <div class="invalid-feedback">{% trans 'Error' %}: {{ form.title.errors }}</div>
+                        {% endif %}
+                    </div>
+                    <div class="form-group">
+                        <label for="collection-description">{% trans 'Short description' %} <small>{% trans '(required)' %}</small></label>
+                        {% if not form.description.errors %}
+                            <textarea class="form-control" name="{{ form.description.html_name }}" id="collection-description" rows="6" placeholder="{% trans 'Indeed, from antiquity until well into the Modern Ages, a physics devoid of metaphysical insight would have been as unsatisfying as a metaphysical devoid of physical manifestation.' %}">{{ form.description.value | default_if_none:'' }}</textarea>
+                        {% else %}
+                            <textarea class="form-control is-invalid" name="{{ form.description.html_name }}" id="collection-description" rows="6" placeholder="{% trans 'Indeed, from antiquity until well into the Modern Ages, a physics devoid of metaphysical insight would have been as unsatisfying as a metaphysical devoid of physical manifestation.' %}">{{ form.description.value | default_if_none:'' }}</textarea>
+                            <div class="invalid-feedback">{% trans 'Error' %}: {{ form.description.errors }}</div>
+                        {% endif %}
+                    </div>
+                    <div class="form-group">
+                        <label for="collection-visibility">{% trans 'Collection visibility' %} <small>{% trans '(required)' %}</small></label>
+                        {% if not form.visibility.errors %}
+                            <select name="{{ form.visibility.html_name }}" class="form-control" id="collection-visibility">
+                                {% for value, text in form.visibility.field.choices %}
+                                    <option value="{{ value }}">{{ text }}</option>
+                                {% endfor %}
+                            </select>
+                        {% else %}
+                            <select name="{{ form.visibility.html_name }}" class="form-control is-invalid" id="collection-visibility">
+                                {% for value, text in form.visibility.field.choices %}
+                                    <option value="{{ value }}">{{ text }}</option>
+                                {% endfor %}
+                            </select>
+                            <div class="invalid-feedback">{% trans 'Error' %}: {{ form.visibility.errors }}</div>
+                        {% endif %}
+                    </div>
+                    <div class="form-group">
+                        <label for="collection-image">{% trans 'Image' %}</label>
+                        {% if not form.image.errors %}
+                            <div class="custom-file" id="collection-image">
+                                <input type="file" name="{{ form.image.html_name }}" class="custom-file-input" id="file-input">
+                                <label class="custom-file-label" for="file-input">{% trans 'Choose image' %}</label>
+                            </div>
+                        {% else %}
+                            <div class="custom-file is-invalid" id="collection-image">
+                                <input type="file" name="{{ form.image.html_name }}" class="custom-file-input" id="file-input">
+                                <label class="custom-file-label" for="file-input">{% trans 'Choose image' %}</label>
+                            </div>
+                            <div class="invalid-feedback">{% trans 'Error' %}: {{ form.image.errors }}</div>
+                        {% endif %}
+                    </div>
+                    <button type="submit" class="btn btn-tomato">{% trans 'Create collection' %}</button>
+                </div>
+                <div class="col-sm-6">
+                    <h3>{% trans 'Add documents' %}</h3>
+                    <p>{% trans "Add documents to your collection. Don't worry, you'll be able to change this later on." %}</p>
+
+                    {% if form.documents.errors %}
+                        <div class="alert alert-danger" role="alert">{% trans 'Error' %}: {{ form.documents.errors }}</div>
+                    {% endif %}
+    
+                    <ul class="list-group">
+                        {% for document in documents %}
+                            <li class="list-group-item">
+                                <div>
+                                    <div class="form-check">
+                                        <input name="{{ form.documents.html_name }}" value="{{ document.id }}" class="form-check-input" type="checkbox" id="document-{{ document.id }}">
+                                        <label class="form-check-label" for="document-{{ document.id }}">
+                                            {{ document.title }}
+                                        </label>
+                                      </div>
+                                </div>
+                            </li>
+                        {% endfor %}
+                </div>
+            </div>
+        </form>
+    </div>
+{% endblock %}

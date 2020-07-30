@@ -99,3 +99,25 @@ class Collection(TimeStampMixin, VisibilityMixin):
 
     # Each collection contains a list of documents
     documents = models.ManyToManyField(Document)
+
+    @staticmethod
+    def from_form(form, user):
+        # To add a list of many-to-many relationships, the collection object
+        # must first be saved.
+        collection = Collection(
+            title=form['title'],
+            description=form['description'],
+            image=form['image'],
+            owner=user,
+            visibility=VisibilityMixin.PRIVATE
+        )
+        collection.save()
+
+        # Filter out only documents that the user can actually view
+        documents = []
+        for document in form['documents']:
+            if document.can_view(user):
+                documents.append(document)        
+        collection.documents.set(documents)
+
+        return collection
