@@ -27,7 +27,7 @@
                 </small></div>
                 <p class="mt-3">{{ collection.description }}</p>
             </div>
-            <div class="col-md-5 mt-3 mt-md-0">
+            <div class="col-md-5 text-md-right mt-1">
                 <div>
                     {% if user_can_edit %}
                         <a class="btn btn-sm btn-light" href="{% url 'edit_collection' collection.id %}">
