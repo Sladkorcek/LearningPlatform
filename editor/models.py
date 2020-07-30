@@ -122,5 +122,20 @@ class Collection(TimeStampMixin, VisibilityMixin):
 
         return collection
     
+    @staticmethod
+    def clone(collection, user):
+        new_collection = Collection(
+            title=collection.title,
+            description=collection.description,
+            image=collection.image,
+            owner=user,
+            visibility=VisibilityMixin.PRIVATE
+        )
+        new_collection.save()
+
+        new_collection.documents.set(collection.documents.all())
+
+        return new_collection
+    
     def __str__(self):
         return self.title

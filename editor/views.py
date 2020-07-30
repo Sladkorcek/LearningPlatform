@@ -212,3 +212,25 @@ def create_collection(request):
         'form': form,
         'documents': Document.objects.filter(owner=request.user)
     })
+
+@login_required
+def clone_collection(request, collection_id):
+    collection = get_object_or_404(Collection, pk=collection_id)
+
+    if not collection.can_view(request.user):
+        raise PermissionDenied
+
+    # Create a copy of the document, set its owner and save it to database
+    collection_copy = Collection.clone(collection, request.user)
+    collection_copy.save()
+
+    # Redirect user to document editor
+    return redirect(reverse('edit_collection', args=(collection_copy.id, )))
+
+@login_required
+def delete_collection(request, collection_id):
+    pass
+
+@login_required
+def edit_collection(request, collection_id):
+    pass

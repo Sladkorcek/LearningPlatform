@@ -11,9 +11,9 @@ urlpatterns = [
     # Endpoints for accessing and editing collections
     path('collection/<int:collection_id>/', views.display_collection, name='display_collection'),
     path('collection/new', views.create_collection, name='create_collection'),
-    path('collection/<int:collection_id>/edit', views.display_collection, name='edit_collection'),
-    path('collection/<int:collection_id>/delete', views.display_collection, name='delete_collection'),
-    path('collection/<int:collection_id>/clone', views.display_collection, name='clone_collection'),
+    path('collection/<int:collection_id>/edit', views.edit_collection, name='edit_collection'),
+    path('collection/<int:collection_id>/delete', views.delete_collection, name='delete_collection'),
+    path('collection/<int:collection_id>/clone', views.clone_collection, name='clone_collection'),
 
     # Edpoints for accessing and editing documents
     path('document/<int:document_id>/', views.render_document, name='render_document'),
