@@ -121,5 +121,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+MEDIA_URL = '/'
+
 # Where the user should be redirected after login
 LOGIN_REDIRECT_URL = '/documents'
