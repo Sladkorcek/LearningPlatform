@@ -75,6 +75,16 @@ class Document(TimeStampMixin, VisibilityMixin):
             title=_('New document'),
             owner=user
         )
+    
+    @staticmethod
+    def clone(document, user):
+        return Document(
+            title=document.title,
+            content=document.content,
+            forked_from=document,
+            owner=user,
+            visibility=VisibilityMixin.PRIVATE
+        )
 
 class Collection(TimeStampMixin, VisibilityMixin):
     # Each collection has a title, short description and and image. Only the

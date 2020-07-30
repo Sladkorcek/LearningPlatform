@@ -122,6 +122,32 @@ def set_document_visibility(request, document_id):
 
     return redirect(reverse('edit_document', args=(document.id, )))
 
+@login_required
+def delete_document(request, document_id):
+    document = get_object_or_404(Document, pk=document_id)
+
+    if not document.can_edit(request.user):
+        raise PermissionDenied
+
+    # Delete the document from database
+    document.delete()
+
+    return redirect(reverse('documents'))
+
+@login_required
+def clone_document(request, document_id):
+    document = get_object_or_404(Document, pk=document_id)
+
+    if not document.can_view(request.user):
+        raise PermissionDenied
+
+    # Create a copy of the document, set its owner and save it to database
+    document_copy = Document.clone(document, request.user)
+    document_copy.save()
+
+    # Redirect user to document editor
+    return redirect(reverse('edit_document', args=(document_copy.id, )))
+
 def display_collection(request, collection_id):
     raise PermissionDenied
 
