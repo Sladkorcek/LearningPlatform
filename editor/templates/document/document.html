@@ -18,9 +18,10 @@
 
 {% block content %}
 <section class="subheader">
-    <div class="container" style="max-width: 980px;">
-        <div class="d-flex">
-            <div class="mr-md-auto">
+    <div class="container">
+
+        <div class="row">
+            <div class="col-md-6">
                 <div class="lead font-weight-normal">
                     <a href="{% url 'user_profile' document.owner.id %}" class="tomato">{{ document.owner.username }}</a> / 
                     <a href="{% url 'render_document' document.id %}" class="font-weight-bold tomato">{{ document.title }}</a>
@@ -31,9 +32,9 @@
                     {% endblocktrans %}
                 </small></div>
             </div>
-            <div>
+            <div class="col-md-6 mt-3 mt-md-0">
                 <div>
-                    <div>
+                    <div class="text-md-right">
                         {% if user_can_edit %}
                             <a class="btn btn-sm btn-light" href="{% url 'edit_document' document.id %}">
                                 <span class="material-icons-button material-icons">create</span> {% trans "Edit" %}
@@ -49,7 +50,7 @@
                             <span class="material-icons-button material-icons">notes</span> {% trans "Raw" %}
                         </a>
                     </div>
-                    <div class="text-right mt-1">
+                    <div class="text-md-right mt-1">
                         {% if collections %}
                             <div class="btn-group" role="group">
                                 <button id="button-add-to-collection" type="button" class="btn btn-sm btn-light dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -69,9 +70,11 @@
         </div>
     </div>
 </section>
-<div class="markdown-body mt-3">
-    {% autoescape off %}
-        {{ rendered_markdown }}
-    {% endautoescape %}
+<div class="container mb-5">
+    <div class="markdown-body mt-3">
+        {% autoescape off %}
+            {{ rendered_markdown }}
+        {% endautoescape %}
+    </div>
 </div>
 {% endblock %}
