@@ -34,20 +34,13 @@ class VisibilityMixin(models.Model):
         default=PRIVATE
     )
 
-class Document(TimeStampMixin, VisibilityMixin):
-    # Each document has a title and a content. Document title must not be empty.
-    # The content is the markdown that the user has saved into this document.
-    title = models.CharField(max_length=200)
-    content = models.TextField(blank=True)
-
-    # If the document is forked, the forked_from ForeignKey will point the
-    # original document. If the original document is deleted, the forked_from
-    # property should be set to None.
-    forked_from = models.ForeignKey("Document", null=True, blank=True, on_delete=models.SET_NULL)
-
-    # The owner of the file, it should never be empty
-    owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-
+    def visibility_string(self):
+        if self.visibility == VisibilityMixin.PRIVATE:
+            return _('Only you can view')
+        elif self.visibility == VisibilityMixin.LINK:
+            return _('Anybody with link can view')
+        return _('Everybody can view')
+    
     def can_view(self, user):
         # If the visibility is PUBLIC or LINK, the user can view it
         if self.visibility == VisibilityMixin.PRIVATE:
@@ -61,13 +54,20 @@ class Document(TimeStampMixin, VisibilityMixin):
         if user.is_authenticated:
             return user == self.owner
         return False
-    
-    def visibility_string(self):
-        if self.visibility == VisibilityMixin.PRIVATE:
-            return _('Only you can view')
-        elif self.visibility == VisibilityMixin.LINK:
-            return _('Anybody with link can view')
-        return _('Everybody can view')
+
+class Document(TimeStampMixin, VisibilityMixin):
+    # Each document has a title and a content. Document title must not be empty.
+    # The content is the markdown that the user has saved into this document.
+    title = models.CharField(max_length=200)
+    content = models.TextField(blank=True)
+
+    # If the document is forked, the forked_from ForeignKey will point the
+    # original document. If the original document is deleted, the forked_from
+    # property should be set to None.
+    forked_from = models.ForeignKey("Document", null=True, blank=True, on_delete=models.SET_NULL)
+
+    # The owner of the file, it should never be empty
+    owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     
     @staticmethod
     def empty_document(user):
@@ -121,3 +121,6 @@ class Collection(TimeStampMixin, VisibilityMixin):
         collection.documents.set(documents)
 
         return collection
+    
+    def __str__(self):
+        return self.title

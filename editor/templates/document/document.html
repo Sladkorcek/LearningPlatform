@@ -33,20 +33,37 @@
             </div>
             <div>
                 <div>
-                    {% if user_can_edit %}
-                        <a class="btn btn-sm btn-light" href="{% url 'edit_document' document.id %}">
-                            <span class="material-icons-button material-icons">create</span> {% trans "Edit" %}
+                    <div>
+                        {% if user_can_edit %}
+                            <a class="btn btn-sm btn-light" href="{% url 'edit_document' document.id %}">
+                                <span class="material-icons-button material-icons">create</span> {% trans "Edit" %}
+                            </a>
+                            <a class="btn btn-sm btn-light" href="{% url 'delete_document' document.id %}">
+                                <span class="material-icons-button material-icons">delete</span> {% trans "Delete" %}
+                            </a>
+                        {% endif %}
+                        <a class="btn btn-sm btn-light" href="{% url 'clone_document' document.id %}">
+                            <span class="material-icons-button material-icons">file_copy</span> {% trans "Clone" %}
                         </a>
-                        <a class="btn btn-sm btn-light" href="{% url 'delete_document' document.id %}">
-                            <span class="material-icons-button material-icons">delete</span> {% trans "Delete" %}
+                        <a class="btn btn-sm btn-light" href="{% url 'raw_document' document.id %}" target="_blank">
+                            <span class="material-icons-button material-icons">notes</span> {% trans "Raw" %}
                         </a>
-                    {% endif %}
-                    <a class="btn btn-sm btn-light" href="{% url 'clone_document' document.id %}">
-                        <span class="material-icons-button material-icons">file_copy</span> {% trans "Clone" %}
-                    </a>
-                    <a class="btn btn-sm btn-light" href="{% url 'raw_document' document.id %}" target="_blank">
-                        <span class="material-icons-button material-icons">notes</span> {% trans "Raw" %}
-                    </a>
+                    </div>
+                    <div class="text-right mt-1">
+                        {% if collections %}
+                            <div class="btn-group" role="group">
+                                <button id="button-add-to-collection" type="button" class="btn btn-sm btn-light dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <span class="material-icons-button material-icons">playlist_add</span>
+                                    {% trans 'Add to collection' %}
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="button-add-to-collection">
+                                    {% for collection in collections %}
+                                        <a class="dropdown-item" href="{% url 'render_document' document.id %}?collection={{ collection.id }}">{{ collection.title }}</a>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        {% endif %}
+                    </div>
                 </div>
             </div>
         </div>

@@ -41,12 +41,32 @@ def render_document(request, document_id):
     if not document.can_view(request.user):
         raise PermissionDenied
 
+    # If request argument 'collection' is present, the user wants to add this
+    # document to specific collection
+    collection_id = request.GET.get('collection', None)
+    if collection_id is not None:
+        try:
+            collection = Collection.objects.get(pk=int(collection_id))
+            if collection.can_edit(request.user):
+                if document not in list(collection.documents.all()):
+                    collection.documents.add(document)
+                    collection.save()
+        finally:
+            return redirect(reverse('render_document', args=(document_id, )))
+
     rendered_markdown = markdown.markdown(document.content, extensions=MARKDOWN_EXTENSIONS)
-    return render(request, 'document/document.html', {
+
+    context = {
         'document': document,
         'user_can_edit': document.can_edit(request.user),
         'rendered_markdown': rendered_markdown
-    })
+    }
+
+    # If user is logged in, allow them to add this document to collection
+    if request.user.is_authenticated:
+        context['collections'] = Collection.objects.filter(owner=request.user)
+
+    return render(request, 'document/document.html', context)
 
 @login_required
 def create_document(request):
