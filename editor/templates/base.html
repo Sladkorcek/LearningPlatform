@@ -26,7 +26,7 @@
 </head>
 <body>
 
-    <nav class="navbar navbar-expand-sm navbar-light bg-light">
+    <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
         <div class="container">
             <a class="navbar-brand h1 mb-0" href="{% url 'landing_page' %}">Pomidor</a>
 
@@ -39,7 +39,22 @@
                     {% block navigation %}{% endblock %}
 
                     {% if request.user.is_authenticated %}
-                    <li class="nav-item"><a class="nav-link" href="#">{% trans "Explore" %}</a></li>
+                    <!--<li class="nav-item"><a class="nav-link" href="#">{% trans "Explore" %}</a></li>-->
+
+                    <div class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="new-dropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Create</a>
+                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="new-dropdown">
+                            <a class="dropdown-item" href="{% url 'create_document' %}">
+                                <span class="material-icons-button material-icons">insert_drive_file</span>
+                                {% trans "New document" %}
+                            </a>
+                            <a class="dropdown-item" href="{% url 'create_collection' %}">
+                                <span class="material-icons-button material-icons">collections</span>
+                                {% trans "New collection" %}
+                            </a>
+                        </div>
+                    </div>
+
                     <div class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             {{ request.user.username }}
@@ -49,9 +64,9 @@
                                 <span class="material-icons-button material-icons">person</span>
                                 {% trans "My Profile" %}
                             </a>
-                            <a class="dropdown-item" href="{% url 'documents' %}">
-                                <span class="material-icons-button material-icons">insert_drive_file</span>
-                                {% trans "My documents" %}
+                            <a class="dropdown-item" href="">
+                                <span class="material-icons-button material-icons">star</span>
+                                {% trans "Favourites" %}
                             </a>
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item" href="#">

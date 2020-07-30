@@ -26,6 +26,10 @@ def documents(request):
 
 def user_profile(request, user_id):
     user = get_object_or_404(User, pk=user_id)
+
+    if request.user.is_authenticated and request.user == user:
+        return documents(request)
+
     return render(request, 'user_profile.html', {
         'user': user,
         'collections': Collection.objects.filter(owner=user, visibility=Document.PUBLIC),
