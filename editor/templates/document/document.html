@@ -44,6 +44,9 @@
                     <a class="btn btn-sm btn-light" href="{% url 'clone_document' document.id %}">
                         <span class="material-icons-button material-icons">file_copy</span> {% trans "Clone" %}
                     </a>
+                    <a class="btn btn-sm btn-light" href="{% url 'raw_document' document.id %}" target="_blank">
+                        <span class="material-icons-button material-icons">notes</span> {% trans "Raw" %}
+                    </a>
                 </div>
             </div>
         </div>

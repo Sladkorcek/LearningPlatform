@@ -20,4 +20,5 @@ urlpatterns = [
     path('document/<int:document_id>/visibility', views.set_document_visibility, name='set_document_visibility'),
     path('document/<int:document_id>/delete', views.delete_document, name='delete_document'),
     path('document/<int:document_id>/clone', views.clone_document, name='clone_document'),
+    path('document/<int:document_id>/raw', views.raw_document, name='raw_document'),
 ]

@@ -1,4 +1,4 @@
-from django.shortcuts import render, get_object_or_404, redirect, reverse
+from django.shortcuts import render, get_object_or_404, redirect, reverse, HttpResponse
 from django.core.exceptions import PermissionDenied
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
@@ -147,6 +147,14 @@ def clone_document(request, document_id):
 
     # Redirect user to document editor
     return redirect(reverse('edit_document', args=(document_copy.id, )))
+
+def raw_document(request, document_id):
+    document = get_object_or_404(Document, pk=document_id)
+
+    if not document.can_view(request.user):
+        raise PermissionDenied
+
+    return HttpResponse(document.content)
 
 def display_collection(request, collection_id):
     raise PermissionDenied
