@@ -3,7 +3,7 @@
 {% load static %}
 {% load i18n %}
 
-{% block title %}Create new collection{% endblock %}
+{% block title %}Edit collection{% endblock %}
 
 {% block head %}
     <script>
@@ -32,11 +32,11 @@
 
 {% block content %}
     <div class="container mt-5 mb-5">
-        <form action="{% url 'create_collection' %}" method="POST" enctype='multipart/form-data'>
+        <form action="{% url 'edit_collection' collection.id %}" method="POST" enctype='multipart/form-data'>
             {% csrf_token %}
             <div class="row">
                 <div class="col-sm-6">
-                    <h3>{% trans 'Create a new collection' %}</h3>
+                    <h3>{% trans 'Edit collection' %}</h3>
                     <p>{% trans 'Collections are a way for you to organize documents in logical groups. A real-life analogy for a collection would be a binder.' %}</p>
                     
                     {% if form.non_field_errors %}
@@ -93,7 +93,7 @@
                             <div class="invalid-feedback">{% trans 'Error' %}: {{ form.image.errors }}</div>
                         {% endif %}
                     </div>
-                    <button type="submit" class="btn btn-tomato">{% trans 'Create collection' %}</button>
+                    <button type="submit" class="btn btn-tomato">{% trans 'Update collection' %}</button>
                 </div>
                 <div class="col-sm-6">
                     <h3>{% trans 'Add documents' %}</h3>
@@ -108,7 +108,8 @@
                             <li class="list-group-item">
                                 <div>
                                     <div class="form-check">
-                                        <input name="{{ form.documents.html_name }}" value="{{ document.id }}" class="form-check-input" type="checkbox" id="document-{{ document.id }}">
+                                        
+                                        <input name="{{ form.documents.html_name }}" value="{{ document.id }}" class="form-check-input" type="checkbox" id="document-{{ document.id }}" {% if document.id in form.documents.value %}checked{% endif %}>
                                         <label class="form-check-label" for="document-{{ document.id }}">
                                             {{ document.title }}
                                         </label>

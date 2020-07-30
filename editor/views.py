@@ -231,7 +231,7 @@ def clone_collection(request, collection_id):
 def delete_collection(request, collection_id):
     collection = get_object_or_404(Collection, pk=collection_id)
 
-    if not collection.can_view(request.user):
+    if not collection.can_edit(request.user):
         raise PermissionDenied
 
     # Delete the collection object
@@ -239,6 +239,26 @@ def delete_collection(request, collection_id):
 
     return redirect(reverse('documents'))
 
+class CollectionForm(forms.ModelForm):
+    class Meta:
+        model = Collection
+        fields = ['title', 'description', 'image', 'visibility', 'documents']
+
 @login_required
 def edit_collection(request, collection_id):
-    pass
+    collection = get_object_or_404(Collection, pk=collection_id)
+
+    if not collection.can_edit(request.user):
+        raise PermissionDenied
+
+    form = CollectionForm(request.POST or None, request.FILES or None, instance=collection)
+    if request.method == 'POST':
+        if form.is_valid():
+            form.save()
+            return redirect(reverse('display_collection', args=(collection.id, )))
+    
+    return render(request, 'collection/edit_collection.html', {
+        'form': form,
+        'documents': Document.objects.filter(owner=request.user),
+        'collection': collection
+    })
