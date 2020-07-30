@@ -4,11 +4,9 @@
 {% load i18n %}
 
 {% block head %}
-    <!-- Include Material icons font -->
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 {% endblock %}
 
-{% block title %}{{ request.user.username }}{% endblock %}
+{% block title %}{% trans 'Your documents and collections' %}{% endblock %}
 
 {% block content %}
 <div class="container mt-5" style="padding-bottom: 10rem;">

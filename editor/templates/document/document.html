@@ -3,7 +3,7 @@
 {% load static %}
 {% load i18n %}
 
-{% block title %}{{ document.title }}{% endblock %}
+{% block title %}{{ document.owner.username }}/{{ document.title }}{% endblock %}
 
 {% block head %}
     <!-- Notebook style -->

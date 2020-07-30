@@ -4,7 +4,7 @@
 {% load i18n %}
 {% load markdown %}
 
-{% block title %}{% trans 'Collection' %} {{ collection.title }}{% endblock %}
+{% block title %}{{ collection.owner.username }}/{{ collection.title }}{% endblock %}
 
 {% block head %}
     
