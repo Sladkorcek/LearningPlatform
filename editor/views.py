@@ -229,7 +229,15 @@ def clone_collection(request, collection_id):
 
 @login_required
 def delete_collection(request, collection_id):
-    pass
+    collection = get_object_or_404(Collection, pk=collection_id)
+
+    if not collection.can_view(request.user):
+        raise PermissionDenied
+
+    # Delete the collection object
+    collection.delete()
+
+    return redirect(reverse('documents'))
 
 @login_required
 def edit_collection(request, collection_id):
