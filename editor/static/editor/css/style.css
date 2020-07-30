@@ -99,3 +99,9 @@ interactive {
     padding: 1em;
     background-color: #f6f6f6;
 }
+
+.markdown-excerpt {
+    padding: 45px;
+    border: 1px solid #e1e4e8;
+    border-radius: 4px;
+}

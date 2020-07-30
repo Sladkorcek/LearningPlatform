@@ -178,7 +178,16 @@ def raw_document(request, document_id):
     return HttpResponse(document.content)
 
 def display_collection(request, collection_id):
-    raise PermissionDenied
+    collection = get_object_or_404(Collection, pk=collection_id)
+
+    if not collection.can_view(request.user):
+        raise PermissionDenied
+
+    return render(request, 'collection/collection.html', {
+        'user_can_edit': collection.can_edit(request.user),
+        'collection': collection
+    })
+
 
 class NewCollectionForm(forms.Form):
     title = forms.CharField(max_length=200)

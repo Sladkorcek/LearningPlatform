@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% load i18n %}
+{% load markdown %}
+
+{% block title %}{{ collection.title }}{% endblock %}
+
+{% block head %}
+    
+{% endblock %}
+
+{% block content %}
+<section class="subheader">
+    <div class="container">
+        <div class="d-flex">
+            <div class="mr-md-auto">
+                <div class="lead font-weight-normal">
+                    <a href="{% url 'user_profile' collection.owner.id %}" class="tomato">{{ collection.owner.username }}</a> / 
+                    <a href="{% url 'display_collection' collection.id %}" class="font-weight-bold tomato">{{ collection.title }}</a>
+                </div>
+                <div class="text-secondary"><small>
+                    {% blocktrans with date=collection.created_at %}
+                        Created at: {{ date }}
+                    {% endblocktrans %}
+                </small></div>
+                <p class="mt-3">{{ collection.description }}</p>
+            </div>
+            <div>
+                <div>
+                    {% if user_can_edit %}
+                        <a class="btn btn-sm btn-light" href="{% url 'edit_collection' collection.id %}">
+                            <span class="material-icons-button material-icons">create</span> {% trans "Edit" %}
+                        </a>
+                        <a class="btn btn-sm btn-light" href="{% url 'delete_collection' collection.id %}">
+                            <span class="material-icons-button material-icons">delete</span> {% trans "Delete" %}
+                        </a>
+                    {% endif %}
+                    <a class="btn btn-sm btn-light" href="{% url 'clone_collection' collection.id %}">
+                        <span class="material-icons-button material-icons">file_copy</span> {% trans "Clone" %}
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="container mt-5">
+    <h4 class="mb-3">{% trans 'Documents' %}</h4>
+    {% for document in collection.documents.all %}
+        <div class="mb-5">
+            <div class="lead font-weight-normal">
+                <a href="{% url 'user_profile' document.owner.id %}" class="tomato">{{ document.owner.username }}</a> /
+                <a href="{% url 'render_document' document.id %}" class="font-weight-bold tomato">{{ document.title }}</a>
+            </div>
+            <div class="text-secondary"><small>{{ document.created_at }}</small></div>
+            <div class="markdown-excerpt mt-3">{% autoescape off %}{{ document.content | markdown }}{% endautoescape %}</div>
+        </div>
+    {% endfor %}
+</div>
+{% endblock %}
