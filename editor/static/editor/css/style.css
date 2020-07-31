@@ -14,6 +14,80 @@
     }
 }
 
+/* Landing page styling */
+.navbar {
+    height: 70px;
+    border-bottom: 1px solid #ebeaeb;
+}
+.branding > h1 {
+    font-weight: 700;
+}
+.branding > p {
+    font-size: 1.4em;
+    font-weight: normal;
+}
+.branding > p.intro-text {
+    font-size: 0.9em;
+    letter-spacing: 2px;
+}
+.branding-padding {
+    padding-left: 2em;
+    padding-right: 2em;
+}
+.branding-image {
+    width: 90%;
+}
+.mt-more {
+    margin-top: 4rem;
+}
+.mt-lots {
+    margin-top: 6rem;
+}
+p.is-bigger {
+    font-size: 1.4em;
+}
+.feature .material-icons {
+    font-size: 1.8em;
+    height: 1.5em;            
+}
+.feature > p {
+    color: #2A2D35;
+}
+.separator-bottom {
+    border-bottom: 1px solid #ebeaeb;
+}
+footer.footer {
+    margin-bottom: 10rem;
+}
+.button-primary {
+    background-color: #ffa500;
+    border-color: #ffa500;
+    color: white;
+}
+.button-primary:hover {
+    background-color: #e69500;
+    border-color: #e69500;
+    color: white;
+}
+.button-primary:focus {
+    box-shadow: 0 0 0 .2rem rgba(255,165,0,.5)
+}
+.button-secondary {
+    background-color: #6f2da8;
+    border-color: #6f2da8;
+    color: white;
+}
+.button-secondary:hover {
+    background-color: #622299;
+    border-color: #622299;
+    color: white;
+}
+.button-secondary:focus {
+    box-shadow: 0 0 0 .2rem rgba(111, 45, 168,.5)
+}
+.color-primary { color: #ffa500; }
+.color-secondary { color: #6f2da8; }
+
 /* Header styling */
 .border-top { border-top: 1px solid #e5e5e5; }
 .border-bottom { border-bottom: 1px solid #e5e5e5; }
