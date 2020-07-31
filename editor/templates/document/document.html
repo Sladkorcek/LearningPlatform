@@ -23,8 +23,8 @@
         <div class="row">
             <div class="col-md-6">
                 <div class="lead font-weight-normal">
-                    <a href="{% url 'user_profile' document.owner.id %}" class="tomato">{{ document.owner.username }}</a> / 
-                    <a href="{% url 'render_document' document.id %}" class="font-weight-bold tomato">{{ document.title }}</a>
+                    <a href="{% url 'user_profile' document.owner.id %}" class="color-primary">{{ document.owner.username }}</a> / 
+                    <a href="{% url 'render_document' document.id %}" class="font-weight-bold color-primary">{{ document.title }}</a>
                 </div>
                 <div class="text-secondary"><small>
                     {% blocktrans with date=document.created_at %}

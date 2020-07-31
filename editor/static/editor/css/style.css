@@ -86,7 +86,9 @@ footer.footer {
     box-shadow: 0 0 0 .2rem rgba(111, 45, 168,.5)
 }
 .color-primary { color: #ffa500; }
+a.color-primary:hover { color: #e69500; }
 .color-secondary { color: #6f2da8; }
+a.color-secondary:hover { color: #622299; }
 
 /* Header styling */
 .border-top { border-top: 1px solid #e5e5e5; }
@@ -102,19 +104,6 @@ footer.footer {
 .subheader {
     background: white;
     padding: 2em 0;
-}
-
-a.tomato { color: #ff6347; }
-a.tomato:hover { color: #da452a; }
-.btn-tomato {
-    color: #fff;
-    background-color: #ff6347;
-    border-color: #ff6347;
-}
-.btn-tomato:hover {
-    color: #fff;
-    background-color: #da452a;
-    border-color: #c73920;
 }
 
 /* Google material icon styling for buttons */

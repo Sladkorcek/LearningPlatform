@@ -17,8 +17,8 @@
         <div class="row">
             <div class="col-md-7">
                 <div class="lead font-weight-normal">
-                    <a href="{% url 'user_profile' collection.owner.id %}" class="tomato">{{ collection.owner.username }}</a> / 
-                    <a href="{% url 'display_collection' collection.id %}" class="font-weight-bold tomato">{{ collection.title }}</a>
+                    <a href="{% url 'user_profile' collection.owner.id %}" class="color-primary">{{ collection.owner.username }}</a> / 
+                    <a href="{% url 'display_collection' collection.id %}" class="font-weight-bold color-primary">{{ collection.title }}</a>
                 </div>
                 <div class="text-secondary"><small>
                     {% blocktrans with date=collection.created_at %}
@@ -51,8 +51,8 @@
     {% for document in collection.documents.all %}
         <div class="mb-5">
             <div class="lead font-weight-normal">
-                <a href="{% url 'user_profile' document.owner.id %}" class="tomato">{{ document.owner.username }}</a> /
-                <a href="{% url 'render_document' document.id %}" class="font-weight-bold tomato">{{ document.title }}</a>
+                <a href="{% url 'user_profile' document.owner.id %}" class="color-primary">{{ document.owner.username }}</a> /
+                <a href="{% url 'render_document' document.id %}" class="font-weight-bold color-primary">{{ document.title }}</a>
             </div>
             <div class="text-secondary"><small>{{ document.created_at }}</small></div>
             <div class="markdown-excerpt mt-3">{% autoescape off %}{{ document.content | markdown }}{% endautoescape %}</div>

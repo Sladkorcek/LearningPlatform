@@ -32,7 +32,7 @@
 
 {% block navigation %}
     <li class="nav-item">
-        <a class="btn btn-sm btn-tomato" href="{% url 'render_document' document.id %}" style="margin-right: 1em; margin-top: 5px;">
+        <a class="btn btn-sm button-secondary" href="{% url 'render_document' document.id %}" style="margin-right: 1em; margin-top: 5px;">
             <span class="material-icons-button material-icons">visibility</span> {% trans "View" %}
         </a>
     </li>
@@ -48,7 +48,7 @@
         <form method="POST" action="{% url 'edit_document' document.id %}">
             {% csrf_token %}
             <textarea name="document_content" id="content">{{ document.content }}</textarea>
-            <input type="submit" value="{% trans 'Save document' %}" class="btn btn-tomato">
+            <input type="submit" value="{% trans 'Save document' %}" class="btn button-secondary">
         </form>
 
     </div>
