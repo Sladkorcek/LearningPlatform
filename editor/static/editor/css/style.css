@@ -16,7 +16,7 @@
 
 /* Landing page styling */
 .navbar {
-    height: 70px;
+    min-height: 70px;
     border-bottom: 1px solid #ebeaeb;
 }
 .branding > h1 {
