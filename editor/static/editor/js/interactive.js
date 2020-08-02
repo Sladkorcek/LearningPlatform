@@ -20,7 +20,8 @@ function renderInteractiveBlock(interactiveBlock) {
     try {
         let render = constructRenderingFunction(blockCode);
         let generatedElement = render();
-        interactiveBlock.parentElement.appendChild(generatedElement.getElement());
+        let renderedElement = generatedElement.getElement(interactiveBlock.parentElement);
+        interactiveBlock.parentElement.appendChild(renderedElement);
     } catch (error) {
         let exceptionElement = exception().withMessage(error);
         interactiveBlock.parentElement.appendChild(exceptionElement.getElement());
