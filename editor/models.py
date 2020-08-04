@@ -72,6 +72,17 @@ class Document(TimeStampMixin, VisibilityMixin):
     # Which users have starred this document
     stars = models.ManyToManyField(settings.AUTH_USER_MODEL, through='DocumentStar', related_name='starred_documents')
     
+    # TODO: This WILL NOT SCALE, fix it
+    def number_of_stars(self):
+        return self.stars.all().count()
+    
+    def has_starred(self, user):
+        if not user.is_authenticated:
+            return False
+        
+        stars = DocumentStar.objects.filter(user=user, document=self)
+        return len(stars) == 1
+    
     @staticmethod
     def empty_document(user):
         return Document(
@@ -105,6 +116,17 @@ class Collection(TimeStampMixin, VisibilityMixin):
 
     # Which users have starred this collection
     stars = models.ManyToManyField(settings.AUTH_USER_MODEL, through='CollectionStar', related_name='starred_collections')
+
+    # TODO: This WILL NOT SCALE, fix it
+    def number_of_stars(self):
+        return self.stars.all().count()
+    
+    def has_starred(self, user):
+        if not user.is_authenticated:
+            return False
+        
+        stars = CollectionStar.objects.filter(user=user, collection=self)
+        return len(stars) == 1
 
     @staticmethod
     def from_form(form, user):
@@ -149,7 +171,17 @@ class Collection(TimeStampMixin, VisibilityMixin):
 class DocumentStar(TimeStampMixin):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     document = models.ForeignKey(Document, on_delete=models.CASCADE)
+    
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=['user', 'document'], name='document_unique_key')
+        ]
 
 class CollectionStar(TimeStampMixin):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     collection = models.ForeignKey(Collection, on_delete=models.CASCADE)
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=['user', 'collection'], name='collection_unique_key')
+        ]
