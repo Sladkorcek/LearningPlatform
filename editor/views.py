@@ -13,11 +13,17 @@ def help_center(request):
     return render(request, 'help_center.html')
 
 @login_required
-def documents(request):    
+def documents(request):
+
+    starred_documents = request.user.starred_documents.all()
+    starred_collections = request.user.starred_collections.all()
+
     # Show user a list of collections and documents
     return render(request, 'documents.html', {
         'collections': Collection.objects.filter(owner=request.user),
-        'documents': Document.objects.filter(owner=request.user)
+        'documents': Document.objects.filter(owner=request.user),
+        'starred_documents': starred_documents,
+        'starred_collections': starred_collections
     })
 
 def user_profile(request, user_id):
