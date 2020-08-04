@@ -18,20 +18,20 @@
             <div class="list-group">
                 {% for collection in trending_collections %}
                     <div class="list-group-item list-group-item-action">
-                        <div class="d-flex justify-content-left align-items-center">
+                        <div class="d-flex flex-column flex-sm-row flex-wrap justify-content-center align-items-center">
                             {% if collection.image %}
-                                <img src="{{ collection.image.url }}" alt="" style="height: 4em;">
+                                <img src="{{ collection.image.url }}" alt="" style="height: 4em; width: 4em; margin: 1em;">
                             {% else %}
-                                <div style="height: 4em; width: 4em; background-color: #ececec;"></div>
+                                <div style="height: 4em; width: 4em; background-color: #ececec; margin: 1em;"></div>
                             {% endif %}
                             
-                            <div class="ml-4">
+                            <div>
                                 <a href="{% url 'display_collection' collection.id %}" class="color-primary">
                                     {{ collection.owner.username }} / <strong>{{ collection.title }}</strong>
                                 </a>
                                 <div><small class="text-muted">{{ collection.description }}</small></div>
                             </div>
-                            <div class="ml-auto">
+                            <div class="ml-sm-auto mt-2">
                                 <a class="btn btn-sm btn-light" href="{% url 'star_collection' collection.id %}">
                                     <span class="material-icons-button material-icons">star</span> {% trans "Star" %}
                                     <span class="badge badge-light ml-2">{{ collection.number_of_stars }}</span>
@@ -49,7 +49,7 @@
             <div class="list-group">
                 {% for document in trending_documents %}
                     <div class="list-group-item list-group-item-action">
-                        <div class="d-flex justify-content-left align-items-center">
+                        <div class="d-flex flex-wrap justify-content-left align-items-center">
                             <div>
                                 <a href="{% url 'render_document' document.id %}" class="color-primary">
                                     {{ document.owner.username }} / <strong>{{ document.title }}</strong>
