@@ -4,7 +4,7 @@ from django.template.defaultfilters import stringfilter
 import re
 import mistune
 
-INTERACTIVE_BOCK_PATTERN = re.compile('\{\s*\:([^:]*)\:\s*\}', flags=re.MULTILINE)
+INTERACTIVE_BOCK_PATTERN = re.compile('{:((.(?!:}))*[^:]?):}', flags=re.MULTILINE | re.DOTALL)
 
 def parse_interactive_block(self, m, state):
     code = m.group(1)
