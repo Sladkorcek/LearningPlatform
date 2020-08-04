@@ -38,6 +38,8 @@
                 <ul class="navbar-nav ml-auto">
                     {% block navigation %}{% endblock %}
 
+                    <li class="nav-item"><a class="nav-link" href="{% url 'explore' %}">{% trans "Explore" %}</a></li>
+
                     {% if request.user.is_authenticated %}
 
                     <div class="nav-item dropdown">

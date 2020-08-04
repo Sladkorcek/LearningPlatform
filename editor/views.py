@@ -3,6 +3,7 @@ from django.core.exceptions import PermissionDenied
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from .models import Document, Collection, VisibilityMixin, DocumentStar, CollectionStar
+from django.db.models import Count
 
 from django import forms
 
@@ -317,3 +318,18 @@ def unstar_document(request, document_id):
         pass
 
     return redirect(reverse('render_document', args=(document_id, )))
+
+def explore(request):
+
+    # TODO: Fix this to only count stars in certain time period
+
+    # Find all PUBLIC documents that have at least 0 stars
+    trending_documents = Document.objects.filter(visibility=VisibilityMixin.PUBLIC).annotate(total_stars=Count('stars')).filter(total_stars__gt=0)
+
+    # Find all PUBLIC collections that have at least 0 stars 
+    trending_collections = Collection.objects.filter(visibility=VisibilityMixin.PUBLIC).annotate(total_stars=Count('stars')).filter(total_stars__gt=0)
+
+    return render(request, 'trending.html', {
+        'trending_documents': trending_documents,
+        'trending_collections': trending_collections
+    })

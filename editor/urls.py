@@ -5,6 +5,7 @@ urlpatterns = [
     path('', views.landing_page, name='landing_page'),
     path('documents', views.documents, name='documents'),
     path('tutorial', views.help_center, name='help_center'),
+    path('explore', views.explore, name='explore'),
 
     # Endpoints for users
     path('user/<int:user_id>/', views.user_profile, name='user_profile'),

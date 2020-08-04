@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% load i18n %}
+
+{% block head %}
+{% endblock %}
+
+{% block title %}{% trans 'Tutorial' %}{% endblock %}
+
+{% block content %}
+<div class="container mt-5" style="padding-bottom: 10rem;">
+
+    <div class="row">
+
+        <div class="col-sm-12">
+            <h3 class="mb-3">{% trans 'Trending collections' %}</h3>
+            <div class="list-group">
+                {% for collection in trending_collections %}
+                    <div class="list-group-item list-group-item-action">
+                        <div class="d-flex justify-content-left align-items-center">
+                            {% if collection.image %}
+                                <img src="{{ collection.image.url }}" alt="" style="height: 4em;">
+                            {% else %}
+                                <div style="height: 4em; width: 4em; background-color: #ececec;"></div>
+                            {% endif %}
+                            
+                            <div class="ml-4">
+                                <a href="{% url 'display_collection' collection.id %}" class="color-primary">
+                                    {{ collection.owner.username }} / <strong>{{ collection.title }}</strong>
+                                </a>
+                                <div><small class="text-muted">{{ collection.description }}</small></div>
+                            </div>
+                            <div class="ml-auto">
+                                <a class="btn btn-sm btn-light" href="{% url 'star_collection' collection.id %}">
+                                    <span class="material-icons-button material-icons">star</span> {% trans "Star" %}
+                                    <span class="badge badge-light ml-2">{{ collection.number_of_stars }}</span>
+                                    <span class="sr-only">stars</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                {% empty %}
+                    <div class="no-elements">{% trans 'There are no trending collections yet.' %}</div>
+                {% endfor %}
+            </div>
+
+            <h3 class="mb-3 mt-5">{% trans 'Trending documents' %}</h3>
+            <div class="list-group">
+                {% for document in trending_documents %}
+                    <div class="list-group-item list-group-item-action">
+                        <div class="d-flex justify-content-left align-items-center">
+                            <div>
+                                <a href="{% url 'render_document' document.id %}" class="color-primary">
+                                    {{ document.owner.username }} / <strong>{{ document.title }}</strong>
+                                </a>
+                                <div><small class="text-muted">{{ document.description }}</small></div>
+                            </div>
+                            <div class="ml-auto">
+                                <a class="btn btn-sm btn-light" href="{% url 'star_document' document.id %}">
+                                    <span class="material-icons-button material-icons">star</span> {% trans "Star" %}
+                                    <span class="badge badge-light ml-2">{{ document.number_of_stars }}</span>
+                                    <span class="sr-only">stars</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                {% empty %}
+                    <div class="no-elements">{% trans 'There are no trending documents yet.' %}</div>
+                {% endfor %}
+            </div>
+
+        </div>
+    
+    </div>
+
+</div>
+{% endblock %}
