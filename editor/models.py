@@ -68,6 +68,9 @@ class Document(TimeStampMixin, VisibilityMixin):
 
     # The owner of the file, it should never be empty
     owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+
+    # Which users have starred this document
+    stars = models.ManyToManyField(settings.AUTH_USER_MODEL, through='DocumentStar', related_name='starred_documents')
     
     @staticmethod
     def empty_document(user):
@@ -99,6 +102,9 @@ class Collection(TimeStampMixin, VisibilityMixin):
 
     # Each collection contains a list of documents
     documents = models.ManyToManyField(Document, blank=True)
+
+    # Which users have starred this collection
+    stars = models.ManyToManyField(settings.AUTH_USER_MODEL, through='CollectionStar', related_name='starred_collections')
 
     @staticmethod
     def from_form(form, user):
@@ -139,3 +145,11 @@ class Collection(TimeStampMixin, VisibilityMixin):
     
     def __str__(self):
         return self.title
+
+class DocumentStar(TimeStampMixin):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    document = models.ForeignKey(Document, on_delete=models.CASCADE)
+
+class CollectionStar(TimeStampMixin):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    collection = models.ForeignKey(Collection, on_delete=models.CASCADE)
