@@ -1,67 +1,44 @@
 from django import template
 from django.template.defaultfilters import stringfilter
 
-import markdown as md
+import re
+import mistune
 
-from markdown.extensions import Extension
-from markdown.inlinepatterns import InlineProcessor
+INTERACTIVE_BOCK_PATTERN = re.compile('\{\s*\:([^:]*)\:\s*\}', flags=re.MULTILINE)
 
-import xml.etree.ElementTree as etree
+def parse_interactive_block(self, m, state):
+    code = m.group(1)
+    return { 'type': 'interactive_block', 'text': code }
 
-class InteractiveBlockRemover(InlineProcessor):
+def render_html_interactive_block(text):
+    return f'<div class="interactive-block"><interactive>{text}</interactive></div>'
 
-    def __init__(self, pattern, md=None):
-        super().__init__(pattern, md=md)
+def render_html_remove_interactive_block(text):
+    return ''
 
-    def handleMatch(self, m, data):
-        div = etree.Element('div')
-        div.text = '...'
-        return div, m.start(0), m.end(0)
+def plugin_interactive_block(md):
+    md.block.register_rule('interactive_block', INTERACTIVE_BOCK_PATTERN, parse_interactive_block)
+    md.block.rules.append('interactive_block')
+    if md.renderer.NAME == 'html':
+        md.renderer.register('interactive_block', render_html_interactive_block)
 
-class InlineInteractiveRemoverExtension(Extension):
-    INTERACTIVE_BLOCK_PATTERN = r'{\s*:(.*?):\s*}'
-    def extendMarkdown(self, md):
-        md.inlinePatterns.register(InteractiveBlockRemover(InlineInteractiveRemoverExtension.INTERACTIVE_BLOCK_PATTERN, md), 'interactive_block', 175)
-
-class InteractiveBlockProcessor(InlineProcessor):
-
-    def __init__(self, pattern, md=None):
-        super().__init__(pattern, md=md)
-        self.interactive_block_number = 0
-
-    def generate_attributes(self):
-        self.interactive_block_number += 1
-        return {
-            'class': 'interactive-block',
-            'id': 'interactive-block-{}'.format(self.interactive_block_number)
-        }
-
-    def handleMatch(self, m, data):
-        div = etree.Element('div', attrib=self.generate_attributes())
-        interactive_block = etree.SubElement(div, 'interactive')
-        interactive_block.text = m.group(1)
-        return div, m.start(0), m.end(0)
-
-class InlineInteractiveBlockExtension(Extension):
-
-    INTERACTIVE_BLOCK_PATTERN = r'{\s*:(.*?):\s*}'
-
-    def extendMarkdown(self, md):
-        md.inlinePatterns.register(InteractiveBlockProcessor(InlineInteractiveBlockExtension.INTERACTIVE_BLOCK_PATTERN, md), 'interactive_block', 175)
-
+def plugin_remove_interactive_block(md):
+    md.block.register_rule('interactive_block', INTERACTIVE_BOCK_PATTERN, parse_interactive_block)
+    md.block.rules.append('interactive_block')
+    if md.renderer.NAME == 'html':
+        md.renderer.register('interactive_block', render_html_remove_interactive_block)
 
 register = template.Library()
+
+render_markdown = mistune.create_markdown(escape=False, plugins=[plugin_interactive_block])
+render_markdown_excerpt = mistune.create_markdown(escape=False, plugins=[plugin_remove_interactive_block])
 
 @register.filter(name='markdown_excerpt')
 @stringfilter
 def markdown_excerpt(text):
-    return md.markdown(text, extensions=[
-        InlineInteractiveRemoverExtension()
-    ])
+    return render_markdown_excerpt(text)
 
 @register.filter(name='markdown')
 @stringfilter
 def markdown(text):
-    return md.markdown(text, extensions=[
-        InlineInteractiveBlockExtension()
-    ])
+    return render_markdown(text)
