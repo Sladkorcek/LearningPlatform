@@ -1,0 +1,19 @@
+.flashcard {
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.flashcard:hover {
+    border: 1px solid #ffa500;
+}
+
+.flashcard:hover::after {
+    content: 'Read the answer';
+    position: absolute;
+    top: -1px;
+    right: -1px;
+    background-color: #ffa500;
+    color: white;
+    padding: 0.1em 0.3em;
+    font-size: 0.8em;
+}

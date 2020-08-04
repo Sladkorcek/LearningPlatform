@@ -160,7 +160,7 @@ class Exception extends InteractiveElement {
 class Flashcard extends InteractiveElement {
     constructor() {
         let card = document.createElement("div");
-        card.className = "card";
+        card.className = "card flashcard";
 
         let cardBody = document.createElement("div");
         cardBody.className = "card-body";
