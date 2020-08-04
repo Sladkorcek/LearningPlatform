@@ -157,6 +157,41 @@ class Exception extends InteractiveElement {
     }
 }
 
+class Flashcard extends InteractiveElement {
+    constructor() {
+        let card = document.createElement("div");
+        card.className = "card";
+
+        let cardBody = document.createElement("div");
+        cardBody.className = "card-body";
+
+        card.appendChild(cardBody);
+
+        super(card);
+
+        this.questionElement = document.createElement("div");
+
+        this.answerElement = document.createElement("div");
+        this.answerElement.style.visibility = "hidden";
+        
+        cardBody.appendChild(this.questionElement);
+        cardBody.appendChild(this.answerElement);
+
+        // When card is clicked, display the answer
+        card.addEventListener('click', function(event) {
+            this.answerElement.style.visibility = "visible";
+        }.bind(this));
+    }
+    question(html) {
+        this.questionElement.innerHTML = html;
+        return this;
+    }
+    answer(html) {
+        this.answerElement.innerHTML = html;
+        return this;
+    }
+}
+
 function exception() {
     return new Exception();
 }
@@ -167,4 +202,8 @@ function button() {
 
 function plot() {
     return new Plot();
+}
+
+function flashcard() {
+    return new Flashcard();
 }
