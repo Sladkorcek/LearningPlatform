@@ -19,6 +19,16 @@
     <!-- Standard library of interactive elements such as buttons, graphs, ... -->
     <script src="{% static 'editor/js/interactive_elements.js' %}"></script>
 
+    <script>
+        // Configure MathJax to use dollar signs as delimiters
+        MathJax = {
+            processEscapes: true,
+            tex: {
+                inlineMath: [['$', '$']]
+            }
+        };
+    </script>
+
     <!-- D3 library for working with data -->
     <script src="https://unpkg.com/d3@3/d3.min.js"></script>
     <!-- Library for plotting functions -->
