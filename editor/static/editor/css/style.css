@@ -47,6 +47,9 @@
 .branding-image {
     width: 90%;
 }
+.smaller-branding-image {
+    width: 60%;
+}
 .mt-more {
     margin-top: 4rem;
 }
