@@ -11,7 +11,9 @@ class InteractiveElement {
 
 class Button extends InteractiveElement {
     constructor() {
-        super(document.createElement("button"));
+        let button = document.createElement("button");
+        button.className = "btn button-secondary";
+        super(button);
     }
     withText(buttonText) {
         this.element.innerText = buttonText;
@@ -28,6 +30,8 @@ class Plot extends InteractiveElement {
         let element = document.createElement("div");
         element.className = "text-center";
         super(element);
+
+        this.environmentData = {};
         
         // A list of functions that we are plotting
         this.functions = [];
@@ -37,6 +41,8 @@ class Plot extends InteractiveElement {
             target: this.element,
             data: this.functions
         };
+
+        this.additionalElements = [];
 
         this.update();
     }
@@ -48,6 +54,10 @@ class Plot extends InteractiveElement {
             if (parentWidth > 0) {
                 this.plotData['width'] = Math.floor(parentWidth * 0.98);
             }
+        }
+
+        for (let i = 0; i < this.additionalElements.length; i++) {
+            this.element.appendChild(this.additionalElements[i]);
         }
         
         this.update();
@@ -76,15 +86,61 @@ class Plot extends InteractiveElement {
         };
         return this;
     }
+    withWidth(width) {
+        this.plotData['width'] = width;
+        return this;
+    }
+    withHeight(height) {
+        this.plotData['height'] = height;
+        return this;
+    }
     withSize(width, height) {
         this.plotData['width'] = width;
         this.plotData['height'] = height;
         return this;
     }
+    withData(dataObject) {
+        this.environmentData = dataObject;
+        return this;
+    }
     function(functionString) {
-        this.functions.push({
-            fn: functionString
-        });
+        console.log(functionString);
+        if (typeof functionString === 'string' || functionString instanceof String) {
+            this.functions.push({
+                fn: functionString
+            });
+        } else {
+            this.functions.push({
+                graphType: 'polyline',
+                fn: function(scope) {
+                    return functionString(scope.x, this.environmentData);
+                }.bind(this)
+            });
+        }
+        return this;
+    }
+    withSliderFor(property, interval) {
+        let inputContainer = document.createElement("div");
+
+        let slider = document.createElement("input");
+        slider.type = "range";
+        slider.min = interval[0];
+        slider.max = interval[1];
+        slider.step = (interval[1] - interval[0]) / 100;
+        slider.value = this.environmentData[property];
+        
+        slider.addEventListener('input', function() {
+            this.environmentData[property] = slider.value;
+            this.update();
+        }.bind(this));
+
+        let label = document.createElement("label");
+        label.htmlFor = "slider";
+        label.innerText = property + ": ";
+
+        inputContainer.appendChild(label);
+        inputContainer.appendChild(slider);
+        this.additionalElements.push(inputContainer);
         return this;
     }
 }
