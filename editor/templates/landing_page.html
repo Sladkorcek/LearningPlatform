@@ -1,188 +1,106 @@
+{% extends 'base.html' %}
+
 {% load static %}
 {% load i18n %}
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Pomidor</title>
+{% block content %}
+<div class="container mt-5">
+    <div class="row" style="min-height: 75vh;">
+        <div class="col-md-6 d-flex justify-content-center align-items-center order-1">
+            
+            <div class="branding branding-padding">
+                <p class="intro-text">{% trans "NOTE TAKING MADE EASY" %}</p>
+                <h1>{% trans "Take your notes to a whole new level" %}</h1>
+                <p class="lead mt-3 mb-4">{% trans "Add a little spice of interactivity to your note taking. Write notes that stick!" %}</p>
+                <div class="mt-5">
+                    <a href="{% url 'documents' %}" class="btn btn-lg button-secondary">{% trans "Start taking notes now!" %}</a>
+                </div>
+            </div>
 
-    <!-- Include Material icons font -->
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        </div>
+        <div class="col-md-6 mt-5 mt-md-0 d-flex justify-content-center align-items-center order-2 order-md-2-first">
+            <div class="branding-padding">
+                <img src="{% static 'editor/images/taking_notes.svg' %}" alt="Branding illustration" class="branding-image">
+            </div>
+        </div>
+    </div>
+</div>
 
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
-    
-    <!-- Bootstrap native JavaScript library -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap.native/3.0.10/bootstrap-native.min.js"></script>
+<div class="separator-bottom mt-5 mt-md-0">
+    <div class="container pb-5">
+        <div class="text-center branding-padding">
+            <h1>{% trans "Features" %}</h1>
+            <p class="is-bigger">{% trans "Everything you need to take notes and more." %}</p>
+        </div>
+        <div class="row mt-3 mt-md-5">
+            <div class="col-md-3 mt-md-0 mt-3 feature branding-padding text-center text-md-left">
+                <span class="material-icons">notes</span>
+                <h5>{% trans "Beautiful documents in seconds" %}</h5>
+                <p>{% trans "Create reach text documents using extended markdown language. Don't know it yet? Worry not, you can format your text in our easy-to-use online editor." %}</p>
+            </div>
+            <div class="col-md-3 mt-md-0 mt-3 feature branding-padding text-center text-md-left">
+                <span class="material-icons">library_books</span>
+                <h5>{% trans "Organize documents into collections" %}</h5>
+                <p>{% trans "Organize documents into collections." %}</p>
+            </div>
+            <div class="col-md-3 mt-md-0 mt-3 feature branding-padding text-center text-md-left">
+                <span class="material-icons">share</span>
+                <h5>{% trans "Share notes with your friends" %}</h5>
+                <p>{% trans "Share your documents and collections with your friends and colleagues. Control who can see what with our privacy options." %}</p>
+            </div>
+            <div class="col-md-3 mt-md-0 mt-3 feature branding-padding text-center text-md-left">
+                <span class="material-icons">content_cut</span>
+                <h5>{% trans "Collaborate with the community" %}</h5>
+                <p>{% trans "See something you like? Clone it!" %}</p>
+            </div>
+        </div>
+    </div>
+</div>
 
-    <!-- Custom CSS -->
-    <link rel="stylesheet" href="{% static 'editor/css/style.css' %}">
-</head>
-<body>
-
-    <nav class="navbar navbar-expand-sm navbar-light">
-        <div class="container">
-            <a class="navbar-brand h1 mb-0" href="{% url 'landing_page' %}">Pomidor</a>
-
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#menu" aria-controls="menu" aria-expanded="false" aria-label="{% trans 'Toggle menu' %}">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-
-            <div class="collapse navbar-collapse" id="menu">
-                <ul class="navbar-nav ml-auto">
-                    {% block navigation %}{% endblock %}
-
-                    {% if request.user.is_authenticated %}
-
-                    <div class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="new-dropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{% trans 'Create' %}</a>
-                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="new-dropdown">
-                            <a class="dropdown-item" href="{% url 'create_document' %}">
-                                <span class="material-icons-button material-icons">insert_drive_file</span>
-                                {% trans "New document" %}
-                            </a>
-                            <a class="dropdown-item" href="{% url 'create_collection' %}">
-                                <span class="material-icons-button material-icons">collections</span>
-                                {% trans "New collection" %}
-                            </a>
-                        </div>
-                    </div>
-
-                    <div class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            {{ request.user.username }}
-                        </a>
-                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="{% url 'user_profile' request.user.id %}">
-                                <span class="material-icons-button material-icons">person</span>
-                                {% trans "My Profile" %}
-                            </a>
-                            <a class="dropdown-item" href="">
-                                <span class="material-icons-button material-icons">star</span>
-                                {% trans "Favourites" %}
-                            </a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="{% url 'help_center' %}">
-                                <span class="material-icons-button material-icons">help_center</span>
-                                {% trans "Help center" %}
-                            </a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="{% url 'logout' %}">
-                                <span class="material-icons-button material-icons">exit_to_app</span>
-                                {% trans "Log Out" %}
-                            </a>
-                        </div>
-                    </div>
-                    {% else %}
-                        <li class="nav-item"><a class="nav-link" href="{% url 'login' %}">{% trans "Sign in" %}</a></li>
-                        <li class="nav-item"><a class="nav-link" href="{% url 'register' %}">{% trans "Sign up" %}</a></li>
-                    {% endif %}
+<div style="background-color: #6f2da8; color: white; padding: 2em;">
+    <div class="container">
+        <div class="text-center branding-padding">
+            <h1>{% trans "Interactivity" %}</h1>
+            <p class="is-bigger">{% trans "Add some visual support to your notes." %}</p>
+        </div>
+        <div class="row mt-3 mt-md-5">
+            <div class="col-md-6 mt-md-0 mt-3 feature branding-padding text-center text-md-left">
+                <ul>
+                    <li>Use <strong>markdown</strong> language to write and style your documents easily</li>
+                    <li>Add <strong>visual support</strong> to your documents - insert images, diagrams and plots</li>
+                    <li>Write <strong>beautiful equations</strong> using LaTeX equations</li>
                 </ul>
             </div>
-        </div>
-    </nav>
-
-    <div class="container mt-5">
-        <div class="row" style="min-height: 75vh;">
-            <div class="col-md-6 d-flex justify-content-center align-items-center order-1">
-                
-                <div class="branding branding-padding">
-                    <p class="intro-text">{% trans "NOTE TAKING MADE EASY" %}</p>
-                    <h1>{% trans "Take your notes to a whole new level" %}</h1>
-                    <p class="lead mt-3 mb-4">{% trans "Add a little spice of interactivity to your note taking. Write notes that stick!" %}</p>
-                    <div class="mt-5">
-                        <a href="{% url 'documents' %}" class="btn btn-lg button-secondary">{% trans "Start taking notes now!" %}</a>
-                    </div>
-                </div>
-    
-            </div>
-            <div class="col-md-6 mt-5 mt-md-0 d-flex justify-content-center align-items-center order-2 order-md-2-first">
-                <div class="branding-padding">
-                    <img src="{% static 'editor/images/taking_notes.svg' %}" alt="Branding illustration" class="branding-image">
-                </div>
+            <div class="col-md-6 mt-md-0 mt-3 feature branding-padding text-center text-md-left">
+                image
             </div>
         </div>
     </div>
+</div>
 
-    <div class="separator-bottom mt-5 mt-md-0">
-        <div class="container pb-5">
-            <div class="text-center branding-padding">
-                <h1>{% trans "Features" %}</h1>
-                <p class="is-bigger">{% trans "Everything you need to take notes and more." %}</p>
+<div class="separator-bottom mt-5">
+    <div class="container pb-5">
+        <div class="text-center branding-padding">
+            <h1>{% trans "Interactivity" %}</h1>
+            <p class="is-bigger">{% trans "Add some visual support to your notes." %}</p>
+        </div>
+
+        <div class="row mt-3 mt-md-5">
+            <div class="col-md-6 mt-md-0 mt-3 feature branding-padding text-center text-md-left">
+                <ul>
+                    <li>Use <strong>markdown</strong> language to write and style your documents easily</li>
+                    <li>Add <strong>visual support</strong> to your documents - insert images, diagrams and plots</li>
+                    <li>Write <strong>beautiful equations</strong> using LaTeX equations</li>
+                </ul>
             </div>
-            <div class="row mt-3 mt-md-5">
-                <div class="col-md-3 mt-md-0 mt-3 feature branding-padding text-center text-md-left">
-                    <span class="material-icons">notes</span>
-                    <h5>{% trans "Beautiful documents in seconds" %}</h5>
-                    <p>{% trans "Create reach text documents using extended markdown language. Don't know it yet? Worry not, you can format your text in our easy-to-use online editor." %}</p>
-                </div>
-                <div class="col-md-3 mt-md-0 mt-3 feature branding-padding text-center text-md-left">
-                    <span class="material-icons">library_books</span>
-                    <h5>{% trans "Organize documents into collections" %}</h5>
-                    <p>{% trans "Organize documents into collections." %}</p>
-                </div>
-                <div class="col-md-3 mt-md-0 mt-3 feature branding-padding text-center text-md-left">
-                    <span class="material-icons">share</span>
-                    <h5>{% trans "Share notes with your friends" %}</h5>
-                    <p>{% trans "Share your documents and collections with your friends and colleagues. Control who can see what with our privacy options." %}</p>
-                </div>
-                <div class="col-md-3 mt-md-0 mt-3 feature branding-padding text-center text-md-left">
-                    <span class="material-icons">content_cut</span>
-                    <h5>{% trans "Collaborate with the community" %}</h5>
-                    <p>{% trans "See something you like? Clone it!" %}</p>
-                </div>
+            <div class="col-md-6 mt-md-0 mt-3 feature branding-padding text-center text-md-left">
+                image
             </div>
         </div>
+
     </div>
+</div>
 
-    <div style="background-color: #6f2da8; color: white; padding: 2em;">
-        <div class="container">
-            <div class="text-center branding-padding">
-                <h1>{% trans "Interactivity" %}</h1>
-                <p class="is-bigger">{% trans "Add some visual support to your notes." %}</p>
-            </div>
-            <div class="row mt-3 mt-md-5">
-                <div class="col-md-6 mt-md-0 mt-3 feature branding-padding text-center text-md-left">
-                    <ul>
-                        <li>Use <strong>markdown</strong> language to write and style your documents easily</li>
-                        <li>Add <strong>visual support</strong> to your documents - insert images, diagrams and plots</li>
-                        <li>Write <strong>beautiful equations</strong> using LaTeX equations</li>
-                    </ul>
-                </div>
-                <div class="col-md-6 mt-md-0 mt-3 feature branding-padding text-center text-md-left">
-                    image
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="separator-bottom mt-5">
-        <div class="container pb-5">
-            <div class="text-center branding-padding">
-                <h1>{% trans "Interactivity" %}</h1>
-                <p class="is-bigger">{% trans "Add some visual support to your notes." %}</p>
-            </div>
-
-            <div class="row mt-3 mt-md-5">
-                <div class="col-md-6 mt-md-0 mt-3 feature branding-padding text-center text-md-left">
-                    <ul>
-                        <li>Use <strong>markdown</strong> language to write and style your documents easily</li>
-                        <li>Add <strong>visual support</strong> to your documents - insert images, diagrams and plots</li>
-                        <li>Write <strong>beautiful equations</strong> using LaTeX equations</li>
-                    </ul>
-                </div>
-                <div class="col-md-6 mt-md-0 mt-3 feature branding-padding text-center text-md-left">
-                    image
-                </div>
-            </div>
-
-        </div>
-    </div>
-
-    <footer class="footer">
-    </footer>
-
-</body>
-</html>
+<footer class="footer">
+</footer>
+{% endblock %}
