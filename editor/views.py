@@ -94,57 +94,24 @@ def edit_document(request, document_id):
 
     if request.method == 'POST':
         new_content = request.POST.get('document_content', None)
+        new_title = request.POST.get('document_name', None)
+        new_visibility = request.POST.get('document_visibility', None)
         
         # If no new document content was received, don't update it.
         if new_content is not None:
             document.content = new_content
-            document.save()
+        if new_title is not None:
+            document.title = new_title
+        if new_visibility is not None:
+            document.visibility = new_visibility
+        
+        document.save()
         
         return redirect(reverse('render_document', args=(document.id, )))
 
     return render(request, 'document/edit_document.html', {
         'document': document,
     })
-
-@login_required
-def rename_document(request, document_id):
-    if request.method != "POST":
-        raise PermissionDenied
-
-    document = get_object_or_404(Document, pk=document_id)
-
-    if not document.can_edit(request.user):
-        raise PermissionDenied
-
-    new_name = request.POST.get('document_name', None)
-    if new_name is None or len(new_name) <= 0:
-        raise PermissionDenied
-
-    document.title = new_name
-    document.save()
-    return redirect(reverse('edit_document', args=(document.id, )))
-
-@login_required
-def set_document_visibility(request, document_id):
-    if request.method != "POST":
-        raise PermissionDenied
-
-    document = get_object_or_404(Document, pk=document_id)
-
-    if not document.can_edit(request.user):
-        raise PermissionDenied
-
-    new_visibility = request.POST.get('document_visibility', None)
-    if new_visibility is None or len(new_visibility) <= 0:
-        raise PermissionDenied
-
-    if new_visibility not in [Document.PRIVATE, Document.LINK, Document.PUBLIC]:
-        raise PermissionDenied
-
-    document.visibility = new_visibility
-    document.save()
-
-    return redirect(reverse('edit_document', args=(document.id, )))
 
 @login_required
 def delete_document(request, document_id):

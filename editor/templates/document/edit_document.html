@@ -39,17 +39,17 @@
 {% endblock %}
 
 {% block content %}
+<form method="POST" action="{% url 'edit_document' document.id %}">
+    {% csrf_token %}
     <div class="container mt-5">
         <div>
             <h1>Editing document <strong id="document-title" class="editable">{{ document.title }}</strong></h1>
         </div>
         
         <p class="text-secondary">Visibility: <span id="document-visibility" class="editable">{{ document.visibility_string }}</span></p>
-        <form method="POST" action="{% url 'edit_document' document.id %}">
-            {% csrf_token %}
-            <textarea name="document_content" id="content">{{ document.content }}</textarea>
-            <input type="submit" value="{% trans 'Save document' %}" class="btn button-secondary">
-        </form>
+        
+        <textarea name="document_content" id="content">{{ document.content }}</textarea>
+        <input type="submit" value="{% trans 'Save document' %}" class="btn button-secondary">
 
     </div>
 
@@ -64,17 +64,14 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form id="rename-form" method="POST" action="{% url 'rename_document' document.id %}">
-                        {% csrf_token %}
-                        <div class="form-group">
-                            <label for="document-name" class="col-form-label">{% trans "New title" %}</label>
-                            <input type="text" class="form-control" id="document-name" name="document_name" value="{{ document.title }}">
-                        </div>
-                    </form>
+                    <div class="form-group">
+                        <label for="document-name" class="col-form-label">{% trans "New title" %}</label>
+                        <input type="text" class="form-control" id="document-name" name="document_name" value="{{ document.title }}">
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">{% trans "Close" %}</button>
-                    <input type="submit" class="btn btn-primary" form="rename-form" value="{% trans "Rename" %}" />
+                    <input type="submit" class="btn btn-primary" value="{% trans "Rename" %}" />
                 </div>
             </div>
         </div>
@@ -91,23 +88,21 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form id="change-visibility-form" method="POST" action="{% url 'set_document_visibility' document.id %}">
-                        {% csrf_token %}
-                        <div class="form-group">
-                            <label for="visibility-select">{% trans "New document visibility" %}</label>
-                            <select class="form-control" id="visibility-select" name="document_visibility">
-                                <option value="pr">{% trans "Only you can view" %}</option>
-                                <option value="li">{% trans "Anybody with link can view" %}</option>
-                                <option value="pu">{% trans "Everybody can view" %}</option>
-                            </select>
-                        </div>
-                    </form>
+                    <div class="form-group">
+                        <label for="visibility-select">{% trans "New document visibility" %}</label>
+                        <select class="form-control" id="visibility-select" name="document_visibility">
+                            <option value="pr">{% trans "Only you can view" %}</option>
+                            <option value="li">{% trans "Anybody with link can view" %}</option>
+                            <option value="pu">{% trans "Everybody can view" %}</option>
+                        </select>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">{% trans "Close" %}</button>
-                    <input type="submit" class="btn btn-primary" form="change-visibility-form" value="{% trans "Change visibility" %}" />
+                    <input type="submit" class="btn btn-primary" value="{% trans "Change visibility" %}" />
                 </div>
             </div>
         </div>
     </div>
+</form>
 {% endblock %}
