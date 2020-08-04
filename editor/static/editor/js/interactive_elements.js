@@ -192,6 +192,14 @@ class Flashcard extends InteractiveElement {
     }
 }
 
+class Text extends InteractiveElement {
+    constructor(text) {
+        let textElement = document.createElement('span');
+        textElement.innerText = text;
+        super(textElement);
+    }
+}
+
 function exception() {
     return new Exception();
 }
@@ -206,4 +214,8 @@ function plot() {
 
 function flashcard() {
     return new Flashcard();
+}
+
+function text(content) {
+    return new Text(content);
 }
