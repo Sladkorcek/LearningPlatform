@@ -16,6 +16,9 @@ MARKDOWN_EXTENSIONS = [
 def landing_page(request):
     return render(request, 'landing_page.html')
 
+def help_center(request):
+    return render(request, 'help_center.html')
+
 @login_required
 def documents(request):    
     # Show user a list of collections and documents

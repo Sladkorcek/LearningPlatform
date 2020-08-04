@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% load i18n %}
+
+{% block head %}
+{% endblock %}
+
+{% block title %}{% trans 'Tutorial' %}{% endblock %}
+
+{% block content %}
+<div class="container mt-5" style="padding-bottom: 10rem;">
+
+    <div class="row">
+
+        <div class="col-sm-8">
+            <h2>Tutorial</h2>
+
+            <h3 id="markdown">Markdown</h3>
+            <h3 id="latex">Latex</h3>
+            <p><strong>stvari.si</strong> platform allows you to write beautiful equations directly in your notebooks. This and interactive plots make it ideal for sharing math notes.</p>
+            <p>For rendering LaTeX equations we use mathjax javascript library. Its documentation can be found <a href="">here</a>.
+            <p>Equations can be inserted in two different ways - as inline or block equations.</p>
+
+            <h4 id="latex-inline">Inline equations</h4>
+
+            <p>Inline equations can be inserted directly inbetween some text. To insert an equation, all you have to do is write your equation between two dolar signs: <code>$ inline equation $</code>, similarly as you would in any latex editor.</p>
+
+            <p>
+                <code>The formula to compute the area of a circle with radius $r$ is $ \pi r^2 $.</code>
+            </p>
+            
+
+            <h4 id="latex-block">Block equations</h4>
+
+            <p>Block equations are rendered in their own line. They are great if you want to write longer equations or to emphasize them.</p>
+
+            <p>To insert a block equation, wrap it in two dollar sign operators like so <code>$$ block equation $$</code>.</p>
+
+            <p>
+                <code>The area of a circle with radius $r$ can be computed with the following formula. $$ A = \pi r^2 $$</code>
+            </p>
+            
+            <h3 id="interactive-blocks">Interactive blocks</h3>
+        </div>
+
+        <div class="col-sm-4 mt-5 mt-sm-0">
+            <h3>Table of contents</h3>
+            <ul>
+                <li><a href="#markdown">Markdown</a></li>
+                <li>
+                    <a href="#latex">Latex</a>
+                    <ul>
+                        
+                        <li><a href="#latex-inline">Inline equations</a></li>
+                        <li><a href="#latex-block">Block equations</a></li>
+                    </ul>
+                </li>
+                <li><a href="#interactive-blocks">Interactive blocks</a></li>
+            </ul>
+        </div>
+    
+    </div>
+
+</div>
+{% endblock %}

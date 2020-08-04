@@ -64,7 +64,7 @@
                                 {% trans "Favourites" %}
                             </a>
                             <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="#">
+                            <a class="dropdown-item" href="{% url 'help_center' %}">
                                 <span class="material-icons-button material-icons">help_center</span>
                                 {% trans "Help center" %}
                             </a>
@@ -137,8 +137,51 @@
         </div>
     </div>
 
-    <footer class="footer">
+    <div style="background-color: #6f2da8; color: white; padding: 2em;">
+        <div class="container">
+            <div class="text-center branding-padding">
+                <h1>{% trans "Interactivity" %}</h1>
+                <p class="is-bigger">{% trans "Add some visual support to your notes." %}</p>
+            </div>
+            <div class="row mt-3 mt-md-5">
+                <div class="col-md-6 mt-md-0 mt-3 feature branding-padding text-center text-md-left">
+                    <ul>
+                        <li>Use <strong>markdown</strong> language to write and style your documents easily</li>
+                        <li>Add <strong>visual support</strong> to your documents - insert images, diagrams and plots</li>
+                        <li>Write <strong>beautiful equations</strong> using LaTeX equations</li>
+                    </ul>
+                </div>
+                <div class="col-md-6 mt-md-0 mt-3 feature branding-padding text-center text-md-left">
+                    image
+                </div>
+            </div>
+        </div>
+    </div>
 
+    <div class="separator-bottom mt-5">
+        <div class="container pb-5">
+            <div class="text-center branding-padding">
+                <h1>{% trans "Interactivity" %}</h1>
+                <p class="is-bigger">{% trans "Add some visual support to your notes." %}</p>
+            </div>
+
+            <div class="row mt-3 mt-md-5">
+                <div class="col-md-6 mt-md-0 mt-3 feature branding-padding text-center text-md-left">
+                    <ul>
+                        <li>Use <strong>markdown</strong> language to write and style your documents easily</li>
+                        <li>Add <strong>visual support</strong> to your documents - insert images, diagrams and plots</li>
+                        <li>Write <strong>beautiful equations</strong> using LaTeX equations</li>
+                    </ul>
+                </div>
+                <div class="col-md-6 mt-md-0 mt-3 feature branding-padding text-center text-md-left">
+                    image
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <footer class="footer">
     </footer>
 
 </body>
