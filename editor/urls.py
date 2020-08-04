@@ -15,6 +15,8 @@ urlpatterns = [
     path('collection/<int:collection_id>/edit', views.edit_collection, name='edit_collection'),
     path('collection/<int:collection_id>/delete', views.delete_collection, name='delete_collection'),
     path('collection/<int:collection_id>/clone', views.clone_collection, name='clone_collection'),
+    path('collection/<int:collection_id>/star', views.star_collection, name='star_collection'),
+    path('collection/<int:collection_id>/unstar', views.unstar_collection, name='unstar_collection'),
 
     # Edpoints for accessing and editing documents
     path('document/<int:document_id>/', views.render_document, name='render_document'),
@@ -25,4 +27,6 @@ urlpatterns = [
     path('document/<int:document_id>/delete', views.delete_document, name='delete_document'),
     path('document/<int:document_id>/clone', views.clone_document, name='clone_document'),
     path('document/<int:document_id>/raw', views.raw_document, name='raw_document'),
+    path('document/<int:document_id>/star', views.star_document, name='star_document'),
+    path('document/<int:document_id>/unstar', views.unstar_document, name='unstar_document'),
 ]

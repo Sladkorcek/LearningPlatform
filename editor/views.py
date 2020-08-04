@@ -2,7 +2,7 @@ from django.shortcuts import render, get_object_or_404, redirect, reverse, HttpR
 from django.core.exceptions import PermissionDenied
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
-from .models import Document, Collection, VisibilityMixin
+from .models import Document, Collection, VisibilityMixin, DocumentStar, CollectionStar
 
 from django import forms
 
@@ -56,7 +56,8 @@ def render_document(request, document_id):
 
     context = {
         'document': document,
-        'user_can_edit': document.can_edit(request.user)
+        'user_can_edit': document.can_edit(request.user),
+        'has_starred': document.has_starred(request.user),
     }
 
     # If user is logged in, allow them to add this document to collection
@@ -179,6 +180,7 @@ def display_collection(request, collection_id):
         raise PermissionDenied
 
     return render(request, 'collection/collection.html', {
+        'has_starred': collection.has_starred(request.user),
         'user_can_edit': collection.can_edit(request.user),
         'collection': collection
     })
@@ -252,3 +254,60 @@ def edit_collection(request, collection_id):
         'documents': all_documents,
         'collection': collection
     })
+
+@login_required
+def star_collection(request, collection_id):
+    collection = get_object_or_404(Collection, pk=collection_id)
+
+    if not collection.can_view(request.user):
+        raise PermissionDenied
+
+    # Create a new star and save it to database, then redirect user back to document view
+    new_star = CollectionStar(user=request.user, collection=collection)
+    new_star.save()
+
+    return redirect(reverse('display_collection', args=(collection.id, )))
+
+@login_required
+def unstar_collection(request, collection_id):
+    collection = get_object_or_404(Collection, pk=collection_id)
+
+    if not collection.can_view(request.user):
+        raise PermissionDenied
+
+    try:
+        star = CollectionStar.objects.get(user=request.user, collection=collection)
+        star.delete()
+    except CollectionStar.DoesNotExist:
+        pass
+
+    return redirect(reverse('display_collection', args=(collection.id, )))
+
+
+@login_required
+def star_document(request, document_id):
+    document = get_object_or_404(Document, pk=document_id)
+
+    if not document.can_view(request.user):
+        raise PermissionDenied
+
+    # Create a new star and save it to database, then redirect user back to document view
+    new_star = DocumentStar(user=request.user, document=document)
+    new_star.save()
+
+    return redirect(reverse('render_document', args=(document_id, )))
+
+@login_required
+def unstar_document(request, document_id):
+    document = get_object_or_404(Document, pk=document_id)
+
+    if not document.can_view(request.user):
+        raise PermissionDenied
+
+    try:
+        star = DocumentStar.objects.get(user=request.user, document=document)
+        star.delete()
+    except DocumentStar.DoesNotExist:
+        pass
+
+    return redirect(reverse('render_document', args=(document_id, )))

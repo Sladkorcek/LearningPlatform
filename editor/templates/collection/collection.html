@@ -41,6 +41,26 @@
                         <span class="material-icons-button material-icons">file_copy</span> {% trans "Clone" %}
                     </a>
                 </div>
+
+                <div class="text-md-right mt-1">
+
+                    {% if has_starred %}
+                        <a class="btn btn-sm btn-light" href="{% url 'unstar_collection' collection.id %}">
+                            <span class="material-icons-button material-icons">star</span> {% trans "Unstar" %}
+
+                            <span class="badge badge-light ml-2">{{ collection.number_of_stars }}</span>
+                            <span class="sr-only">stars</span>
+                        </a>
+                    {% else %}
+                        <a class="btn btn-sm btn-light" href="{% url 'star_collection' collection.id %}">
+                            <span class="material-icons-button material-icons">star_border</span> {% trans "Star" %}
+
+                            <span class="badge badge-light ml-2">{{ collection.number_of_stars }}</span>
+                            <span class="sr-only">stars</span>
+                        </a>
+                    {% endif %}
+                </div>
+
             </div>
         </div>
     </div>
