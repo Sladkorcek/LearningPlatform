@@ -55,7 +55,7 @@
                 <a href="{% url 'render_document' document.id %}" class="font-weight-bold color-primary">{{ document.title }}</a>
             </div>
             <div class="text-secondary"><small>{{ document.created_at }}</small></div>
-            <div class="markdown-excerpt mt-3">{% autoescape off %}{{ document.content | markdown }}{% endautoescape %}</div>
+            <div class="markdown-excerpt mt-3">{% autoescape off %}{{ document.content | markdown_excerpt }}{% endautoescape %}</div>
         </div>
     {% endfor %}
 </div>

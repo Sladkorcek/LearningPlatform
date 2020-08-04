@@ -6,13 +6,6 @@ from .models import Document, Collection, VisibilityMixin
 
 from django import forms
 
-import markdown
-from .interactive_block import InlineInteractiveBlockExtension
-
-MARKDOWN_EXTENSIONS = [
-    InlineInteractiveBlockExtension()
-]
-
 def landing_page(request):
     return render(request, 'landing_page.html')
 
@@ -61,12 +54,9 @@ def render_document(request, document_id):
         finally:
             return redirect(reverse('render_document', args=(document_id, )))
 
-    rendered_markdown = markdown.markdown(document.content, extensions=MARKDOWN_EXTENSIONS)
-
     context = {
         'document': document,
-        'user_can_edit': document.can_edit(request.user),
-        'rendered_markdown': rendered_markdown
+        'user_can_edit': document.can_edit(request.user)
     }
 
     # If user is logged in, allow them to add this document to collection

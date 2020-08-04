@@ -2,6 +2,7 @@
 
 {% load static %}
 {% load i18n %}
+{% load markdown %}
 
 {% block title %}{{ document.owner.username }}/{{ document.title }}{% endblock %}
 
@@ -81,7 +82,7 @@
 <div class="container mb-5">
     <div class="markdown-body mt-3">
         {% autoescape off %}
-            {{ rendered_markdown }}
+            {{ document.content | markdown }}
         {% endautoescape %}
     </div>
 </div>
