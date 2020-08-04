@@ -14,6 +14,16 @@
     }
 }
 
+/* Selection colour */
+::selection {
+    background: #6f2da8;
+    color: white;
+}
+::-moz-selection {
+    background: #6f2da8;
+    color: white;
+}
+
 /* Landing page styling */
 .navbar {
     min-height: 70px;
