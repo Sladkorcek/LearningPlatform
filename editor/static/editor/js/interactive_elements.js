@@ -121,7 +121,6 @@ class Plot extends InteractiveElement {
         return this;
     }
     function(functionString) {
-        console.log(functionString);
         if (typeof functionString === 'string' || functionString instanceof String) {
             this.functions.push({
                 fn: functionString
@@ -136,27 +135,51 @@ class Plot extends InteractiveElement {
         }
         return this;
     }
+    uniqueSliderId() {
+        return this.additionalElements.length + 1;
+    }
     withSliderFor(property, interval) {
         let inputContainer = document.createElement("div");
+        inputContainer.className = "plot-slider-group";
+
+        if (!this.environmentData.hasOwnProperty(property)) {
+            this.environmentData[property] = interval[0];
+        }
 
         let slider = document.createElement("input");
+        slider.id = "slider-" + this.uniqueSliderId();
         slider.type = "range";
         slider.min = interval[0];
         slider.max = interval[1];
-        slider.step = (interval[1] - interval[0]) / 100;
+        slider.step = Math.abs(interval[1] - interval[0]) / 100;
         slider.value = this.environmentData[property];
-        
-        slider.addEventListener('input', function() {
-            this.environmentData[property] = slider.value;
-            this.update();
-        }.bind(this));
 
         let label = document.createElement("label");
-        label.htmlFor = "slider";
-        label.innerText = property + ": ";
+        label.id = "slider-label-" + this.uniqueSliderId();
+        label.htmlFor = "slider-" + this.uniqueSliderId();
+        label.innerText = "$" + property + ' = ' + slider.value + "$";
+        MathJax.typeset([label]);
+        
+        slider.addEventListener('input', function() {
+            this.environmentData[property] = Number.parseFloat(slider.value);
+            label.innerText = property + ' = ' + slider.value;
+            this.update();
 
-        inputContainer.appendChild(label);
+            if (this.latexTimer != null) {
+                clearTimeout(this.latexTimer);
+            }
+
+            // Set timeout that will re-typeset latex equations after 100ms
+            this.latexTimer = setTimeout(function() {
+                label.innerText = '$' + property + ' = ' + slider.value + '$';
+                MathJax.typeset([label]);
+                this.latexTimer = undefined;
+            }.bind(this), 100);
+
+        }.bind(this));
+
         inputContainer.appendChild(slider);
+        inputContainer.appendChild(label);
         this.additionalElements.push(inputContainer);
         return this;
     }

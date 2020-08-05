@@ -77,3 +77,12 @@
     border-color: #ffa500;
     color: #ffa500;
 }
+
+.plot-slider-group {
+    margin: 1em;
+    padding: 0.4em;
+}
+
+.plot-slider-group label {
+    display: block;
+}
