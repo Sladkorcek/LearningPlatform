@@ -1,11 +1,28 @@
+let idCounter = 1;
+
+function shuffleArray(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+}
+
 class InteractiveElement {
     constructor(element) {
         this.element = element;
+        this.id = InteractiveElement.generateUniqueId();
     }
     getElement(parent) {
         // This function is called with a parent element passed in as an
         // argument. We could update our element before returning it here.
         return this.element;
+    }
+    static generateUniqueId() {
+        idCounter += 1;
+        return idCounter - 1;
+    }
+    uniqueId() {
+        return this.id;
     }
 }
 
@@ -200,6 +217,74 @@ class Text extends InteractiveElement {
     }
 }
 
+class MultipleChoice extends InteractiveElement {
+    constructor() {
+        super(document.createElement("div"));
+        this.element.className = "multiple-choice-card";
+
+        this.cardHeader = document.createElement("div");
+        this.cardHeader.className = "multiple-choice-card-header fancy-background";
+        this.element.appendChild(this.cardHeader);
+
+        this.cardBody = document.createElement("div");
+        this.cardBody.className = "multiple-choice-card-body";
+        this.element.appendChild(this.cardBody);
+
+        this.correct = null;
+        this.answers = [];
+    }
+    question(question) {
+        this.cardHeader.innerHTML = question;
+        return this;
+    }
+    createAnswerElement(text) {
+        let checkboxContainer = document.createElement("div");
+        checkboxContainer.className = "multiple-choice-card-answer";
+
+        let label = document.createElement("label");
+        label.innerHTML = text;
+
+        let radioButton = document.createElement("input");
+        radioButton.type = "radio";
+        radioButton.name = "radio-" + this.uniqueId(); 
+        
+        label.prepend(radioButton);
+        checkboxContainer.appendChild(label);
+
+        radioButton.onchange = function() {
+            for (let i = 0; i < this.answers.length; i++) {
+                let additionalClass = (this.answers[i] != this.correct) ? "is-wrong" : "is-right";
+                this.answers[i].className += " " + additionalClass;
+                this.answers[i].querySelector("input").disabled = true;
+            }
+        }.bind(this);
+
+        return checkboxContainer;
+    }
+    correctAnswer(answer) {
+        let answerElement = this.createAnswerElement(answer);
+        this.answers.push(answerElement);
+        this.correct = answerElement;
+        return this;
+    }
+    otherAnswers(answers) {
+        for (let i = 0; i < answers.length; i++) {
+            let answerElement = this.createAnswerElement(answers[i]);
+            this.answers.push(answerElement);
+        }
+        return this;
+    }
+    getElement(parent) {
+
+        shuffleArray(this.answers);
+        for (let i = 0; i < this.answers.length; i++) {
+            this.cardBody.appendChild(this.answers[i]);
+        }
+
+        return super.getElement(parent);
+    }
+}
+
 function exception() {
     return new Exception();
 }
@@ -218,4 +303,8 @@ function flashcard() {
 
 function text(content) {
     return new Text(content);
+}
+
+function multipleChoice() {
+    return new MultipleChoice();
 }

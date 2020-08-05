@@ -17,3 +17,63 @@
     padding: 0.1em 0.3em;
     font-size: 0.8em;
 }
+
+.multiple-choice-card {
+    border-radius: 0.8em;
+    box-shadow: 0 3px 4px 0 rgba(0,0,0,0.14), 0 3px 3px -2px rgba(0,0,0,0.12), 0 1px 8px 0 rgba(0,0,0,0.20);
+    margin: 1em;
+    max-width: 300px;
+    margin: 2em auto;
+    transition: all 0.5s;
+}
+
+.multiple-choice-card:hover {
+    box-shadow: 0 8px 10px 1px rgba(0,0,0,0.14), 0 3px 14px 2px rgba(0,0,0,0.12), 0 5px 5px -3px rgba(0,0,0,0.20);
+}
+
+.multiple-choice-card-header {
+    padding: 1em 2em;
+    border-top-left-radius: 0.8em;
+    border-top-right-radius: 0.8em;
+    color: white;
+    font-size: 1.2em;
+    text-align: center;
+    font-weight: 500;
+}
+
+.multiple-choice-card-body {
+    padding: 1em 1.5em;
+}
+
+.multiple-choice-card-answer {
+    margin: 0.5em;
+    margin-bottom: 0.7em;
+    border: 1px solid #cacaca;
+    border-radius: 2em;
+    transition: all 0.3s;
+}
+
+.multiple-choice-card-answer:hover {
+    border: 1px solid #6f2da8;
+}
+
+.multiple-choice-card-answer label {
+    margin-bottom: 0;
+    width: 100%;
+    height: 100%;
+    padding: 0.5em 1em;
+}
+
+.multiple-choice-card-answer input {
+    margin-right: 1em;
+}
+
+.multiple-choice-card-answer.is-wrong {
+    border-color: #b80000;
+    color: #b80000;
+}
+
+.multiple-choice-card-answer.is-right {
+    border-color: #00c552;
+    color: #00c552;
+}

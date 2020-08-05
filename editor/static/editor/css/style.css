@@ -220,6 +220,11 @@ interactive {
     padding: 6em 2em;
 }
 
+.fancy-background {
+    background-color: #6f2da8;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='105' height='105' viewBox='0 0 120 120'%3E%3Cpolygon fill='%23622299' fill-opacity='0.24' points='120 0 120 60 90 30 60 0 0 0 0 0 60 60 0 120 60 120 90 90 120 60 120 0'/%3E%3C/svg%3E");
+}
+
 .call-to-action-container h1 {
     font-weight: 700;
     font-size: 3em;
