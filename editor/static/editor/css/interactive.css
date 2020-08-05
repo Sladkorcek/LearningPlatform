@@ -69,11 +69,11 @@
 }
 
 .multiple-choice-card-answer.is-wrong {
-    border-color: #b80000;
-    color: #b80000;
+    border-color: #6f2da8;
+    color: #6f2da8;
 }
 
 .multiple-choice-card-answer.is-right {
-    border-color: #00c552;
-    color: #00c552;
+    border-color: #ffa500;
+    color: #ffa500;
 }
