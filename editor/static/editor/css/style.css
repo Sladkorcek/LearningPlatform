@@ -174,31 +174,21 @@ interactive {
     font-size: 1.2em;
 }
 
-/* Custom styles for editable fields */
-.editable {
-    padding: 0em 2em 0em 0.2em;
-    border: 1px solid white;
-    border-radius: 4px;
-    transition: all 0.4s;
-    position: relative;
+.title-input-field {
+    font-size: 2.5rem;
+    line-height: 1.2;
+    margin-top: 0;
+    margin-bottom: .5rem;
+    text-align: center;
+    font-weight: 700;
 }
-.editable::after {
-    content: '\e150';
-    position: absolute;
-    right: 0.4em;
-    top: 50%;
-    transform: translateY(-50%);
-    color: transparent;
-    font-family: 'Material Icons';
-    font-size: 0.6em;
-    font-weight: normal;
-    transition: all 0.4s;
-}
-.editable:hover::after {
-    color: #cacaca;
-}
-.editable:hover {
-    border: 1px solid #cacaca;
+
+.special-label {
+    text-transform: uppercase;
+    font-size: 0.8em;
+    text-align: center;
+    display: block;
+    letter-spacing: 4px;
 }
 
 .no-elements {

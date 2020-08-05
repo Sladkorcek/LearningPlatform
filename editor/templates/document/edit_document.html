@@ -12,97 +12,35 @@
 
     <!-- Script that loads markdown editor -->
     <script src="{% static 'editor/js/markdown_editor.js' %}"></script>
-
-    <script>
-        window.addEventListener('load', function() {
-            
-            document.getElementById('document-title').onclick = function() {
-                let modalInstance = new BSN.Modal('#rename-modal');
-                modalInstance.show();
-            }
-
-            document.getElementById('document-visibility').onclick = function() {
-                let modalInstance = new BSN.Modal('#change-visibility-modal');
-                modalInstance.show();
-            }
-
-        });
-    </script>
-{% endblock %}
-
-{% block navigation %}
-    <li class="nav-item">
-        <a class="btn btn-sm button-secondary" href="{% url 'render_document' document.id %}" style="margin-right: 1em; margin-top: 5px;">
-            <span class="material-icons-button material-icons">visibility</span> {% trans "View" %}
-        </a>
-    </li>
 {% endblock %}
 
 {% block content %}
-<form method="POST" action="{% url 'edit_document' document.id %}">
-    {% csrf_token %}
-    <div class="container mt-5">
-        <div>
-            <h1>Editing document <strong id="document-title" class="editable">{{ document.title }}</strong></h1>
+
+    
+<div class="container mt-5">
+
+    <form method="POST" action="{% url 'edit_document' document.id %}">
+        {% csrf_token %}
+
+        <div class="form-group">
+            <label for="document-name" class="special-label">{% trans "Document title" %}</label>
+            <input type="text" class="form-control title-input-field" id="document-name" name="document_name" value="{{ document.title }}">
         </div>
-        
-        <p class="text-secondary">Visibility: <span id="document-visibility" class="editable">{{ document.visibility_string }}</span></p>
         
         <textarea name="document_content" id="content">{{ document.content }}</textarea>
-        <input type="submit" value="{% trans 'Save document' %}" class="btn button-secondary">
 
-    </div>
+        <div class="form-group mt-3">
+            <label for="visibility-select" class="special-label">{% trans "Document visibility" %}</label>
+            <select class="form-control" id="visibility-select" name="document_visibility">
+                <option value="pr" {% if document.visibility == 'pr' %}selected{% endif %}>{% trans "PRIVATE" %} - {% trans "Only you can view" %}</option>
+                <option value="li" {% if document.visibility == 'li' %}selected{% endif %}>{% trans "LINK" %} - {% trans "Anybody with link can view" %}</option>
+                <option value="pu" {% if document.visibility == 'pu' %}selected{% endif %}>{% trans "PUBLIC" %} - {% trans "Everybody can view" %}</option>
+            </select>
+        </div>       
+        
+        <input type="submit" value="{% trans 'Save document' %}" class="btn button-secondary mt-3">
+    </form>
 
-    <!-- Modal for renaming the document -->
-    <div class="modal fade" id="rename-modal" tabindex="-1" role="dialog" aria-labelledby="exit-rename-modal" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exit-rename-modal">{% trans "Rename document" %}</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div class="form-group">
-                        <label for="document-name" class="col-form-label">{% trans "New title" %}</label>
-                        <input type="text" class="form-control" id="document-name" name="document_name" value="{{ document.title }}">
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">{% trans "Close" %}</button>
-                    <input type="submit" class="btn btn-primary" value="{% trans "Rename" %}" />
-                </div>
-            </div>
-        </div>
-    </div>
+</div>
 
-    <!-- Modal for changing the visibility of the document -->
-    <div class="modal fade" id="change-visibility-modal" tabindex="-1" role="dialog" aria-labelledby="exit-change-visibility-modal" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exit-change-visibility-modal">{% trans "Change document visibility" %}</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div class="form-group">
-                        <label for="visibility-select">{% trans "New document visibility" %}</label>
-                        <select class="form-control" id="visibility-select" name="document_visibility">
-                            <option value="pr">{% trans "Only you can view" %}</option>
-                            <option value="li">{% trans "Anybody with link can view" %}</option>
-                            <option value="pu">{% trans "Everybody can view" %}</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">{% trans "Close" %}</button>
-                    <input type="submit" class="btn btn-primary" value="{% trans "Change visibility" %}" />
-                </div>
-            </div>
-        </div>
-    </div>
-</form>
 {% endblock %}
