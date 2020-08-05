@@ -47,12 +47,15 @@
                 <div class="lead font-weight-normal">
                     <a href="{% url 'user_profile' document.owner.id %}" class="color-primary">{{ document.owner.username }}</a> / 
                     <a href="{% url 'render_document' document.id %}" class="font-weight-bold color-primary">{{ document.title }}</a>
+                    <span class="badge badge-light ml-2 font-weight-normal"><span class="material-icons-button material-icons">lock</span> {{ document.visibility_name }}</span>
                 </div>
-                <div class="text-secondary"><small>
-                    {% blocktrans with date=document.created_at %}
-                        Created at: {{ date }}
-                    {% endblocktrans %}
-                </small></div>
+                <div class="text-secondary">
+                    <small>
+                        {% blocktrans with date=document.created_at %}
+                            Created at: {{ date }}
+                        {% endblocktrans %}
+                    </small>
+                </div>
             </div>
             <div class="col-md-6 mt-3 mt-md-0">
                 <div>

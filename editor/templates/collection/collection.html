@@ -19,12 +19,15 @@
                 <div class="lead font-weight-normal">
                     <a href="{% url 'user_profile' collection.owner.id %}" class="color-primary">{{ collection.owner.username }}</a> / 
                     <a href="{% url 'display_collection' collection.id %}" class="font-weight-bold color-primary">{{ collection.title }}</a>
+                    <span class="badge badge-light ml-2 font-weight-normal"><span class="material-icons-button material-icons">lock</span> {{ collection.visibility_name }}</span>
                 </div>
-                <div class="text-secondary"><small>
-                    {% blocktrans with date=collection.created_at %}
-                        Created at: {{ date }}
-                    {% endblocktrans %}
-                </small></div>
+                <div class="text-secondary">
+                    <small>
+                        {% blocktrans with date=collection.created_at %}
+                            Created at: {{ date }}
+                        {% endblocktrans %}
+                    </small>
+                </div>
                 <p class="mt-3">{{ collection.description }}</p>
             </div>
             <div class="col-md-5 text-md-right mt-1">

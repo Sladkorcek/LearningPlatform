@@ -34,6 +34,13 @@ class VisibilityMixin(models.Model):
         default=PRIVATE
     )
 
+    def visibility_name(self):
+        if self.visibility == VisibilityMixin.PRIVATE:
+            return 'PRIVATE'
+        elif self.visibility == VisibilityMixin.LINK:
+            return 'LINK'
+        return 'PUBLIC'
+
     def visibility_string(self):
         if self.visibility == VisibilityMixin.PRIVATE:
             return _('Only you can view')
