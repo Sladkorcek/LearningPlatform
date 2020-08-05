@@ -29,19 +29,19 @@
 <div class="separator-bottom mt-5 mt-md-0">
     <div class="container pb-5">
         <div class="text-center branding-padding">
-            <h1>{% trans "Features" %}</h1>
-            <p class="is-bigger">{% trans "Everything you need to take notes and more." %}</p>
+            <h1>{% trans "Notes your way" %}</h1>
+            <p class="is-bigger">{% trans "You don't need to be a rocket-scientist to reach the cloud." %}</p>
         </div>
         <div class="row mt-3 mt-md-5">
             <div class="col-md-3 mt-md-0 mt-3 feature branding-padding text-center text-md-left">
                 <span class="material-icons">notes</span>
                 <h5>{% trans "Beautiful documents in seconds" %}</h5>
-                <p>{% trans "Create reach text documents using extended markdown language. Don't know it yet? Worry not, you can format your text in our easy-to-use online editor." %}</p>
+                <p>{% trans "Create rich text documents using extended markdown language. Don't know it yet? Worry not, you can format your text in our easy-to-use online editor." %}</p>
             </div>
             <div class="col-md-3 mt-md-0 mt-3 feature branding-padding text-center text-md-left">
                 <span class="material-icons">library_books</span>
                 <h5>{% trans "Organize documents into collections" %}</h5>
-                <p>{% trans "Organize documents into collections." %}</p>
+                <p>{% trans "Gather your and collective knowledge into well rounded units and share it forward. Organize your documents your own way!" %}</p>
             </div>
             <div class="col-md-3 mt-md-0 mt-3 feature branding-padding text-center text-md-left">
                 <span class="material-icons">share</span>
@@ -51,7 +51,7 @@
             <div class="col-md-3 mt-md-0 mt-3 feature branding-padding text-center text-md-left">
                 <span class="material-icons">content_cut</span>
                 <h5>{% trans "Collaborate with the community" %}</h5>
-                <p>{% trans "See something you like? Clone it!" %}</p>
+                <p>{% trans "Build upon content made by others. See something you like? Clone it!" %}</p>
             </div>
         </div>
     </div>
@@ -60,17 +60,15 @@
 <div class="mt-5">
     <div class="container pb-5">
         <div class="text-center branding-padding">
-            <h1>{% trans "Easy to use" %}</h1>
-            <p class="is-bigger">{% trans "Make the important things stand out, as easy as <strong>**this**</strong>" %}</p>
+            <h1>{% trans "Interactivity" %}</h1>
+            <p class="is-bigger">{% trans "Bring some life into your notes." %}</p>
         </div>
 
         <div class="row mt-3 mt-md-5">
             <div class="col-md-6 mt-md-0 mt-3 feature branding-padding text-center text-md-left">
-                <ul>
-                    <li>Use <strong>markdown</strong> language to write and style your documents easily</li>
-                    <li>Add <strong>visual support</strong> to your documents - insert images, diagrams and plots</li>
-                    <li>Write <strong>beautiful equations</strong> using LaTeX equations</li>
-                </ul>
+                <p>{% trans "They say a picture is worth a thousand words, imagine what an interactive one can do." %}</p>
+                <p>{% trans "Easy to use: Make the important things stand out, as easy as <strong>**this**</strong>" %}</p>
+                <p>{% trans "Can you draw a curly bracket by hand? Neither can we. Write beautiful equations using LaTeX." %}</p>
             </div>
             <div class="col-md-6 mt-md-0 mt-3 feature branding-padding text-center">
                 <img src="{% static 'editor/images/document_collaboration.svg' %}" alt="" class="smaller-branding-image">
@@ -80,13 +78,13 @@
     </div>
 </div>
 
-<div class="mt-5" style="background: rgb(98,34,153); background: linear-gradient(180deg, rgba(98,34,153,1) 0%, rgba(111,45,168,1) 50%, rgba(98,34,153,1) 100%); color: white; padding: 6em 2em;">
+<div class="mt-5 call-to-action-container">
     <div class="container">
         <div class="text-center branding-padding">
-            <h1 class="mb-5" style="font-weight: 700; font-size: 3em;">{% trans "Work smarter, not harder!" %}</h1>
-            <div>
-                <a href="" class="btn btn-lg mr-2" style="background: white; color: #6f2da8; font-weight: 600; text-transform: uppercase; font-size: 1em; padding: 0.8em 1.2em;">Start writing!</a>
-                <a href="" class="btn btn-lg ml-2" style="color: white; border: 1.2px solid white; font-weight: 600; text-transform: uppercase; font-size: 1em; padding: 0.8em 1.2em;">Learn more</a>
+            <h1 class="mb-4">{% trans "Work smarter, not harder!" %}</h1>
+            <div class="d-flex flex-column flex-sm-row justify-content-center">
+                <div><a href="{% url 'documents' %}" class="btn button-secondary-inverse btn-lg button-important m-2">Start writing!</a></div>
+                <div><a href="{% url 'help_center' %}" class="btn button-secondary-outline btn-lg button-important m-2">Learn more</a></div>
             </div>
         </div>
     </div>
