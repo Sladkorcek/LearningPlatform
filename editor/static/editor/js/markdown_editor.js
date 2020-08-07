@@ -55,7 +55,7 @@ let interactiveBlockButton = {
         
     },
     className: "fa fa-bolt",
-    title: "Code block",
+    title: "Interactive element",
 }
 
 let saveButton = {

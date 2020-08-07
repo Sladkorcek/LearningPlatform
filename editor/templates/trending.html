@@ -6,7 +6,7 @@
 {% block head %}
 {% endblock %}
 
-{% block title %}{% trans 'Tutorial' %}{% endblock %}
+{% block title %}{% trans 'Explore trending' %}{% endblock %}
 
 {% block content %}
 <div class="container mt-5" style="padding-bottom: 10rem;">
@@ -19,11 +19,13 @@
                 {% for collection in trending_collections %}
                     <div class="list-group-item list-group-item-action">
                         <div class="d-flex flex-column flex-sm-row flex-wrap justify-content-center align-items-center">
-                            {% if collection.image %}
-                                <img src="{{ collection.image.url }}" alt="" style="height: 4em; width: 4em; margin: 1em;">
-                            {% else %}
-                                <div style="height: 4em; width: 4em; background-color: #ececec; margin: 1em;"></div>
-                            {% endif %}
+                            <div class="collection-image-container trending-image-container">
+                                {% if collection.image %}
+                                    <img src="{{ collection.image.url }}" class="card-img" alt="{{ collection.title }} collection image" style="height: 100%; position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);">
+                                {% else %}
+                                    <img src="{% static 'editor/images/default_collection_image.svg' %}" alt="" class="no-image">
+                                {% endif %}
+                            </div>
                             
                             <div>
                                 <a href="{% url 'display_collection' collection.id %}" class="color-primary">

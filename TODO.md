@@ -14,6 +14,9 @@ Here is a list of to-do suggestions regarding the `stvari.si` platform and not d
 - Save button in document editor should save document in background
 - Documents should auto-save in background every 10 seconds 
 
+### Features
+- When in *lightning mode*, enable code completition and code formatting
+
 ### Documents
 - add feedback when document is added to a collection
 

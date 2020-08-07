@@ -61,11 +61,13 @@
                     <div class="card mb-3">
                         <div class="row no-gutters">
                             <div class="col-md-4">
-                                {% if collection.image %}
-                                    <img src="{{ collection.image.url }}" class="card-img" alt="{{ collection.title }} collection image">
-                                {% else %}
-                                    <div style="background-color: #ececec; width: 100%; height: 100%;"></div>
-                                {% endif %}
+                                <div class="collection-image-container">
+                                    {% if collection.image %}
+                                        <img src="{{ collection.image.url }}" class="card-img" alt="{{ collection.title }} collection image" style="height: 100%; position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);">
+                                    {% else %}
+                                        <img src="{% static 'editor/images/default_collection_image.svg' %}" alt="" class="no-image">
+                                    {% endif %}
+                                </div>
                             </div>
                             <div class="col-md-8">
                                 <div class="card-body">
