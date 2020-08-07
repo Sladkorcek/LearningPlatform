@@ -1,5 +1,24 @@
 window.onload = setupMarkdownEditor;
 
+function getStartEnd(selection) {
+    let start = { line: selection.anchor.line, ch: selection.anchor.ch };
+    let end = { line: selection.head.line, ch: selection.head.ch };
+
+    if (end.line <= start.line) {
+        if (end.ch <= start.ch) {
+            let temporary = end.ch;
+            end.ch = start.ch;
+            start.ch = temporary;
+        } else {
+            let temporary = end.line;
+            end.line = start.line;
+            start.line = temporary;
+        }
+    }
+
+    return { start: start, end: end };
+}
+
 let interactiveBlockButton = {
     name: "interactive_block",
     action: function customFunction(editor){
@@ -8,39 +27,26 @@ let interactiveBlockButton = {
         let selections = document.listSelections();
         
         let replacements = [];
-        let fixedPositions = [];
         for (let i = 0; i < selections.length; i++) {
-            let start = selections[i].anchor;
-            let end = selections[i].head;
-            
-            let selectionContent = document.getRange(start, end);
+            let selection = getStartEnd(selections[i]);
+            let selectionContent = document.getRange(selection.start, selection.end);
             let newContent = '{: ' + selectionContent + ' :}';
-
-            let newEnd = {
-                line: end.line,
-                ch: end.ch + newContent.length - selectionContent.length
-            };
-            fixedPositions.push([start, newEnd]);
-            
             replacements.push(newContent);
         }
 
         document.replaceSelections(replacements, "around");
 
         selections = document.listSelections();
-        document.operation(function() {
-
-            for (let i = 0; i < selections.length; i++) {
-                let start = selections[i].anchor;
-                let end = selections[i].head;
-                document.markText(start, end, {
-                    className: 'is-inline-interactive-block'
-                });
-            }
-        });
+        console.log(selections);
+        for (let i = 0; i < selections.length; i++) {
+            let selection = getStartEnd(selections[i]);
+            console.log(selection);
+            document.markText(selection.start, selection.end, {
+                className: 'is-inline-interactive-block'
+            });
+        }
         
         document.focus();
-
         
     },
     className: "fa fa-keyboard-o",
