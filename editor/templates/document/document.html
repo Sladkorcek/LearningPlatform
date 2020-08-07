@@ -47,7 +47,7 @@
                 <div class="lead font-weight-normal">
                     <a href="{% url 'user_profile' document.owner.id %}" class="color-primary">{{ document.owner.username }}</a> / 
                     <a href="{% url 'render_document' document.id %}" class="font-weight-bold color-primary">{{ document.title }}</a>
-                    <span class="badge badge-light ml-2 font-weight-normal"><span class="material-icons-button material-icons">lock</span> {{ document.visibility_name }}</span>
+                    <span class="badge badge-light ml-2 font-weight-normal">{{ document.visibility_name }}</span>
                 </div>
                 <div class="text-secondary">
                     <small>

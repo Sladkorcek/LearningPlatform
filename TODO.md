@@ -16,7 +16,6 @@ Here is a list of to-do suggestions regarding the `stvari.si` platform and not d
 
 - move visibility to the top of the editor
 - add save button among other buttons or somewhere at the top of the editor
-- remove lock icon from the field with visibility next to the document name
 - add fedback when document is added to a collection
 - show checkboxes next to collections so i can see and change in which collections is my document
 - visibility dropdown could be prettier

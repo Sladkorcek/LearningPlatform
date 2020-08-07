@@ -19,7 +19,7 @@
                 <div class="lead font-weight-normal">
                     <a href="{% url 'user_profile' collection.owner.id %}" class="color-primary">{{ collection.owner.username }}</a> / 
                     <a href="{% url 'display_collection' collection.id %}" class="font-weight-bold color-primary">{{ collection.title }}</a>
-                    <span class="badge badge-light ml-2 font-weight-normal"><span class="material-icons-button material-icons">lock</span> {{ collection.visibility_name }}</span>
+                    <span class="badge badge-light ml-2 font-weight-normal">{{ collection.visibility_name }}</span>
                 </div>
                 <div class="text-secondary">
                     <small>
