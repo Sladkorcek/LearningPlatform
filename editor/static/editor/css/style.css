@@ -236,3 +236,17 @@ interactive {
     background-color: #f3f3f3;
     font-family: 'Courier New', Courier, monospace;
 }
+
+.editor-toolbar {
+    display: flex !important;
+    padding-top: 8px !important;
+    padding-bottom: 8px !important;
+    flex-wrap: wrap !important;
+}
+.editor-toolbar::before { display: none !important; }
+.editor-toolbar::after { display: none !important; }
+
+
+.editor-toolbar a.fa-eye {
+    margin-left: auto;
+}

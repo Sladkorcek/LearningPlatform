@@ -14,12 +14,10 @@ Here is a list of to-do suggestions regarding the `stvari.si` platform and not d
 
 ### Documents
 
-- add save button among other buttons or somewhere at the top of the editor
 - add fedback when document is added to a collection
+- add save button among other buttons or somewhere at the top of the editor
 - move button for going fullscreen to the right in the editor
 - back button press after saving the document should redirect me to previous page not back to editing the document
-- italic doen't work correctly. If you don't highlight anything and click on bold, it adds four stars, two for each side. If you click bold again, the stars are removed. If you do the same with italic, two stars are added, one for each side. If you click italic again it just adds new stars as it recognizes the pair of stars as bold (it also highlights the bold button) I get it but users might not.
-- button for inserting images works weirdly. It adds ![]() but ![] is in mini font size
 
 ### Collections
 

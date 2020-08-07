@@ -49,7 +49,7 @@ let interactiveBlockButton = {
         
     },
     className: "fa fa-keyboard-o",
-    title: "Custom Button",
+    title: "Code block",
 }
 
 function setupMarkdownEditor() {
