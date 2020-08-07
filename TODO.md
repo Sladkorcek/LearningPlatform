@@ -11,13 +11,11 @@ Here is a list of to-do suggestions regarding the `stvari.si` platform and not d
 
 ### Bugs
 - Fix bug where empty collection can be added
+- Save button in document editor should save document in background
+- Documents should auto-save in background every 10 seconds 
 
 ### Documents
-
-- add fedback when document is added to a collection
-- add save button among other buttons or somewhere at the top of the editor
-- move button for going fullscreen to the right in the editor
-- back button press after saving the document should redirect me to previous page not back to editing the document
+- add feedback when document is added to a collection
 
 ### Collections
 

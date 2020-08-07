@@ -247,6 +247,6 @@ interactive {
 .editor-toolbar::after { display: none !important; }
 
 
-.editor-toolbar a.fa-eye {
+.editor-toolbar a.fa-floppy-o {
     margin-left: auto;
 }
