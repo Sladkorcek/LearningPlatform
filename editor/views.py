@@ -48,18 +48,28 @@ def render_document(request, document_id):
     if not document.can_view(request.user):
         raise PermissionDenied
 
-    # If request argument 'collection' is present, the user wants to add this
-    # document to specific collection
+    # If request argument 'collection' is present, the user wants to add or
+    # remove this document to specific collection
+    collection_action = request.GET.get('action', None)
     collection_id = request.GET.get('collection', None)
-    if collection_id is not None:
-        try:
-            collection = Collection.objects.get(pk=int(collection_id))
-            if collection.can_edit(request.user):
-                if document not in list(collection.documents.all()):
-                    collection.documents.add(document)
-                    collection.save()
-        finally:
-            return redirect(reverse('render_document', args=(document_id, )))
+    if collection_action is not None and collection_id is not None:
+        if collection_action.lower() in ['add', 'remove']:
+            try:
+                collection = Collection.objects.get(pk=int(collection_id))
+                if collection.can_edit(request.user):
+                    # There are two possible actions:
+                    #   * add - user wants to add document to collection
+                    #   * remove - user wants to remove document from collection
+                    if collection_action == 'add':
+                        if document not in list(collection.documents.all()):
+                            collection.documents.add(document)
+                            collection.save()
+                    elif collection_action == 'remove':
+                        if document in list(collection.documents.all()):
+                            collection.documents.remove(document)
+                            collection.save()
+            finally:
+                return redirect(reverse('render_document', args=(document_id, )))
 
     context = {
         'document': document,
@@ -69,7 +79,9 @@ def render_document(request, document_id):
 
     # If user is logged in, allow them to add this document to collection
     if request.user.is_authenticated:
-        context['collections'] = Collection.objects.filter(owner=request.user)
+        collections = Collection.objects.filter(owner=request.user).all()
+        contains_document = [document in collection.documents.all() for collection in collections]
+        context['collections'] = zip(collections, contains_document)
 
     return render(request, 'document/document.html', context)
 

@@ -100,8 +100,18 @@
                                     {% trans 'Add to collection' %}
                                 </button>
                                 <div class="dropdown-menu" aria-labelledby="button-add-to-collection">
-                                    {% for collection in collections %}
-                                        <a class="dropdown-item" href="{% url 'render_document' document.id %}?collection={{ collection.id }}">{{ collection.title }}</a>
+                                    {% for collection, is_in_collection in collections %}
+                                        {% if is_in_collection %}
+                                            <a class="dropdown-item" href="{% url 'render_document' document.id %}?action=remove&collection={{ collection.id }}">
+                                                <span class="material-icons-button material-icons">check</span>
+                                                {{ collection.title }}
+                                            </a>
+                                        {% else %}
+                                            <a class="dropdown-item" href="{% url 'render_document' document.id %}?action=add&collection={{ collection.id }}">
+                                                <span class="material-icons-button material-icons" style="visibility: hidden;">clear</span>
+                                                {{ collection.title }}
+                                            </a>
+                                        {% endif %}
                                     {% endfor %}
                                 </div>
                             </div>
