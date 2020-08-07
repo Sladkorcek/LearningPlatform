@@ -219,3 +219,20 @@ interactive {
     font-weight: 700;
     font-size: 3em;
 }
+
+.is-interactive-block {
+    background-color: #f3f3f3;
+    font-family: 'Courier New', Courier, monospace;
+}
+.is-interactive-block::after {
+    content: 'Interactive block';
+    position: absolute;
+    top: 0;
+    right: 1em;
+    font-size: 0.6em;
+    padding: 0.2em 2em;
+}
+.is-inline-interactive-block {
+    background-color: #f3f3f3;
+    font-family: 'Courier New', Courier, monospace;
+}
