@@ -40,7 +40,6 @@ let interactiveBlockButton = {
         console.log(selections);
         for (let i = 0; i < selections.length; i++) {
             let selection = getStartEnd(selections[i]);
-            console.log(selection);
             document.markText(selection.start, selection.end, {
                 className: 'is-inline-interactive-block'
             });
