@@ -48,28 +48,40 @@ def render_document(request, document_id):
     if not document.can_view(request.user):
         raise PermissionDenied
 
-    # If request argument 'collection' is present, the user wants to add or
-    # remove this document to specific collection
-    collection_action = request.GET.get('action', None)
-    collection_id = request.GET.get('collection', None)
-    if collection_action is not None and collection_id is not None:
-        if collection_action.lower() in ['add', 'remove']:
+    # If `action` argument is present, the user wants to perfom an action on
+    # this document. Currently, there are 3 possible actions:
+    #   * add - user wants to add document to collection
+    #   * remove - user wants to remove document from collection
+    #   * visibility - user wants to change the visibility of the document
+
+    action = request.GET.get('action', '').lower()
+    if action in ['add', 'remove', 'visibility']:
+
+        # If user wants to change the visibility, there should also be a
+        # visibilty string present
+        if action == 'visibility':
+            visibility = request.GET.get('visibility', None)
+            if visibility in [VisibilityMixin.PRIVATE, VisibilityMixin.LINK, VisibilityMixin.PUBLIC]:
+                document.visibility = visibility
+                document.save()
+        
+        elif action in ['add', 'remove']:
             try:
                 collection = Collection.objects.get(pk=int(collection_id))
                 if collection.can_edit(request.user):
-                    # There are two possible actions:
-                    #   * add - user wants to add document to collection
-                    #   * remove - user wants to remove document from collection
-                    if collection_action == 'add':
+                    if action == 'add':
                         if document not in list(collection.documents.all()):
                             collection.documents.add(document)
                             collection.save()
-                    elif collection_action == 'remove':
+                    elif action == 'remove':
                         if document in list(collection.documents.all()):
                             collection.documents.remove(document)
                             collection.save()
-            finally:
-                return redirect(reverse('render_document', args=(document_id, )))
+            except Exception:
+                pass
+        
+        # Redirect user back to render_document without GET parameters
+        return redirect(reverse('render_document', args=(document_id, )))
 
     context = {
         'document': document,

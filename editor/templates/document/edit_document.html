@@ -28,15 +28,6 @@
         </div>
         
         <textarea name="document_content" id="content">{{ document.content }}</textarea>
-
-        <div class="form-group mt-3">
-            <label for="visibility-select" class="special-label">{% trans "Document visibility" %}</label>
-            <select class="form-control" id="visibility-select" name="document_visibility">
-                <option value="pr" {% if document.visibility == 'pr' %}selected{% endif %}>{% trans "PRIVATE" %} - {% trans "Only you can view" %}</option>
-                <option value="li" {% if document.visibility == 'li' %}selected{% endif %}>{% trans "LINK" %} - {% trans "Anybody with link can view" %}</option>
-                <option value="pu" {% if document.visibility == 'pu' %}selected{% endif %}>{% trans "PUBLIC" %} - {% trans "Everybody can view" %}</option>
-            </select>
-        </div>       
         
         <input type="submit" value="{% trans 'Save document' %}" class="btn button-secondary mt-3">
     </form>

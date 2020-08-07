@@ -47,7 +47,35 @@
                 <div class="lead font-weight-normal">
                     <a href="{% url 'user_profile' document.owner.id %}" class="color-primary">{{ document.owner.username }}</a> / 
                     <a href="{% url 'render_document' document.id %}" class="font-weight-bold color-primary">{{ document.title }}</a>
-                    <span class="badge badge-light ml-2 font-weight-normal">{{ document.visibility_name }}</span>
+
+                    {% if user_can_edit %}
+                        <div class="btn-group ml-2" role="group">
+                            <button id="button-change-visibility" type="button" class="btn btn-sm btn-light dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <span class="material-icons-button material-icons">{% if document.visibility == 'pr' %} lock {% elif document.visibility == 'li' %} link {% else %} public {% endif %}</span>
+                                {{ document.visibility_name }}
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="button-change-visibility">
+                                <a class="dropdown-item" href="{% url 'render_document' document.id %}?action=visibility&visibility=pr">
+                                    <span class="material-icons-button material-icons">lock</span>
+                                    {% trans "PRIVATE" %} - {% trans "Only you can view" %}
+                                </a>
+                                <a class="dropdown-item" href="{% url 'render_document' document.id %}?action=visibility&visibility=li">
+                                    <span class="material-icons-button material-icons">link</span>
+                                    {% trans "LINK" %} - {% trans "Anybody with link can view" %}
+                                </a>
+                                <a class="dropdown-item" href="{% url 'render_document' document.id %}?action=visibility&visibility=pu">
+                                    <span class="material-icons-button material-icons">public</span>
+                                    {% trans "PUBLIC" %} - {% trans "Everybody can view" %}
+                                </a>
+                            </div>
+                        </div>
+                    {% else %}
+                        <span class="badge badge-light ml-2 font-weight-normal">
+                            <span class="material-icons-button material-icons">{% if document.visibility == 'pr' %} lock {% elif document.visibility == 'li' %} link {% else %} public {% endif %}</span>
+                            {{ document.visibility_name }}
+                        </span>
+                    {% endif %}
+
                 </div>
                 <div class="text-secondary">
                     <small>
