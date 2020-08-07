@@ -66,19 +66,21 @@ def render_document(request, document_id):
                 document.save()
         
         elif action in ['add', 'remove']:
-            try:
-                collection = Collection.objects.get(pk=int(collection_id))
-                if collection.can_edit(request.user):
-                    if action == 'add':
-                        if document not in list(collection.documents.all()):
-                            collection.documents.add(document)
-                            collection.save()
-                    elif action == 'remove':
-                        if document in list(collection.documents.all()):
-                            collection.documents.remove(document)
-                            collection.save()
-            except Exception:
-                pass
+            collection_id = request.GET.get('collection', None)
+            if collection_id is not None:
+                try:
+                    collection = Collection.objects.get(pk=int(collection_id))
+                    if collection.can_edit(request.user):
+                        if action == 'add':
+                            if document not in list(collection.documents.all()):
+                                collection.documents.add(document)
+                                collection.save()
+                        elif action == 'remove':
+                            if document in list(collection.documents.all()):
+                                collection.documents.remove(document)
+                                collection.save()
+                except Exception:
+                    pass
         
         # Redirect user back to render_document without GET parameters
         return redirect(reverse('render_document', args=(document_id, )))
