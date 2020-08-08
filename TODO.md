@@ -24,7 +24,6 @@ Here is a list of to-do suggestions regarding the `stvari.si` platform and not d
 
 - change the overview of the collectin to display the hierarchy
 - add preview of the uploaded image to the page where you create a collection
-- make it easy to remove a document from a collection. It is not clear whether the delete button above the document (when you open document) will delete this document from all collections or will it remove the document from a collection
 - make it clear whether adding a document to a collection just link it there or creates a new instance of it
 - previews of documents in collection are pretty weird - they show raw text, you can see the \$ signs and the special figures (graphs, flashcards...) are ommited.
 

@@ -33,7 +33,7 @@
                                 <span class="material-icons-button material-icons">{% if collection.visibility == 'pr' %} lock {% elif collection.visibility == 'li' %} link {% else %} public {% endif %}</span>
                                 {{ collection.visibility_name }}
                             </button>
-                            <div class="dropdown-menu" aria-labelledby="button-change-visibility">
+                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="button-change-visibility">
                                 <a class="dropdown-item" href="{% url 'display_collection' collection.id %}?action=visibility&visibility=pr">
                                     <span class="material-icons-button material-icons">lock</span>
                                     {% trans "PRIVATE" %} - {% trans "Only you can view" %}
@@ -111,8 +111,28 @@
             <div class="lead font-weight-normal">
                 <a href="{% url 'user_profile' document.owner.id %}" class="color-primary">{{ document.owner.username }}</a> /
                 <a href="{% url 'render_document' document.id %}" class="font-weight-bold color-primary">{{ document.title }}</a>
+
+                <div class="float-right">
+                    <div class="btn-group ml-2" role="group">
+                        <button id="button-document-{{ document.id }}-actions" type="button" class="btn btn-sm btn-light dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            {% trans "Quick actions" %}
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="button-document-{{ document.id }}-actions">
+                            <a class="dropdown-item" href="{% url 'edit_document' document.id %}">
+                                <span class="material-icons-button material-icons">edit</span>
+                                {% trans "Edit document" %}
+                            </a>
+                            <a class="dropdown-item" href="{% url 'display_collection' collection.id %}?action=remove_document&document={{ document.id }}">
+                                <span class="material-icons-button material-icons">remove</span>
+                                {% trans "Remove from this collection" %}
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
             </div>
             <div class="text-secondary"><small>{{ document.created_at }}</small></div>
+
             <div class="markdown-excerpt-container mt-3">
                 <div class="markdown-excerpt">
                     {% autoescape off %}{{ document.content | markdown_excerpt }}{% endautoescape %}

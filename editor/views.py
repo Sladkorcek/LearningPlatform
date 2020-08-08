@@ -180,15 +180,27 @@ def display_collection(request, collection_id):
         raise PermissionDenied
 
     action = request.GET.get('action', '').lower()
-    if action in ['visibility']:
+    if action in ['visibility', 'remove_document']:
 
-        # If user wants to change the visibility, there should also be a
-        # visibilty string present
-        if action == 'visibility':
-            visibility = request.GET.get('visibility', None)
-            if visibility in [VisibilityMixin.PRIVATE, VisibilityMixin.LINK, VisibilityMixin.PUBLIC]:
-                collection.visibility = visibility
-                collection.save()
+        if collection.can_edit(request.user):
+            # If user wants to change the visibility, there should also be a
+            # visibilty string present
+            if action == 'visibility':
+                visibility = request.GET.get('visibility', None)
+                if visibility in [VisibilityMixin.PRIVATE, VisibilityMixin.LINK, VisibilityMixin.PUBLIC]:
+                    collection.visibility = visibility
+                    collection.save()
+            
+            elif action == 'remove_document':
+                try:
+                    document_id = request.GET.get('document', None)
+                    if document_id is not None:
+                        document = Document.objects.get(pk=int(document_id))
+                        if document.can_view(request.user):
+                            collection.documents.remove(document)
+                            collection.save()
+                except Exception:
+                    pass
         
         return redirect(reverse('display_collection', args=(collection.id, )))
 
