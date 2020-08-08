@@ -287,15 +287,19 @@ interactive {
     border-color: #6f2da8;
 }
 
-.markdown-excerpt-container:hover::after {
+.markdown-excerpt-container::after {
     content: 'View document';
-    background-color: #6f2da8;
+    background-color: white;
     color: white;
     padding: 0.1em 0.6em;
     position: absolute;
     top: 0;
     right: 0;
+    transition: all 0.5s;
+}
 
+.markdown-excerpt-container:hover::after {
+    background-color: #6f2da8;
 }
 
 .markdown-excerpt {
