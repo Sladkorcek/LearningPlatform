@@ -16,7 +16,7 @@
         <div class="col-sm-12">
             <h3 class="mb-3">{% trans 'Trending collections' %}</h3>
             <div class="list-group">
-                {% for collection in trending_collections %}
+                {% for collection, has_starred in trending_collections %}
                     <div class="list-group-item list-group-item-action">
                         <div class="d-flex flex-column flex-sm-row flex-wrap justify-content-center align-items-center">
                             <div class="collection-image-container trending-image-container">
@@ -34,11 +34,20 @@
                                 <div><small class="text-muted">{{ collection.description }}</small></div>
                             </div>
                             <div class="ml-sm-auto mt-2">
-                                <a class="btn btn-sm btn-light" href="{% url 'star_collection' collection.id %}">
-                                    <span class="material-icons-button material-icons">star</span> {% trans "Star" %}
-                                    <span class="badge badge-light ml-2">{{ collection.number_of_stars }}</span>
-                                    <span class="sr-only">stars</span>
-                                </a>
+
+                                {% if has_starred %}
+                                    <a class="btn btn-sm btn-light" href="{% url 'unstar_collection' collection.id %}?next={% url 'explore' %}">
+                                        <span class="material-icons-button material-icons">star</span> {% trans "Unstar" %}
+                                        <span class="badge badge-light ml-2">{{ collection.number_of_stars }}</span>
+                                        <span class="sr-only">stars</span>
+                                    </a>
+                                {% else %}
+                                    <a class="btn btn-sm btn-light" href="{% url 'star_collection' collection.id %}?next={% url 'explore' %}">
+                                        <span class="material-icons-button material-icons">star_border</span> {% trans "Star" %}
+                                        <span class="badge badge-light ml-2">{{ collection.number_of_stars }}</span>
+                                        <span class="sr-only">stars</span>
+                                    </a>
+                                {% endif %}
                             </div>
                         </div>
                     </div>
@@ -49,7 +58,7 @@
 
             <h3 class="mb-3 mt-5">{% trans 'Trending documents' %}</h3>
             <div class="list-group">
-                {% for document in trending_documents %}
+                {% for document, has_starred in trending_documents %}
                     <div class="list-group-item list-group-item-action">
                         <div class="d-flex flex-wrap justify-content-left align-items-center">
                             <div>
@@ -59,11 +68,19 @@
                                 <div><small class="text-muted">{{ document.description }}</small></div>
                             </div>
                             <div class="ml-auto">
-                                <a class="btn btn-sm btn-light" href="{% url 'star_document' document.id %}">
-                                    <span class="material-icons-button material-icons">star</span> {% trans "Star" %}
-                                    <span class="badge badge-light ml-2">{{ document.number_of_stars }}</span>
-                                    <span class="sr-only">stars</span>
-                                </a>
+                                {% if has_starred %}
+                                    <a class="btn btn-sm btn-light" href="{% url 'unstar_document' document.id %}?next={% url 'explore' %}">
+                                        <span class="material-icons-button material-icons">star</span> {% trans "Unstar" %}
+                                        <span class="badge badge-light ml-2">{{ document.number_of_stars }}</span>
+                                        <span class="sr-only">stars</span>
+                                    </a>
+                                {% else %}
+                                    <a class="btn btn-sm btn-light" href="{% url 'star_document' document.id %}?next={% url 'explore' %}">
+                                        <span class="material-icons-button material-icons">star_border</span> {% trans "Star" %}
+                                        <span class="badge badge-light ml-2">{{ document.number_of_stars }}</span>
+                                        <span class="sr-only">stars</span>
+                                    </a>
+                                {% endif %}
                             </div>
                         </div>
                     </div>

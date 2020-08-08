@@ -45,5 +45,4 @@ Here is a list of to-do suggestions regarding the `stvari.si` platform and not d
 
 ### Explore page
 
-- display star/unstar according to whether a user has starred a document/collection or no. This will prevent the debug page popup and the error caused by trying to star the thing you have starred before.
 - rethink the layout, when many collections are trending, you have to scroll and scroll and scroll to get to the documents. Maybe limit it to 3 collections and then add button "see more" that redirects to a site that only contains trending collections. Same for documents.

@@ -292,6 +292,10 @@ def star_collection(request, collection_id):
     new_star = CollectionStar(user=request.user, collection=collection)
     new_star.save()
 
+    next_page = request.GET.get('next', None)
+    if next_page is not None:
+        return redirect(next_page)
+
     return redirect(reverse('display_collection', args=(collection.id, )))
 
 @login_required
@@ -307,6 +311,10 @@ def unstar_collection(request, collection_id):
     except CollectionStar.DoesNotExist:
         pass
 
+    next_page = request.GET.get('next', None)
+    if next_page is not None:
+        return redirect(next_page)
+
     return redirect(reverse('display_collection', args=(collection.id, )))
 
 
@@ -320,6 +328,10 @@ def star_document(request, document_id):
     # Create a new star and save it to database, then redirect user back to document view
     new_star = DocumentStar(user=request.user, document=document)
     new_star.save()
+
+    next_page = request.GET.get('next', None)
+    if next_page is not None:
+        return redirect(next_page)
 
     return redirect(reverse('render_document', args=(document_id, )))
 
@@ -336,6 +348,10 @@ def unstar_document(request, document_id):
     except DocumentStar.DoesNotExist:
         pass
 
+    next_page = request.GET.get('next', None)
+    if next_page is not None:
+        return redirect(next_page)
+
     return redirect(reverse('render_document', args=(document_id, )))
 
 def explore(request):
@@ -344,11 +360,13 @@ def explore(request):
 
     # Find all PUBLIC documents that have at least 0 stars
     trending_documents = Document.objects.filter(visibility=VisibilityMixin.PUBLIC).annotate(total_stars=Count('stars')).filter(total_stars__gt=0)
+    has_starred_documents = [document.has_starred(request.user) for document in trending_documents]
 
     # Find all PUBLIC collections that have at least 0 stars 
     trending_collections = Collection.objects.filter(visibility=VisibilityMixin.PUBLIC).annotate(total_stars=Count('stars')).filter(total_stars__gt=0)
+    has_starred_collections = [collection.has_starred(request.user) for collection in trending_collections]
 
     return render(request, 'trending.html', {
-        'trending_documents': trending_documents,
-        'trending_collections': trending_collections
+        'trending_documents': zip(trending_documents, has_starred_documents),
+        'trending_collections': zip(trending_collections, has_starred_collections)
     })
