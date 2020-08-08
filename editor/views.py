@@ -179,6 +179,20 @@ def display_collection(request, collection_id):
     if not collection.can_view(request.user):
         raise PermissionDenied
 
+    action = request.GET.get('action', '').lower()
+    if action in ['visibility']:
+
+        # If user wants to change the visibility, there should also be a
+        # visibilty string present
+        if action == 'visibility':
+            visibility = request.GET.get('visibility', None)
+            if visibility in [VisibilityMixin.PRIVATE, VisibilityMixin.LINK, VisibilityMixin.PUBLIC]:
+                collection.visibility = visibility
+                collection.save()
+        
+        return redirect(reverse('display_collection', args=(collection.id, )))
+
+
     return render(request, 'collection/collection.html', {
         'has_starred': collection.has_starred(request.user),
         'user_can_edit': collection.can_edit(request.user),
