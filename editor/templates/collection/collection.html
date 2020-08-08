@@ -16,6 +16,13 @@
 
         <div class="row">
             <div class="col-md-7">
+                <div class="collection-image-container trending-image-container float-sm-left" style="height: 8em; width: 8em;">
+                    {% if collection.image %}
+                        <img src="{{ collection.image.url }}" alt="{{ collection.title }} collection image">
+                    {% else %}
+                        <img src="{% static 'editor/images/default_collection_image.svg' %}" alt="" class="no-image">
+                    {% endif %}
+                </div>
                 <div class="lead font-weight-normal">
                     <a href="{% url 'user_profile' collection.owner.id %}" class="color-primary">{{ collection.owner.username }}</a> / 
                     <a href="{% url 'display_collection' collection.id %}" class="font-weight-bold color-primary">{{ collection.title }}</a>
