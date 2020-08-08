@@ -113,7 +113,12 @@
                 <a href="{% url 'render_document' document.id %}" class="font-weight-bold color-primary">{{ document.title }}</a>
             </div>
             <div class="text-secondary"><small>{{ document.created_at }}</small></div>
-            <div class="markdown-excerpt mt-3">{% autoescape off %}{{ document.content | markdown_excerpt }}{% endautoescape %}</div>
+            <div class="markdown-excerpt-container mt-3">
+                <div class="markdown-excerpt">
+                    {% autoescape off %}{{ document.content | markdown_excerpt }}{% endautoescape %}
+                </div>
+                <a href="{% url 'render_document' document.id %}" class="stretched-link"></a>
+            </div>
         </div>
     {% endfor %}
 </div>
