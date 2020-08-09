@@ -23,7 +23,6 @@ A list of bugs and features for [stvari.si](http://stvari.si) note-taking platfo
 ### Profile
 - Enable password reset and change the default Django styling
 - does a list of documents show the creation dates or last-edited dates next to each document? it is not clear
-- starred and profile buttons lead to the same page
 - rethink the layout. If I have 10 collections, my documents are very far down. Maybe have two tabs between user can switch to either see the collections or the documents
 
 ### Landing page
