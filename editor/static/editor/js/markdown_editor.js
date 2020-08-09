@@ -69,11 +69,6 @@ function setupMarkdownEditor() {
     let markdownEditor = new SimpleMDE({
         element: document.getElementById("content"),
         autofocus: true,
-        autosave: {
-            enabled: true,
-            delay: 7000,
-            uniqueId: 'document-markdown-editor'
-        },
         spellChecker: false,
         forceSync: true,
         tabSize: 4,
