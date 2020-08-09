@@ -28,8 +28,8 @@ def documents(request):
         'starred_collections': starred_collections
     })
 
-def user_profile(request, user_id):
-    user = get_object_or_404(User, pk=user_id)
+def user_profile(request, username):
+    user = get_object_or_404(User, username=username)
 
     if request.user.is_authenticated and request.user == user:
         return documents(request)
@@ -39,7 +39,6 @@ def user_profile(request, user_id):
         'collections': Collection.objects.filter(owner=user, visibility=Document.PUBLIC),
         'documents': Document.objects.filter(owner=user, visibility=Document.PUBLIC)
     })
-    raise NotImplementedError
 
 def render_document(request, document_id):
     # First, get document by its id or display an error

@@ -21,7 +21,6 @@ A list of bugs and features for [stvari.si](http://stvari.si) note-taking platfo
 - previews of documents in collection are pretty weird - they show raw text, you can see the \$ signs and the special figures (graphs, flashcards...) are ommited.
 
 ### Profile
-- Update endpoint for user profiles to `/user/<username>`
 - Enable password reset and change the default Django styling
 - does a list of documents show the creation dates or last-edited dates next to each document? it is not clear
 - starred and profile buttons lead to the same page

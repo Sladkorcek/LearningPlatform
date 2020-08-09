@@ -58,7 +58,7 @@
         <div class="row">
             <div class="col-md-6">
                 <div class="lead font-weight-normal">
-                    <a href="{% url 'user_profile' document.owner.id %}" class="color-primary">{{ document.owner.username }}</a> / 
+                    <a href="{% url 'user_profile' document.owner.username %}" class="color-primary">{{ document.owner.username }}</a> / 
                     <a href="{% url 'render_document' document.id %}" class="font-weight-bold color-primary">{{ document.title }}</a>
 
                     {% if user_can_edit %}

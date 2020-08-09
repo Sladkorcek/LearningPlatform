@@ -24,7 +24,7 @@
                     {% endif %}
                 </div>
                 <div class="lead font-weight-normal">
-                    <a href="{% url 'user_profile' collection.owner.id %}" class="color-primary">{{ collection.owner.username }}</a> / 
+                    <a href="{% url 'user_profile' collection.owner.username %}" class="color-primary">{{ collection.owner.username }}</a> / 
                     <a href="{% url 'display_collection' collection.id %}" class="font-weight-bold color-primary">{{ collection.title }}</a>
 
                     {% if user_can_edit %}

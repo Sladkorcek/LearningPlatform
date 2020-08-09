@@ -61,7 +61,7 @@
                             {{ request.user.username }}
                         </a>
                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="{% url 'user_profile' request.user.id %}">
+                            <a class="dropdown-item" href="{% url 'user_profile' request.user.username %}">
                                 <span class="material-icons-button material-icons">person</span>
                                 {% trans "My Profile" %}
                             </a>
