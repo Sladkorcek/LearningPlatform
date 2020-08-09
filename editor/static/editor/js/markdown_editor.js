@@ -1,9 +1,74 @@
 window.onload = setupMarkdownEditor;
 
+const AUTOSAVE_INTERVAL = 10000;
+let lastSavedTime = null;
+let isCurrentlySaving = false;
+let lastSavedElement = null;
+
+// AUTOSAVE the document every 10 seconds
+let autosaveInterval = setInterval(function() {
+    saveDocument();
+}, AUTOSAVE_INTERVAL);
+
+function updateLastSavedElement(element) {
+    if (element != null)
+        lastSavedElement = element;
+    
+    if (isCurrentlySaving) {
+        lastSavedElement.innerText = "Saving document...";
+    } else {
+        if (lastSavedTime != null) {
+            const dateTimeFormat = new Intl.DateTimeFormat('en', {
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit',
+                hour12: false
+            }) 
+            let formatted = dateTimeFormat.format(lastSavedTime);
+            lastSavedElement.innerText = "Last saved: " + formatted;
+        } else {
+            lastSavedElement.innerText = "";
+        }
+    }
+}
+
 function saveDocument(editor) {
     // TODO: This function is run everytime user presses the save button or
     // every 10 seconds. Create a POST request to save data to server.
-    document.getElementById("document-form").submit();
+
+    let documentName = document.getElementById("document-name").value;
+    let documentContent = document.getElementById("content").value;
+    let csrfToken = document.getElementsByName("csrfmiddlewaretoken")[0].value;
+
+    let formData = [
+        "document_name=" + encodeURIComponent(documentName),
+        "document_content=" + encodeURIComponent(documentContent),
+        "csrfmiddlewaretoken=" + encodeURIComponent(csrfToken)
+    ];
+    let encodedFormData = formData.join('&').replace(/%20/g, '+');
+
+    let url = window.location.href;
+    let request = new XMLHttpRequest();
+    request.open("POST", url, true);
+    request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    request.send(encodedFormData);
+
+    isCurrentlySaving = true;
+
+    request.addEventListener('load', function(event) {
+        lastSavedTime = new Date();
+        isCurrentlySaving = false;
+        updateLastSavedElement();
+    });
+
+    request.addEventListener('error', function(event) {
+        console.log('Error while saving data');
+        isCurrentlySaving = false;
+        updateLastSavedElement();
+    });
+
+    updateLastSavedElement();
+
 }
 
 function getStartEnd(selection) {
@@ -65,6 +130,16 @@ let saveButton = {
     title: "Save document",
 };
 
+let lastSavedStatusItem = {
+    className: "keystrokes",
+    defaultValue: function(element) {
+        updateLastSavedElement(element);
+    },
+    onUpdate: function(element) {
+        updateLastSavedElement(element);
+    }
+};
+
 function setupMarkdownEditor() {
     let markdownEditor = new SimpleMDE({
         element: document.getElementById("content"),
@@ -72,6 +147,7 @@ function setupMarkdownEditor() {
         spellChecker: false,
         forceSync: true,
         tabSize: 4,
-        toolbar: ["bold", "italic", "strikethrough", "heading", "|", "quote", "unordered-list", "ordered-list", "code", "|", "link", "image", "table", "|", interactiveBlockButton, "|", saveButton, "|", "preview", "side-by-side", "fullscreen"]
+        toolbar: ["bold", "italic", "strikethrough", "heading", "|", "quote", "unordered-list", "ordered-list", "code", "|", "link", "image", "table", "|", interactiveBlockButton, "|", saveButton, "|", "preview", "side-by-side", "fullscreen"],
+        status: ["lines", "words", lastSavedStatusItem]
     });
 }
