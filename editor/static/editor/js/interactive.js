@@ -1,7 +1,7 @@
 // window.onload executes after EVERYTHING is loaded, including images
 // The interactive blocks can start rendering before images, so
 // find a different way to detect if document has been loaded
-window.onload = renderAll;
+window.addEventListener('load', renderAll);
 
 function renderAll() {
     
