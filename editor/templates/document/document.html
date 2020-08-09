@@ -20,6 +20,8 @@
     <script src="{% static 'editor/js/interactive_elements.js' %}"></script>
 
     <script>
+        const ALERTS_AUTOCLOSE_DELAY = 5000;
+
         // Configure MathJax to use dollar signs as delimiters
         MathJax = {
             processEscapes: true,
@@ -27,6 +29,17 @@
                 inlineMath: [['$', '$']]
             }
         };
+
+        // Auto hide every message displayed on page after 5 seconds
+        window.onload = function() {
+            let alerts = document.getElementsByClassName("alert");
+            for (let i = 0; i < alerts.length; i++) {
+                let alert = new BSN.Alert(alerts[i]);
+                setTimeout(function() {
+                    alert.close();
+                }, ALERTS_AUTOCLOSE_DELAY);
+            }
+        }
     </script>
 
     <!-- D3 library for working with data -->
@@ -148,10 +161,24 @@
                 </div>
             </div>
         </div>
+
+        <div class="row">
+            <div class="col-12 mt-4">
+                {% for message in messages %}
+                    <div class="alert alert-custom-secondary alert-dismissible fade show" role="alert" style="max-width: 980px; margin: 0 auto;">
+                        {{ message }}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+
     </div>
 </section>
 <div class="container mb-5">
-    <div class="markdown-body mt-3">
+    <div class="markdown-body">
         {% autoescape off %}
             {{ document.content | markdown }}
         {% endautoescape %}

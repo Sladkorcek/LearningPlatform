@@ -306,3 +306,9 @@ interactive {
     max-height: 10rem;
     overflow: hidden;
 }
+
+.alert-custom-secondary {
+    color: #29113f;
+    background-color: #edd9ff;
+    border-color: #6f2da8;
+}

@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect, reverse, HttpResponse
 from django.core.exceptions import PermissionDenied
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 from django.contrib.auth.models import User
 from .models import Document, Collection, VisibilityMixin, DocumentStar, CollectionStar
 from django.db.models import Count
@@ -75,10 +76,12 @@ def render_document(request, document_id):
                             if document not in list(collection.documents.all()):
                                 collection.documents.add(document)
                                 collection.save()
+                                messages.success(request, 'Document "{}" added to collection "{}".'.format(document.title, collection.title))
                         elif action == 'remove':
                             if document in list(collection.documents.all()):
                                 collection.documents.remove(document)
                                 collection.save()
+                                messages.success(request, 'Document "{}" removed from collection "{}".'.format(document.title, collection.title))
                 except Exception:
                     pass
         
