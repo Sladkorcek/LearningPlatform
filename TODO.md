@@ -11,8 +11,7 @@ Here is a list of to-do suggestions regarding the `stvari.si` platform and not d
 
 ### Bugs
 - Fix bug where empty collection can be added
-- Save button in document editor should save document in background
-- Documents should auto-save in background every 10 seconds 
+- Collection images all have different widths
 
 ### Features
 - When in *lightning mode*, enable code completition and code formatting
@@ -41,7 +40,6 @@ Here is a list of to-do suggestions regarding the `stvari.si` platform and not d
 - create logo
 - learn more page
 - footer
-- change punctuaion in "They say a picture is worth a thousand words, imagine what an interactive one can do." to ""They say a picture is worth a thousand words ... Imagine what an interactive one can do!"
 
 ### Explore page
 
