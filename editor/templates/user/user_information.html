@@ -4,11 +4,13 @@
 <div class="user-data">
 
     <div class="user-image">
-        {% if user.image %}
-            <img src="{{ user.image.url }}" alt="">
-        {% else %}
-            no image
-        {% endif %}
+        <div class="collection-image-container">
+            {% if user.image %}
+                <img src="{{ user.image.url }}" alt="">
+            {% else %}
+                <img src="{% static 'editor/images/default_user_image.svg' %}" alt="" class="no-image">
+            {% endif %}
+        </div>
     </div>
 
     <div class="user-username mt-2">
@@ -20,9 +22,9 @@
     </div>
 
     {% if is_own_page %}
-    <div class="edit-profile-button mt-3">
-        <a href="" class="color-primary">Edit profile</a>
-    </div>
+        <div class="edit-profile-button mt-3">
+            <a href="" class="color-primary">Edit profile</a>
+        </div>
     {% endif %}
 
 </div>
