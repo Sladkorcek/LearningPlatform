@@ -65,6 +65,19 @@
                                 <span class="material-icons-button material-icons">person</span>
                                 {% trans "My Profile" %}
                             </a>
+                            <a class="dropdown-item" href="{% url 'user_profile' request.user.username %}?tab=collections">
+                                <span class="material-icons-button material-icons">book</span>
+                                {% trans "My Collections" %}
+                            </a>
+                            <a class="dropdown-item" href="{% url 'user_profile' request.user.username %}?tab=documents">
+                                <span class="material-icons-button material-icons">note</span>
+                                {% trans "My Documents" %}
+                            </a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="{% url 'stars' %}">
+                                <span class="material-icons-button material-icons">star</span>
+                                {% trans "Starred" %}
+                            </a>
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item" href="{% url 'help_center' %}">
                                 <span class="material-icons-button material-icons">help_center</span>

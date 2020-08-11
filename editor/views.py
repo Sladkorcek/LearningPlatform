@@ -397,3 +397,25 @@ def explore(request):
         'trending_documents': zip(trending_documents, has_starred_documents),
         'trending_collections': zip(trending_collections, has_starred_collections)
     })
+
+@login_required
+def stars(request):
+    tab = request.GET.get('tab', 'collections')
+    page = int(request.GET.get('page', 1))
+
+    context = {
+        'tab': tab,
+        'user': request.user,
+        'is_own_page': True
+    }
+
+    if tab == 'collections':
+        starred_collections = [star.collection for star in CollectionStar.objects.filter(user=request.user)]
+        collections = Paginator(starred_collections, settings.COLLECTIONS_PER_PAGE)
+        context['collections'] = collections.page(page)
+    elif tab == 'documents':
+        starred_documents = [star.document for star in DocumentStar.objects.filter(user=request.user)]
+        documents = Paginator(starred_documents, settings.DOCUMENTS_PER_PAGE)
+        context['documents'] = documents.page(page)
+
+    return render(request, 'user/stars.html', context)
