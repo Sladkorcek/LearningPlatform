@@ -2,8 +2,7 @@ from django.shortcuts import render, get_object_or_404, redirect, reverse, HttpR
 from django.core.exceptions import PermissionDenied
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from django.contrib.auth.models import User
-from .models import Document, Collection, VisibilityMixin, DocumentStar, CollectionStar
+from .models import Document, Collection, VisibilityMixin, DocumentStar, CollectionStar, UserProfile
 from django.db.models import Count
 
 from django import forms
@@ -32,7 +31,7 @@ def documents(request):
     })
 
 def user_profile(request, username):
-    user = get_object_or_404(User, username=username)
+    user = get_object_or_404(UserProfile, username=username)
 
     if request.user.is_authenticated and request.user == user:
         return documents(request)

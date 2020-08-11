@@ -1,7 +1,13 @@
+from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.conf import settings
 from django.utils import timezone
 from django.utils.translation import gettext as _
+
+
+class UserProfile(AbstractUser):
+    bio = models.TextField(max_length=500, blank=True)
+    image = models.ImageField(upload_to='images/users', null=True, blank=True)
 
 # TimeStampMixin object has been copied from
 # https://stackoverflow.com/questions/3429878/automatic-creation-date-for-django-model-form-objects
