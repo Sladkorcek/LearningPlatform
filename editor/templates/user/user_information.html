@@ -1,0 +1,30 @@
+{% load static %}
+{% load i18n %}
+
+<div>
+    <h4 class="mb-4">{% trans "Starred collections" %}</h4>
+
+    <div class="list-group">
+        {% for collection in starred_collections %}
+            <a href="{% url 'display_collection' collection.id %}" class="list-group-item list-group-item-action">
+                <div class="color-primary">{{ collection.owner.username }} / <strong>{{ collection.title }}</strong></div>
+                <small class="text-muted">{{ collection.description }}</small>
+            </a>
+        {% empty %}
+            <div class="no-elements">{% trans 'You have no starred collections yet.' %}</div>
+        {% endfor %}
+    </div>
+</div>
+<div class="mt-4">
+    <h4 class="mb-4">{% trans "Starred documents" %}</h4>
+
+    <ul class="list-group">
+        {% for document in starred_documents %}
+            <a href="{% url 'render_document' document.id %}" class="list-group-item list-group-item-action color-primary">
+                {{ document.owner.username }} / <strong>{{ document.title }}</strong>
+            </a>
+        {% empty %}
+            <div class="no-elements">{% trans 'You have no starred documents yet.' %}</div>
+        {% endfor %}
+    </ul>
+</div>

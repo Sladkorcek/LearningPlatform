@@ -1,0 +1,70 @@
+{% load static %}
+{% load i18n %}
+
+<section id="collections" style="max-width: 540px;">
+
+    <div class="d-flex justify-content-between mb-4">
+        <h3>{% trans "My collections" %}</h3>
+        <div>
+            <a href="{% url 'create_collection' %}" class="btn btn-sm button-secondary">
+                <span class="material-icons-button material-icons">collections</span> {% trans "New" %}
+            </a>
+        </div>
+    </div>
+    
+    {% for collection in collections %}
+
+        <div class="card mb-3">
+            <div class="row no-gutters">
+                <div class="col-md-4">
+                    <div class="collection-image-container">
+                        {% if collection.image %}
+                            <img src="{{ collection.image.url }}" class="card-img" alt="{{ collection.title }} collection image" style="height: 100%; position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);">
+                        {% else %}
+                            <img src="{% static 'editor/images/default_collection_image.svg' %}" alt="" class="no-image">
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="col-md-8">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ collection.title }}</h5>
+                        <p class="card-text">{{ collection.description }}</p>
+                        <p class="card-text"><small class="text-muted">
+                            {% blocktrans with date=collection.updated_at %}
+                                Last updated: {{ date }}
+                            {% endblocktrans %}
+                        </small></p>
+                    </div>
+                </div>
+            </div>
+            <a href="{% url 'display_collection' collection.id %}" class="stretched-link"></a>
+        </div>
+    {% empty %}
+        <div class="no-elements">{% trans 'You have no collections yet.' %}</div>
+    {% endfor %}
+</section>
+
+<section id="documents" class="mt-5" style="max-width: 540px;">
+    <div class="d-flex justify-content-between mb-4">
+        <h3>{% trans "My documents" %}</h3>
+        <div>
+            <a href="{% url 'create_document' %}" class="btn btn-sm button-secondary">
+                <span class="material-icons-button material-icons">note_add</span> {% trans "New" %}
+            </a>
+        </div>
+    </div>
+
+    <ul class="list-group">
+        {% for document in documents %}
+            <a href="{% url 'render_document' document.id %}" class="list-group-item list-group-item-action">
+                <div class="d-flex justify-content-between">
+                    <div><strong>{{ document.title }}</strong></div>
+                    <div class="text-muted font-weight-light">{{ document.updated_at }}</div>
+                </div>
+            </a>
+        {% empty %}
+            <div class="no-elements">{% trans 'You have no documents yet.' %}</div>
+        {% endfor %}
+    </ul>
+
+</section>
