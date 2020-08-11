@@ -4,6 +4,9 @@ from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
 
 # Modified from https://gist.github.com/schwuk/2725286
 class UserCreationWithEmailForm(UserCreationForm):
