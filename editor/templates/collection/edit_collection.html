@@ -21,6 +21,12 @@
             for (let i = 0; i < documents.length; i++) {
                 documents[i].addEventListener('click', onListItemClicked);
             }
+
+            document.getElementById("file-input").addEventListener('change', function(event) {
+                var fileName = event.target.files[0].name;
+                event.target.parentElement.querySelector(".custom-file-label").innerText = fileName;
+            });
+
         });
 
     </script>
@@ -53,7 +59,7 @@
                         {% endif %}
                     </div>
                     <div class="form-group">
-                        <label for="collection-description">{% trans 'Short description' %} <small>{% trans '(required)' %}</small></label>
+                        <label for="collection-description">{% trans 'Short description' %}</label>
                         {% if not form.description.errors %}
                             <textarea class="form-control" name="{{ form.description.html_name }}" id="collection-description" rows="6" placeholder="{% trans 'Indeed, from antiquity until well into the Modern Ages, a physics devoid of metaphysical insight would have been as unsatisfying as a metaphysical devoid of physical manifestation.' %}">{{ form.description.value | default_if_none:'' }}</textarea>
                         {% else %}
@@ -84,11 +90,29 @@
                             <div class="custom-file" id="collection-image">
                                 <input type="file" name="{{ form.image.html_name }}" class="custom-file-input" id="file-input">
                                 <label class="custom-file-label" for="file-input">{% trans 'Choose image' %}</label>
+                                {% if form.image.value %}
+                                    <small id="imageHelp" class="form-text text-muted">
+                                        {% trans 'Currently:' %} <a href="{{ form.image.value.url }}">{{ form.image.value }}</a>
+                                        <label class="ml-2">
+                                            <input type="checkbox" name="image-clear" id="image-clear_id">
+                                            {% trans "Remove" %}
+                                        </label>
+                                    </small>
+                                {% endif %}
                             </div>
                         {% else %}
                             <div class="custom-file is-invalid" id="collection-image">
                                 <input type="file" name="{{ form.image.html_name }}" class="custom-file-input" id="file-input">
                                 <label class="custom-file-label" for="file-input">{% trans 'Choose image' %}</label>
+                                {% if form.image.value %}
+                                    <small id="imageHelp" class="form-text text-muted">
+                                        {% trans 'Currently:' %} <a href="{{ form.image.value.url }}">{{ form.image.value }}</a>
+                                        <label class="ml-2">
+                                            <input type="checkbox" name="image-clear" id="image-clear_id">
+                                            {% trans "Remove" %}
+                                        </label>
+                                    </small>
+                                {% endif %}
                             </div>
                             <div class="invalid-feedback">{% trans 'Error' %}: {{ form.image.errors.as_text }}</div>
                         {% endif %}
