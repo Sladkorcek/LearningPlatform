@@ -130,3 +130,9 @@ MEDIA_URL = '/media/'
 
 # Where the user should be redirected after login
 LOGIN_REDIRECT_URL = '/documents'
+
+# Number of collections displayed per page
+COLLECTIONS_PER_PAGE = 10
+
+# Number of documents displayed per page
+DOCUMENTS_PER_PAGE = 10

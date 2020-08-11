@@ -4,6 +4,8 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from .models import Document, Collection, VisibilityMixin, DocumentStar, CollectionStar, UserProfile
 from django.db.models import Count
+from django.core.paginator import Paginator
+from django.conf import settings
 
 from django import forms
 
@@ -15,20 +17,25 @@ def help_center(request):
 
 @login_required
 def documents(request):
-
-    starred_documents = request.user.starred_documents.all()
-    starred_collections = request.user.starred_collections.all()
-
     tab = request.GET.get('tab', 'overview')
+    page = int(request.GET.get('page', 1))
+
+    context = { 'tab': tab }
+
+    if tab == 'collections':
+        collections = Paginator(Collection.objects.filter(owner=request.user), settings.COLLECTIONS_PER_PAGE)
+        context['collections'] = collections.page(page)
+    elif tab == 'documents':
+        documents = Paginator(Document.objects.filter(owner=request.user), settings.DOCUMENTS_PER_PAGE)
+        context['documents'] = documents.page(page)
+    else:
+        collections = Paginator(Collection.objects.filter(owner=request.user), settings.COLLECTIONS_PER_PAGE)
+        documents = Paginator(Document.objects.filter(owner=request.user), settings.DOCUMENTS_PER_PAGE)
+        context['collections'] = collections.page(1)
+        context['documents'] = documents.page(1)
 
     # Show user a list of collections and documents
-    return render(request, 'documents.html', {
-        'collections': Collection.objects.filter(owner=request.user),
-        'documents': Document.objects.filter(owner=request.user),
-        'starred_documents': starred_documents,
-        'starred_collections': starred_collections,
-        'tab': tab
-    })
+    return render(request, 'documents.html', context)
 
 def user_profile(request, username):
     user = get_object_or_404(UserProfile, username=username)

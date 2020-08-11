@@ -1,0 +1,38 @@
+{% load static %}
+{% load i18n %}
+
+<section id="documents" style="max-width: 540px;">
+    <ul class="list-group">
+        {% for document in documents %}
+            <a href="{% url 'render_document' document.id %}" class="list-group-item list-group-item-action">
+                <div class="d-flex justify-content-between">
+                    <div><strong>{{ document.title }}</strong></div>
+                    <div class="text-muted font-weight-light">{{ document.updated_at }}</div>
+                </div>
+            </a>
+        {% empty %}
+            <div class="no-elements">{% trans 'You have no documents yet.' %}</div>
+        {% endfor %}
+    </ul>
+
+</section>
+
+{% if documents.has_other_pages %}
+    <nav aria-label="" class="mt-5">
+        <ul class="pagination">
+
+            {% if documents.has_previous %}
+                <li class="page-item"><a class="page-link" href="?tab={{tab}}&page={{ documents.previous_page_number }}">{% trans "Previous" %}</a></li>
+            {% else %}
+                <li class="page-item disabled"><a class="page-link" href="">{% trans "Previous" %}</a></li>
+            {% endif %}
+
+            {% if documents.has_next %}
+                <li class="page-item"><a class="page-link" href="?tab={{tab}}&page={{ documents.next_page_number }}">{% trans "Next" %}</a></li>
+            {% else %}
+                <li class="page-item disabled"><a class="page-link" href="">{% trans "Next" %}</a></li>
+            {% endif %}
+
+        </ul>
+    </nav>
+{% endif %}
