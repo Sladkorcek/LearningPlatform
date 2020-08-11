@@ -21,6 +21,12 @@
             for (let i = 0; i < documents.length; i++) {
                 documents[i].addEventListener('click', onListItemClicked);
             }
+
+            document.getElementById("file-input").addEventListener('change', function(event) {
+                var fileName = event.target.files[0].name;
+                event.target.parentElement.querySelector(".custom-file-label").innerText = fileName;
+            });
+
         });
 
     </script>
@@ -53,7 +59,7 @@
                         {% endif %}
                     </div>
                     <div class="form-group">
-                        <label for="collection-description">{% trans 'Short description' %} <small>{% trans '(required)' %}</small></label>
+                        <label for="collection-description">{% trans 'Short description' %}</label>
                         {% if not form.description.errors %}
                             <textarea class="form-control" name="{{ form.description.html_name }}" id="collection-description" rows="6" placeholder="{% trans 'Indeed, from antiquity until well into the Modern Ages, a physics devoid of metaphysical insight would have been as unsatisfying as a metaphysical devoid of physical manifestation.' %}">{{ form.description.value | default_if_none:'' }}</textarea>
                         {% else %}
