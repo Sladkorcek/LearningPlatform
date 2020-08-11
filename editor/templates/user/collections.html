@@ -29,7 +29,11 @@
             <a href="{% url 'display_collection' collection.id %}" class="stretched-link"></a>
         </div>
     {% empty %}
-        <div class="no-elements">{% trans 'You have no collections yet.' %}</div>
+        {% if is_own_page %}
+            <div class="no-elements">{% trans 'You have no collections yet.' %}</div>
+        {% else %}
+            <div class="no-elements"><strong>{{ user.username }}</strong> {% trans 'has no public collections yet.' %}</div>
+        {% endif %}
     {% endfor %}
 </section>
 

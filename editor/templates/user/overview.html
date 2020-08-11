@@ -4,12 +4,16 @@
 <section id="collections" style="max-width: 540px;">
 
     <div class="d-flex justify-content-between mb-4">
-        <h3>{% trans "My collections" %}</h3>
-        <div>
-            <a href="{% url 'create_collection' %}" class="btn btn-sm button-secondary">
-                <span class="material-icons-button material-icons">collections</span> {% trans "New" %}
-            </a>
-        </div>
+        {% if is_own_page %}
+            <h3>{% trans "My collections" %}</h3>
+            <div>
+                <a href="{% url 'create_collection' %}" class="btn btn-sm button-secondary">
+                    <span class="material-icons-button material-icons">collections</span> {% trans "New" %}
+                </a>
+            </div>
+        {% else %}
+            <h3>{{ user.username }}'s {% trans "public collections" %}</h3>
+        {% endif %}
     </div>
     
     {% for collection in collections %}
@@ -40,18 +44,26 @@
             <a href="{% url 'display_collection' collection.id %}" class="stretched-link"></a>
         </div>
     {% empty %}
-        <div class="no-elements">{% trans 'You have no collections yet.' %}</div>
+        {% if is_own_page %}
+            <div class="no-elements">{% trans 'You have no collections yet.' %}</div>
+        {% else %}
+            <div class="no-elements"><strong>{{ user.username }}</strong> {% trans 'has no public collections yet.' %}</div>
+        {% endif %}
     {% endfor %}
 </section>
 
 <section id="documents" class="mt-5" style="max-width: 540px;">
     <div class="d-flex justify-content-between mb-4">
-        <h3>{% trans "My documents" %}</h3>
-        <div>
-            <a href="{% url 'create_document' %}" class="btn btn-sm button-secondary">
-                <span class="material-icons-button material-icons">note_add</span> {% trans "New" %}
-            </a>
-        </div>
+        {% if is_own_page %}
+            <h3>{% trans "My documents" %}</h3>
+            <div>
+                <a href="{% url 'create_document' %}" class="btn btn-sm button-secondary">
+                    <span class="material-icons-button material-icons">note_add</span> {% trans "New" %}
+                </a>
+            </div>
+        {% else %}
+            <h3>{{ user.username }}'s {% trans "public documents" %}</h3>
+        {% endif %}
     </div>
 
     <ul class="list-group">
@@ -63,7 +75,11 @@
                 </div>
             </a>
         {% empty %}
-            <div class="no-elements">{% trans 'You have no documents yet.' %}</div>
+            {% if is_own_page %}
+                <div class="no-elements">{% trans 'You have no documents yet.' %}</div>
+            {% else %}
+            <div class="no-elements"><strong>{{ user.username }}</strong> {% trans 'has no public documents yet.' %}</div>
+            {% endif %}
         {% endfor %}
     </ul>
 

@@ -15,39 +15,55 @@ def landing_page(request):
 def help_center(request):
     return render(request, 'help_center.html')
 
-@login_required
-def documents(request):
+def render_user_profile(request, user, is_own_page=False):
     tab = request.GET.get('tab', 'overview')
     page = int(request.GET.get('page', 1))
 
-    context = { 'tab': tab }
+    context = {
+        'user': user,
+        'is_own_page': is_own_page,
+        'tab': tab
+    }
 
-    if tab == 'collections':
-        collections = Paginator(Collection.objects.filter(owner=request.user), settings.COLLECTIONS_PER_PAGE)
-        context['collections'] = collections.page(page)
-    elif tab == 'documents':
-        documents = Paginator(Document.objects.filter(owner=request.user), settings.DOCUMENTS_PER_PAGE)
-        context['documents'] = documents.page(page)
+    if is_own_page:
+        if tab == 'collections':
+            collections = Paginator(Collection.objects.filter(owner=request.user), settings.COLLECTIONS_PER_PAGE)
+            context['collections'] = collections.page(page)
+        elif tab == 'documents':
+            documents = Paginator(Document.objects.filter(owner=request.user), settings.DOCUMENTS_PER_PAGE)
+            context['documents'] = documents.page(page)
+        else:
+            collections = Paginator(Collection.objects.filter(owner=request.user), settings.COLLECTIONS_PER_PAGE)
+            documents = Paginator(Document.objects.filter(owner=request.user), settings.DOCUMENTS_PER_PAGE)
+            context['collections'] = collections.page(1)
+            context['documents'] = documents.page(1)
     else:
-        collections = Paginator(Collection.objects.filter(owner=request.user), settings.COLLECTIONS_PER_PAGE)
-        documents = Paginator(Document.objects.filter(owner=request.user), settings.DOCUMENTS_PER_PAGE)
-        context['collections'] = collections.page(1)
-        context['documents'] = documents.page(1)
+        if tab == 'collections':
+            collections = Paginator(Collection.objects.filter(owner=user, visibility=Document.PUBLIC), settings.COLLECTIONS_PER_PAGE)
+            context['collections'] = collections.page(page)
+        elif tab == 'documents':
+            documents = Paginator(Document.objects.filter(owner=user, visibility=Document.PUBLIC), settings.DOCUMENTS_PER_PAGE)
+            context['documents'] = documents.page(page)
+        else:
+            collections = Paginator(Collection.objects.filter(owner=user, visibility=Document.PUBLIC), settings.COLLECTIONS_PER_PAGE)
+            documents = Paginator(Document.objects.filter(owner=user, visibility=Document.PUBLIC), settings.DOCUMENTS_PER_PAGE)
+            context['collections'] = collections.page(1)
+            context['documents'] = documents.page(1)
 
     # Show user a list of collections and documents
-    return render(request, 'documents.html', context)
+    return render(request, 'user/user_profile.html', context)
+
+@login_required
+def documents(request):
+    return redirect(reverse('user_profile', args=(request.user.username, )))
 
 def user_profile(request, username):
     user = get_object_or_404(UserProfile, username=username)
-
-    if request.user.is_authenticated and request.user == user:
-        return documents(request)
-
-    return render(request, 'user_profile.html', {
-        'user': user,
-        'collections': Collection.objects.filter(owner=user, visibility=Document.PUBLIC),
-        'documents': Document.objects.filter(owner=user, visibility=Document.PUBLIC)
-    })
+    # The is_own_page variable is set to True only when user is viewing ther own
+    # page. In this case, the create new buttons should be displayed and a list
+    # of all documents and collection should be presented to them 
+    is_own_page = request.user.is_authenticated and request.user == user
+    return render_user_profile(request, user, is_own_page)
 
 def render_document(request, document_id):
     # First, get document by its id or display an error

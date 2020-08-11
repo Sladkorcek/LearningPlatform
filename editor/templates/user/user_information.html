@@ -19,8 +19,10 @@
         {{ user.bio }}
     </div>
 
+    {% if is_own_page %}
     <div class="edit-profile-button mt-3">
         <a href="" class="color-primary">Edit profile</a>
     </div>
+    {% endif %}
 
 </div>
