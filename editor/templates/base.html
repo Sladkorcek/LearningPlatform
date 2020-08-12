@@ -9,6 +9,11 @@
     <title>{% block title %}stvari.si - write notes that stick{% endblock %}</title>
     
     {% block metadata %}
+        <meta property="og:url" content="{{ request.scheme }}://{{ request.get_host }}{{ request.get_full_path }}" />
+        <meta property="og:type" content="article" />
+        <meta property="og:title" content="stvari.si" />
+        <meta property="og:description" content="write notes that stick" />
+        <meta property="og:image" content="{% static 'editor/images/facebook_share_collection.png' %}" />
     {% endblock %}
 
     <!-- Include Material icons font -->

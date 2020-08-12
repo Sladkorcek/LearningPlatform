@@ -7,7 +7,7 @@
 {% block title %}{{ collection.owner.username }}/{{ collection.title }}{% endblock %}
 
 {% block metadata %}
-    <meta property="og:url" content="{{ request.build_absolute_uri }}" />
+    <meta property="og:url" content="{{ request.scheme }}://{{ request.get_host }}{% url 'display_collection' collection.id %}" />
     <meta property="og:type" content="article" />
     <meta property="og:title" content="{{ collection.title }}" />
     <meta property="og:description" content="{{ collection.description }}" />
