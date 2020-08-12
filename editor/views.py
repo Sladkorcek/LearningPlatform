@@ -8,6 +8,7 @@ from django.core.paginator import Paginator
 from django.conf import settings
 
 from django import forms
+from django.contrib.auth.forms import PasswordChangeForm
 
 def landing_page(request):
     return render(request, 'landing_page.html')
@@ -431,12 +432,41 @@ def edit_user_profile(request, username):
     if request.user != user:
         raise PermissionDenied
 
-    form = EditProfileForm(request.POST or None, request.FILES or None, instance=request.user)
-    if request.method == 'POST':
-        if form.is_valid():
-            form.save()
-            return redirect(reverse('user_profile', args=(request.user.username, )))
+    form = EditProfileForm(instance=request.user)
+    password_change_form = PasswordChangeForm(request.user)
 
+    if request.method == 'POST':
+        received_form = request.POST.get('form', None)
+        if received_form is not None and received_form in ['update_bio', 'change_password']:
+            if received_form == 'update_bio':
+                form = EditProfileForm(request.POST or None, request.FILES or None, instance=request.user)
+                if form.is_valid():
+                    form.save()
+            elif received_form == 'change_password':
+                password_change_form = PasswordChangeForm(request.user, request.POST or None)
+                if password_change_form.is_valid():
+                    password_change_form.save()
+                    update_session_auth_hash(request, request.user)
+
+
+    """form = EditProfileForm(request.POST or None, request.FILES or None, instance=request.user)
+    password_change_form = PasswordChangeForm(request.user, request.POST or None)
+
+    if request.method == 'POST':
+        received_form = request.POST.get('form', None)
+        print(received_form)
+        if received_form is not None and received_form in ['update_bio', 'change_password']:
+            if received_form == 'update_bio' and form.is_valid():
+                form.save()
+                print("UPDATE BIO")
+            if received_form == 'change_password' and password_change_form.is_valid():
+                password_change_form.save()
+                update_session_auth_hash(request, request.user)
+                print("CHANGE PASSWORD")
+
+        return redirect(reverse('user_profile', args=(request.user.username, )))"""
+    
     return render(request, 'user/user_profile_edit.html', {
-        'form': form
+        'form': form,
+        'password_change_form': password_change_form
     })
