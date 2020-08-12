@@ -11,17 +11,30 @@
         {% endif %}
     </div>
 
-    <div class="mt-3 pl-5 pr-5">
+    <div class="mt-3">
         <div class="user-username mt-2">
             {{ user.username }}
         </div>
 
-        <div class="user-bio text-muted mt-2">
+        <div class="user-bio text-muted lead mt-2">
             {{ user.bio }}
         </div>
 
+        <div class="mt-4 text-center d-flex justify-content-around flex-wrap text-center">
+            <a href="{% url 'user_profile' user.username %}?tab=collections" style="color: unset;">
+                <span class="material-icons-button material-icons-outlined">book</span>
+                <span class="font-weight-bold">{{ user.collection_set.count }}</span>
+                collections
+            </a>
+            <a href="{% url 'user_profile' user.username %}?tab=documents" style="color: unset;">
+                <span class="material-icons-button material-icons-outlined">note</span>
+                <span class="font-weight-bold">{{ user.document_set.count }}</span>
+                documents
+            </a>
+        </div>
+
         {% if is_own_page %}
-            <div class="edit-profile-button mt-3">
+            <div class="edit-profile-button mt-4">
                 <a href="" class="color-primary">Edit profile</a>
             </div>
         {% endif %}
