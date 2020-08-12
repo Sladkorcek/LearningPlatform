@@ -6,6 +6,19 @@
 
 {% block title %}{{ collection.owner.username }}/{{ collection.title }}{% endblock %}
 
+{% block metadata %}
+    <meta property="og:url" content="{{ request.build_absolute_uri }}" />
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content="{{ collection.title }}" />
+    <meta property="og:description" content="{{ collection.description }}" />
+    {% if collection.image %}
+        <meta property="og:image" content="{{ collection.image.url }}" />
+    {% else %}
+        <meta property="og:image" content="{% static 'editor/images/facebook_share_collection.png' %}" />
+    {% endif %}
+    
+{% endblock %}
+
 {% block head %}
     
 {% endblock %}
