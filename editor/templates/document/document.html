@@ -3,6 +3,7 @@
 {% load static %}
 {% load i18n %}
 {% load markdown %}
+{% load humanize %}
 
 {% block title %}{{ document.owner.username }}/{{ document.title }}{% endblock %}
 
@@ -92,9 +93,7 @@
                 </div>
                 <div class="text-secondary">
                     <small>
-                        {% blocktrans with date=document.created_at %}
-                            Created at: {{ date }}
-                        {% endblocktrans %}
+                        {% trans "Last updated" %} {{ document.updated_at | naturaltime }}
                     </small>
                 </div>
             </div>

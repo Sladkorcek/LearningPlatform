@@ -1,5 +1,6 @@
 {% load static %}
 {% load i18n %}
+{% load humanize %}
 
 <section id="collections" style="max-width: 540px;">
     {% for collection in collections %}
@@ -19,9 +20,7 @@
                         <h5 class="card-title">{{ collection.title }}</h5>
                         <p class="card-text">{{ collection.description }}</p>
                         <p class="card-text"><small class="text-muted">
-                            {% blocktrans with date=collection.updated_at %}
-                                Last updated: {{ date }}
-                            {% endblocktrans %}
+                            {% trans "Last updated" %} {{ collection.updated_at | naturaltime }}
                         </small></p>
                     </div>
                 </div>

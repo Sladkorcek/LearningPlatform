@@ -1,5 +1,6 @@
 {% load static %}
 {% load i18n %}
+{% load humanize %}
 
 <section id="collections" style="max-width: 540px;">
 
@@ -34,9 +35,7 @@
                         <h5 class="card-title">{{ collection.title }}</h5>
                         <p class="card-text">{{ collection.description }}</p>
                         <p class="card-text"><small class="text-muted">
-                            {% blocktrans with date=collection.updated_at %}
-                                Last updated: {{ date }}
-                            {% endblocktrans %}
+                            {% trans "Last updated" %} {{ collection.updated_at | naturaltime }}
                         </small></p>
                     </div>
                 </div>
@@ -71,7 +70,7 @@
             <a href="{% url 'render_document' document.id %}" class="list-group-item list-group-item-action">
                 <div class="d-flex justify-content-between">
                     <div><strong>{{ document.title }}</strong></div>
-                    <div class="text-muted font-weight-light">{{ document.updated_at }}</div>
+                    <div class="text-muted font-weight-light">{% trans "Last updated" %} {{ document.updated_at | naturaltime }}</div>
                 </div>
             </a>
         {% empty %}

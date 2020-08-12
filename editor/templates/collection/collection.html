@@ -3,6 +3,7 @@
 {% load static %}
 {% load i18n %}
 {% load markdown %}
+{% load humanize %}
 
 {% block title %}{{ collection.owner.username }}/{{ collection.title }}{% endblock %}
 
@@ -16,7 +17,6 @@
     {% else %}
         <meta property="og:image" content="{% static 'editor/images/facebook_share_collection.png' %}" />
     {% endif %}
-    
 {% endblock %}
 
 {% block head %}
@@ -71,9 +71,7 @@
                 </div>
                 <div class="text-secondary">
                     <small>
-                        {% blocktrans with date=collection.created_at %}
-                            Created at: {{ date }}
-                        {% endblocktrans %}
+                        {% trans "Last updated" %} {{ collection.updated_at | naturaltime }}
                     </small>
                 </div>
                 <p class="mt-3">{{ collection.description }}</p>
@@ -144,7 +142,7 @@
                 </div>
 
             </div>
-            <div class="text-secondary"><small>{{ document.created_at }}</small></div>
+            <div class="text-secondary"><small>{% trans "Last updated" %} {{ document.updated_at | naturaltime }}</small></div>
 
             <div class="markdown-excerpt-container mt-3">
                 <div class="markdown-excerpt">
