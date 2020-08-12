@@ -19,7 +19,6 @@ A list of bugs and features for [stvari.si](http://stvari.si) note-taking platfo
 
 ### User-friendliness
 - Explain what happens when adding document to collection (linking or cloning)
-- Add `Created` or `Updated` text in front of dates to avoid confusion
 
 ### Layout and pagination
 - `explore` page - add pagination to list of collections and documents

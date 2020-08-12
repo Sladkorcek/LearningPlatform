@@ -151,6 +151,8 @@
                 <a href="{% url 'render_document' document.id %}" class="stretched-link"></a>
             </div>
         </div>
+    {% empty %}
+        <p class="no-elements">{% trans "There are no documents in this collection yet." %}</p>
     {% endfor %}
 </div>
 {% endblock %}

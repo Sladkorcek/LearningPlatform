@@ -17,7 +17,11 @@
         </div>
 
         <div class="user-bio text-muted lead mt-2">
-            {{ user.bio }}
+            {% if user.bio %}
+                {{ user.bio }}
+            {% else %}
+                {% trans "An avid note taker" %}
+            {% endif %}
         </div>
 
         <div class="mt-4 text-center d-flex justify-content-around flex-wrap text-center">
