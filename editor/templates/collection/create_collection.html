@@ -116,6 +116,8 @@
                                       </div>
                                 </div>
                             </li>
+                        {% empty %}
+                            <div class="no-elements">{% trans "You don't have any documents yet." %}</div>
                         {% endfor %}
                     </ul>
                     {% if form.documents.errors %}
