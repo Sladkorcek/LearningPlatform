@@ -340,3 +340,15 @@ interactive {
 .edit-profile-button {
     text-align: center;
 }
+
+.header-profile-image {
+    width: 28px;
+    height: 28px;
+    border-radius: 14px;
+    object-fit: cover;
+    border: 1px solid #dee2e6;
+}
+
+.header-profile-image.no-image {
+    background-color: #ececec;
+}
