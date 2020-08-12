@@ -4,27 +4,27 @@
 <div class="user-data">
 
     <div class="user-image">
-        <div class="collection-image-container">
-            {% if user.image %}
-                <img src="{{ user.image.url }}" alt="">
-            {% else %}
-                <img src="{% static 'editor/images/default_user_image.svg' %}" alt="" class="no-image">
-            {% endif %}
+        {% if user.image %}
+            <img src="{{ user.image.url }}" class="user-profile-image" alt="{{ request.user.username }} {% trans 'profile image' %}">
+        {% else %}
+            <img src="{% static 'editor/images/default_user_image.svg' %}" class="user-profile-image no-image"  alt="{{ request.user.username }} {% trans 'profile image' %}">
+        {% endif %}
+    </div>
+
+    <div class="mt-3 pl-5 pr-5">
+        <div class="user-username mt-2">
+            {{ user.username }}
         </div>
-    </div>
 
-    <div class="user-username mt-2">
-        {{ user.username }}
-    </div>
-
-    <div class="user-bio text-muted mt-2">
-        {{ user.bio }}
-    </div>
-
-    {% if is_own_page %}
-        <div class="edit-profile-button mt-3">
-            <a href="" class="color-primary">Edit profile</a>
+        <div class="user-bio text-muted mt-2">
+            {{ user.bio }}
         </div>
-    {% endif %}
+
+        {% if is_own_page %}
+            <div class="edit-profile-button mt-3">
+                <a href="" class="color-primary">Edit profile</a>
+            </div>
+        {% endif %}
+    </div>
 
 </div>

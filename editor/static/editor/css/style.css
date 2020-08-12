@@ -313,20 +313,6 @@ interactive {
     border-color: #6f2da8;
 }
 
-.user-data {
-    padding: 0 3em 1em 3em;
-}
-
-.user-image {
-    margin: 0 auto;
-}
-
-.user-image img {
-    width: 100%;
-    border: 1px solid #dee2e6;
-    border-radius: 4px;
-}
-
 .user-username {
     font-size: 1.6em;
     font-weight: 500;
@@ -349,6 +335,32 @@ interactive {
     border: 1px solid #dee2e6;
 }
 
-.header-profile-image.no-image {
+.header-profile-image.no-image,
+.user-profile-image.no-image {
     background-color: #ececec;
+}
+
+.header-profile-image,
+.user-profile-image {
+    object-fit: cover;
+    border: 1px solid #dee2e6;
+}
+
+.header-profile-image {
+    width: 28px;
+    height: 28px;
+    border-radius: 14px;
+}
+
+.user-profile-image {
+    border-radius: 50%;
+    height: 160px;
+    width: 160px;
+    text-align: center;
+    display: block;
+    margin: 0 auto;
+}
+
+.user-information {
+    padding: 0 3em 1em 3em;
 }

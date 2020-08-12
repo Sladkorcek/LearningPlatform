@@ -11,21 +11,6 @@
 {% block content %}
 <div class="container mt-5" style="padding-bottom: 10rem;">
 
-    <div class="row mb-5 no-gutters">
-        <div class="col-sm-4 d-none d-sm-block">
-            <ul class="nav nav-tabs">
-                <li class="nav-item" style="visibility: hidden;"><a class="nav-link">User</a></li>
-            </ul>
-        </div>
-        <div class="col-sm-8">
-            <ul class="nav nav-tabs">
-                <li class="nav-item"><a class="nav-link color-primary {% if tab == 'overview' %} active{% endif %}" href="?tab=overview">Overview</a></li>
-                <li class="nav-item"><a class="nav-link color-primary {% if tab == 'collections' %} active{% endif %}" href="?tab=collections">Collections</a></li>
-                <li class="nav-item"><a class="nav-link color-primary {% if tab == 'documents' %} active{% endif %}" href="?tab=documents">Documents</a></li>
-            </ul>
-        </div>
-    </div>
-
     <div class="row">
 
         <div class="col-sm-4 order-1 mt-5 mt-sm-0">
@@ -34,13 +19,21 @@
 
         <div class="col-sm-8 order-sm-2 order-first">
 
-            {% if tab == 'overview' %}
-                {% include "user/overview.html" %}
-            {% elif tab == 'collections' %}
-                {% include "user/collections.html" %}
-            {% else %}
-                {% include "user/documents.html" %}
-            {% endif %}
+            <ul class="nav nav-tabs mb-5 pl-2">
+                <li class="nav-item"><a class="nav-link color-primary {% if tab == 'overview' %} active{% endif %}" href="?tab=overview">Overview</a></li>
+                <li class="nav-item"><a class="nav-link color-primary {% if tab == 'collections' %} active{% endif %}" href="?tab=collections">Collections</a></li>
+                <li class="nav-item"><a class="nav-link color-primary {% if tab == 'documents' %} active{% endif %}" href="?tab=documents">Documents</a></li>
+            </ul>
+
+            <div class="pl-2">
+                {% if tab == 'overview' %}
+                    {% include "user/overview.html" %}
+                {% elif tab == 'collections' %}
+                    {% include "user/collections.html" %}
+                {% else %}
+                    {% include "user/documents.html" %}
+                {% endif %}
+            </div>            
 
         </div>
     </div>

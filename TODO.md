@@ -3,7 +3,6 @@
 A list of bugs and features for [stvari.si](http://stvari.si) note-taking platform.
 
 ### Bugs
-- Fix bug where empty collection can be added
 - Collection images all have different widths
 - Make documentation more fun to read
 - Fix weird behaviour on mobile devices, where space button doubles the text instead of inserting space
@@ -17,14 +16,13 @@ A list of bugs and features for [stvari.si](http://stvari.si) note-taking platfo
 
 ### Collections
 - Change the hierarchy at the `display_collection` endpoint
-- Add uploaded image preview to `create_collection` and `edit_collection` endpoints
 
 ### User-friendliness
 - Explain what happens when adding document to collection (linking or cloning)
 - Add `Created` or `Updated` text in front of dates to avoid confusion
 
 ### Layout and pagination
-- `user_profile`, `explore`, `documents` - add pagination to list of collections and documents (or add tabs)
+- `explore` page - add pagination to list of collections and documents
 
 ### Landing page
 - Draw stock shapes and use them for the landing page call-to-action background
