@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% load i18n %}
+
+{% block head %}
+    <script>
+        window.addEventListener('load', function() {
+        document.getElementById("file-input").addEventListener('change', function(event) {
+            var fileName = event.target.files[0].name;
+            event.target.parentElement.querySelector(".custom-file-label").innerText = fileName;
+        });
+
+    });
+    </script>
+{% endblock %}
+
+{% block title %}{% trans 'Edit your profile' %}{% endblock %}
+
+{% block content %}
+<div class="container mt-5" style="padding-bottom: 10rem;">
+
+    <div class="row">
+
+        <div class="col-sm-4">
+            {% include "user/user_information.html" %}
+        </div>
+
+        <div class="col-sm-8 mt-5 mt-sm-0">
+            
+            <h2>{% trans "Edit your profile" %}</h2>
+            <p>{% trans "Make your profile more interesting! Change your profile picture, tell us a little more about yourself." %}</p>
+
+            <h3 class="mt-5">{% trans "General settings" %}</h3>
+
+            <form action="" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+
+                <div class="form-group">
+                    <label for="bio">{% trans 'Bio' %}</label>
+                    <textarea name="{{ form.bio.html_name }}" class="form-control" id="bio" rows="3">{{ form.bio.value | default_if_none:'' }}</textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="image">{% trans 'Profile picture' %}</label>
+                    <div class="custom-file" id="image">
+                        <input type="file" name="{{ form.image.html_name }}" class="custom-file-input" id="file-input">
+                        <label class="custom-file-label" for="file-input">{% trans 'Choose image' %}</label>
+                        {% if form.image.value %}
+                            <small id="imageHelp" class="form-text text-muted">
+                                {% trans 'Currently:' %} <a href="{{ form.image.value.url }}">{{ form.image.value }}</a>
+                                <label class="ml-2">
+                                    <input type="checkbox" name="image-clear" id="image-clear_id">
+                                    {% trans "Remove" %}
+                                </label>
+                            </small>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <button type="submit" class="btn button-secondary">{% trans 'Update profile' %}</button>
+
+            </form>
+
+            <h3 class="mt-5">{% trans "Account security" %}</h3>
+            <p>Change your password or email account here.</p>
+
+        </div>
+    </div>
+
+</div>
+{% endblock %}

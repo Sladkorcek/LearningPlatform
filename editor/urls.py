@@ -10,6 +10,7 @@ urlpatterns = [
 
     # Endpoints for users
     path('user/<str:username>/', views.user_profile, name='user_profile'),
+    path('user/<str:username>/edit', views.edit_user_profile, name='edit_user_profile'),
     
     # Endpoints for accessing and editing collections
     path('collection/<int:collection_id>/', views.display_collection, name='display_collection'),

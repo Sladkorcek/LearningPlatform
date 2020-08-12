@@ -419,3 +419,24 @@ def stars(request):
         context['documents'] = documents.page(page)
 
     return render(request, 'user/stars.html', context)
+
+class EditProfileForm(forms.ModelForm):
+    class Meta:
+        model = UserProfile
+        fields = ['bio', 'image']
+
+@login_required
+def edit_user_profile(request, username):
+    user = get_object_or_404(UserProfile, username=username)
+    if request.user != user:
+        raise PermissionDenied
+
+    form = EditProfileForm(request.POST or None, request.FILES or None, instance=request.user)
+    if request.method == 'POST':
+        if form.is_valid():
+            form.save()
+            return redirect(reverse('user_profile', args=(request.user.username, )))
+
+    return render(request, 'user/user_profile_edit.html', {
+        'form': form
+    })
