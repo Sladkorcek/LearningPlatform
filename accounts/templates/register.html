@@ -2,11 +2,13 @@
 
 {% load i18n %}
 
+{% block title %}{% trans "Create account" %}{% endblock %}
+
 {% block content %}
 
 <div class="container mt-5" style="max-width: 600px;">
 
-    <h2 class="mb-5">{% trans "Sign-up" %}</h2>
+    <h2 class="mb-5">{% trans "Create account" %}</h2>
 
     {% if next %}
         {% if user.is_authenticated %}
