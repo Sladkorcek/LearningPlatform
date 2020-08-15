@@ -28,7 +28,7 @@
                             </div>
                             
                             <div>
-                                <a href="{% url 'display_collection' collection.id %}" class="color-primary">
+                                <a href="{% url 'display_collection' collection.uuid %}" class="color-primary">
                                     {{ collection.owner.username }} / <strong>{{ collection.title }}</strong>
                                 </a>
                                 <div><small class="text-muted">{{ collection.description }}</small></div>
@@ -36,13 +36,13 @@
                             <div class="ml-sm-auto mt-2">
 
                                 {% if has_starred %}
-                                    <a class="btn btn-sm btn-light" href="{% url 'unstar_collection' collection.id %}?next={% url 'explore' %}">
+                                    <a class="btn btn-sm btn-light" href="{% url 'unstar_collection' collection.uuid %}?next={% url 'explore' %}">
                                         <span class="material-icons-button material-icons">star</span> {% trans "Unstar" %}
                                         <span class="badge badge-light ml-2">{{ collection.number_of_stars }}</span>
                                         <span class="sr-only">stars</span>
                                     </a>
                                 {% else %}
-                                    <a class="btn btn-sm btn-light" href="{% url 'star_collection' collection.id %}?next={% url 'explore' %}">
+                                    <a class="btn btn-sm btn-light" href="{% url 'star_collection' collection.uuid %}?next={% url 'explore' %}">
                                         <span class="material-icons-button material-icons">star_border</span> {% trans "Star" %}
                                         <span class="badge badge-light ml-2">{{ collection.number_of_stars }}</span>
                                         <span class="sr-only">stars</span>
@@ -62,20 +62,20 @@
                     <div class="list-group-item list-group-item-action">
                         <div class="d-flex flex-wrap justify-content-left align-items-center">
                             <div>
-                                <a href="{% url 'render_document' document.id %}" class="color-primary">
+                                <a href="{% url 'render_document' document.uuid %}" class="color-primary">
                                     {{ document.owner.username }} / <strong>{{ document.title }}</strong>
                                 </a>
                                 <div><small class="text-muted">{{ document.description }}</small></div>
                             </div>
                             <div class="ml-auto">
                                 {% if has_starred %}
-                                    <a class="btn btn-sm btn-light" href="{% url 'unstar_document' document.id %}?next={% url 'explore' %}">
+                                    <a class="btn btn-sm btn-light" href="{% url 'unstar_document' document.uuid %}?next={% url 'explore' %}">
                                         <span class="material-icons-button material-icons">star</span> {% trans "Unstar" %}
                                         <span class="badge badge-light ml-2">{{ document.number_of_stars }}</span>
                                         <span class="sr-only">stars</span>
                                     </a>
                                 {% else %}
-                                    <a class="btn btn-sm btn-light" href="{% url 'star_document' document.id %}?next={% url 'explore' %}">
+                                    <a class="btn btn-sm btn-light" href="{% url 'star_document' document.uuid %}?next={% url 'explore' %}">
                                         <span class="material-icons-button material-icons">star_border</span> {% trans "Star" %}
                                         <span class="badge badge-light ml-2">{{ document.number_of_stars }}</span>
                                         <span class="sr-only">stars</span>

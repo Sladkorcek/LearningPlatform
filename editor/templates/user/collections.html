@@ -25,7 +25,7 @@
                     </div>
                 </div>
             </div>
-            <a href="{% url 'display_collection' collection.id %}" class="stretched-link"></a>
+            <a href="{% url 'display_collection' collection.uuid %}" class="stretched-link"></a>
         </div>
     {% empty %}
         {% if is_own_page %}

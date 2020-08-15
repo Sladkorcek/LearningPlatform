@@ -19,7 +19,7 @@
     
 <div class="container mt-5">
 
-    <form method="POST" action="{% url 'edit_document' document.id %}" id="document-form">
+    <form method="POST" action="{% url 'edit_document' document.uuid %}" id="document-form">
         {% csrf_token %}
 
         <div class="form-group">

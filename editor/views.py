@@ -69,7 +69,7 @@ def user_profile(request, username):
 
 def render_document(request, document_id):
     # First, get document by its id or display an error
-    document = get_object_or_404(Document, pk=document_id)
+    document = get_object_or_404(Document, uuid=document_id)
 
     # Then check if user has permissions to access this document
     if not document.can_view(request.user):
@@ -96,7 +96,7 @@ def render_document(request, document_id):
             collection_id = request.GET.get('collection', None)
             if collection_id is not None:
                 try:
-                    collection = Collection.objects.get(pk=int(collection_id))
+                    collection = Collection.objects.get(uuid=collection_id)
                     if collection.can_edit(request.user):
                         if action == 'add':
                             if document not in list(collection.documents.all()):
@@ -136,12 +136,12 @@ def create_document(request):
     document.save()
     # After the document has been saved, its id can be read and used to
     # construct the edit url
-    return redirect(reverse('edit_document', args=(document.id, )))
+    return redirect(reverse('edit_document', args=(document.uuid, )))
 
 @login_required
 def edit_document(request, document_id):
     # First, get document by its id or display an error
-    document = get_object_or_404(Document, pk=document_id)
+    document = get_object_or_404(Document, uuid=document_id)
 
     # Then check if user has permissions to edit this document
     if not document.can_edit(request.user):
@@ -162,7 +162,7 @@ def edit_document(request, document_id):
         
         document.save()
         
-        return redirect(reverse('render_document', args=(document.id, )))
+        return redirect(reverse('render_document', args=(document.uuid, )))
 
     return render(request, 'document/edit_document.html', {
         'document': document,
@@ -170,7 +170,7 @@ def edit_document(request, document_id):
 
 @login_required
 def delete_document(request, document_id):
-    document = get_object_or_404(Document, pk=document_id)
+    document = get_object_or_404(Document, uuid=document_id)
 
     if not document.can_edit(request.user):
         raise PermissionDenied
@@ -182,7 +182,7 @@ def delete_document(request, document_id):
 
 @login_required
 def clone_document(request, document_id):
-    document = get_object_or_404(Document, pk=document_id)
+    document = get_object_or_404(Document, uuid=document_id)
 
     if not document.can_view(request.user):
         raise PermissionDenied
@@ -192,10 +192,10 @@ def clone_document(request, document_id):
     document_copy.save()
 
     # Redirect user to document editor
-    return redirect(reverse('edit_document', args=(document_copy.id, )))
+    return redirect(reverse('edit_document', args=(document_copy.uuid, )))
 
 def raw_document(request, document_id):
-    document = get_object_or_404(Document, pk=document_id)
+    document = get_object_or_404(Document, uuid=document_id)
 
     if not document.can_view(request.user):
         raise PermissionDenied
@@ -203,7 +203,7 @@ def raw_document(request, document_id):
     return HttpResponse(document.content)
 
 def display_collection(request, collection_id):
-    collection = get_object_or_404(Collection, pk=collection_id)
+    collection = get_object_or_404(Collection, uuid=collection_id)
 
     if not collection.can_view(request.user):
         raise PermissionDenied
@@ -224,14 +224,14 @@ def display_collection(request, collection_id):
                 try:
                     document_id = request.GET.get('document', None)
                     if document_id is not None:
-                        document = Document.objects.get(pk=int(document_id))
+                        document = Document.objects.get(uuid=document_id)
                         if document.can_view(request.user):
                             collection.documents.remove(document)
                             collection.save()
                 except Exception:
                     pass
         
-        return redirect(reverse('display_collection', args=(collection.id, )))
+        return redirect(reverse('display_collection', args=(collection.uuid, )))
 
 
     return render(request, 'collection/collection.html', {
@@ -242,7 +242,7 @@ def display_collection(request, collection_id):
 
 @login_required
 def clone_collection(request, collection_id):
-    collection = get_object_or_404(Collection, pk=collection_id)
+    collection = get_object_or_404(Collection, uuid=collection_id)
 
     if not collection.can_view(request.user):
         raise PermissionDenied
@@ -252,11 +252,11 @@ def clone_collection(request, collection_id):
     collection_copy.save()
 
     # Redirect user to document editor
-    return redirect(reverse('edit_collection', args=(collection_copy.id, )))
+    return redirect(reverse('edit_collection', args=(collection_copy.uuid, )))
 
 @login_required
 def delete_collection(request, collection_id):
-    collection = get_object_or_404(Collection, pk=collection_id)
+    collection = get_object_or_404(Collection, uuid=collection_id)
 
     if not collection.can_edit(request.user):
         raise PermissionDenied
@@ -280,7 +280,7 @@ def create_collection(request):
             new_collection.owner = request.user
             new_collection.save()
             form.save_m2m()
-            return redirect(reverse('display_collection', args=(new_collection.id, )))
+            return redirect(reverse('display_collection', args=(new_collection.uuid, )))
     
     # If the request method is not POST return an empty form
     return render(request, 'collection/create_collection.html', {
@@ -290,7 +290,7 @@ def create_collection(request):
 
 @login_required
 def edit_collection(request, collection_id):
-    collection = get_object_or_404(Collection, pk=collection_id)
+    collection = get_object_or_404(Collection, uuid=collection_id)
 
     if not collection.can_edit(request.user):
         raise PermissionDenied
@@ -299,7 +299,7 @@ def edit_collection(request, collection_id):
     if request.method == 'POST':
         if form.is_valid():
             form.save()
-            return redirect(reverse('display_collection', args=(collection.id, )))
+            return redirect(reverse('display_collection', args=(collection.uuid, )))
     
     all_documents = set(collection.documents.all())
     all_documents = all_documents.union(Document.objects.filter(owner=request.user).all())
@@ -312,7 +312,7 @@ def edit_collection(request, collection_id):
 
 @login_required
 def star_collection(request, collection_id):
-    collection = get_object_or_404(Collection, pk=collection_id)
+    collection = get_object_or_404(Collection, uuid=collection_id)
 
     if not collection.can_view(request.user):
         raise PermissionDenied
@@ -325,11 +325,11 @@ def star_collection(request, collection_id):
     if next_page is not None:
         return redirect(next_page)
 
-    return redirect(reverse('display_collection', args=(collection.id, )))
+    return redirect(reverse('display_collection', args=(collection.uuid, )))
 
 @login_required
 def unstar_collection(request, collection_id):
-    collection = get_object_or_404(Collection, pk=collection_id)
+    collection = get_object_or_404(Collection, uuid=collection_id)
 
     if not collection.can_view(request.user):
         raise PermissionDenied
@@ -344,12 +344,12 @@ def unstar_collection(request, collection_id):
     if next_page is not None:
         return redirect(next_page)
 
-    return redirect(reverse('display_collection', args=(collection.id, )))
+    return redirect(reverse('display_collection', args=(collection.uuid, )))
 
 
 @login_required
 def star_document(request, document_id):
-    document = get_object_or_404(Document, pk=document_id)
+    document = get_object_or_404(Document, uuid=document_id)
 
     if not document.can_view(request.user):
         raise PermissionDenied
@@ -362,11 +362,11 @@ def star_document(request, document_id):
     if next_page is not None:
         return redirect(next_page)
 
-    return redirect(reverse('render_document', args=(document_id, )))
+    return redirect(reverse('render_document', args=(document.uuid, )))
 
 @login_required
 def unstar_document(request, document_id):
-    document = get_object_or_404(Document, pk=document_id)
+    document = get_object_or_404(Document, uuid=document_id)
 
     if not document.can_view(request.user):
         raise PermissionDenied
@@ -381,7 +381,7 @@ def unstar_document(request, document_id):
     if next_page is not None:
         return redirect(next_page)
 
-    return redirect(reverse('render_document', args=(document_id, )))
+    return redirect(reverse('render_document', args=(document.uuid, )))
 
 def explore(request):
 

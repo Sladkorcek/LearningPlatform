@@ -4,6 +4,7 @@ from django.conf import settings
 from django.utils import timezone
 from django.utils.translation import gettext as _
 
+import uuid
 
 class UserProfile(AbstractUser):
     bio = models.TextField(max_length=500, blank=True)
@@ -69,6 +70,9 @@ class VisibilityMixin(models.Model):
         return False
 
 class Document(TimeStampMixin, VisibilityMixin):
+    # To prevent url "id-crawling", a uuid field is added as a secondary key
+    uuid = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
+
     # Each document has a title and a content. Document title must not be empty.
     # The content is the markdown that the user has saved into this document.
     title = models.CharField(max_length=200)
@@ -114,6 +118,9 @@ class Document(TimeStampMixin, VisibilityMixin):
         )
 
 class Collection(TimeStampMixin, VisibilityMixin):
+    # To prevent url "id-crawling", a uuid field is added as a secondary key
+    uuid = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
+
     # Each collection has a title, short description and and image. Only the
     # title is necessary. If no image is provided, a gray image is displayed
     # instead.

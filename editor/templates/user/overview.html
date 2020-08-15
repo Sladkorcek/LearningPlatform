@@ -40,7 +40,7 @@
                     </div>
                 </div>
             </div>
-            <a href="{% url 'display_collection' collection.id %}" class="stretched-link"></a>
+            <a href="{% url 'display_collection' collection.uuid %}" class="stretched-link"></a>
         </div>
     {% empty %}
         {% if is_own_page %}
@@ -67,7 +67,7 @@
 
     <ul class="list-group">
         {% for document in documents %}
-            <a href="{% url 'render_document' document.id %}" class="list-group-item list-group-item-action">
+            <a href="{% url 'render_document' document.uuid %}" class="list-group-item list-group-item-action">
                 <div class="d-flex justify-content-between">
                     <div><strong>{{ document.title }}</strong></div>
                     <div class="text-muted font-weight-light">{% trans "Last updated" %} {{ document.updated_at | naturaltime }}</div>

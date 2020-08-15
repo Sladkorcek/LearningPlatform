@@ -8,7 +8,7 @@
 {% block title %}{{ collection.owner.username }}/{{ collection.title }}{% endblock %}
 
 {% block metadata %}
-    <meta property="og:url" content="{{ request.scheme }}://{{ request.get_host }}{% url 'display_collection' collection.id %}" />
+    <meta property="og:url" content="{{ request.scheme }}://{{ request.get_host }}{% url 'display_collection' collection.uuid %}" />
     <meta property="og:type" content="article" />
     <meta property="og:title" content="{{ collection.title }}" />
     <meta property="og:description" content="{{ collection.description }}" />
@@ -38,7 +38,7 @@
                 </div>
                 <div class="lead font-weight-normal">
                     <a href="{% url 'user_profile' collection.owner.username %}" class="color-primary">{{ collection.owner.username }}</a> / 
-                    <a href="{% url 'display_collection' collection.id %}" class="font-weight-bold color-primary">{{ collection.title }}</a>
+                    <a href="{% url 'display_collection' collection.uuid %}" class="font-weight-bold color-primary">{{ collection.title }}</a>
 
                     {% if user_can_edit %}
                         <div class="btn-group ml-2" role="group">
@@ -47,15 +47,15 @@
                                 {{ collection.visibility_name }}
                             </button>
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="button-change-visibility">
-                                <a class="dropdown-item" href="{% url 'display_collection' collection.id %}?action=visibility&visibility=pr">
+                                <a class="dropdown-item" href="{% url 'display_collection' collection.uuid %}?action=visibility&visibility=pr">
                                     <span class="material-icons-button material-icons">lock</span>
                                     {% trans "PRIVATE" %} - {% trans "Only you can view" %}
                                 </a>
-                                <a class="dropdown-item" href="{% url 'display_collection' collection.id %}?action=visibility&visibility=li">
+                                <a class="dropdown-item" href="{% url 'display_collection' collection.uuid %}?action=visibility&visibility=li">
                                     <span class="material-icons-button material-icons">link</span>
                                     {% trans "LINK" %} - {% trans "Anybody with link can view" %}
                                 </a>
-                                <a class="dropdown-item" href="{% url 'display_collection' collection.id %}?action=visibility&visibility=pu">
+                                <a class="dropdown-item" href="{% url 'display_collection' collection.uuid %}?action=visibility&visibility=pu">
                                     <span class="material-icons-button material-icons">public</span>
                                     {% trans "PUBLIC" %} - {% trans "Everybody can view" %}
                                 </a>
@@ -79,14 +79,14 @@
             <div class="col-md-5 text-md-right mt-1">
                 <div>
                     {% if user_can_edit %}
-                        <a class="btn btn-sm btn-light" href="{% url 'edit_collection' collection.id %}">
+                        <a class="btn btn-sm btn-light" href="{% url 'edit_collection' collection.uuid %}">
                             <span class="material-icons-button material-icons">create</span> {% trans "Edit" %}
                         </a>
-                        <a class="btn btn-sm btn-light" href="{% url 'delete_collection' collection.id %}">
+                        <a class="btn btn-sm btn-light" href="{% url 'delete_collection' collection.uuid %}">
                             <span class="material-icons-button material-icons">delete</span> {% trans "Delete" %}
                         </a>
                     {% endif %}
-                    <a class="btn btn-sm btn-light" href="{% url 'clone_collection' collection.id %}">
+                    <a class="btn btn-sm btn-light" href="{% url 'clone_collection' collection.uuid %}">
                         <span class="material-icons-button material-icons">file_copy</span> {% trans "Clone" %}
                     </a>
                 </div>
@@ -94,14 +94,14 @@
                 <div class="text-md-right mt-1">
 
                     {% if has_starred %}
-                        <a class="btn btn-sm btn-light" href="{% url 'unstar_collection' collection.id %}">
+                        <a class="btn btn-sm btn-light" href="{% url 'unstar_collection' collection.uuid %}">
                             <span class="material-icons-button material-icons">star</span> {% trans "Unstar" %}
 
                             <span class="badge badge-light ml-2">{{ collection.number_of_stars }}</span>
                             <span class="sr-only">stars</span>
                         </a>
                     {% else %}
-                        <a class="btn btn-sm btn-light" href="{% url 'star_collection' collection.id %}">
+                        <a class="btn btn-sm btn-light" href="{% url 'star_collection' collection.uuid %}">
                             <span class="material-icons-button material-icons">star_border</span> {% trans "Star" %}
 
                             <span class="badge badge-light ml-2">{{ collection.number_of_stars }}</span>
@@ -121,19 +121,19 @@
         <div class="mb-5">
             <div class="lead font-weight-normal">
                 <a href="{% url 'user_profile' document.owner.id %}" class="color-primary">{{ document.owner.username }}</a> /
-                <a href="{% url 'render_document' document.id %}" class="font-weight-bold color-primary">{{ document.title }}</a>
+                <a href="{% url 'render_document' document.uuid %}" class="font-weight-bold color-primary">{{ document.title }}</a>
 
                 <div class="float-right">
                     <div class="btn-group ml-2" role="group">
-                        <button id="button-document-{{ document.id }}-actions" type="button" class="btn btn-sm btn-light dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <button id="button-document-{{ document.uuid }}-actions" type="button" class="btn btn-sm btn-light dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             {% trans "Quick actions" %}
                         </button>
-                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="button-document-{{ document.id }}-actions">
-                            <a class="dropdown-item" href="{% url 'edit_document' document.id %}">
+                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="button-document-{{ document.uuid }}-actions">
+                            <a class="dropdown-item" href="{% url 'edit_document' document.uuid %}">
                                 <span class="material-icons-button material-icons">edit</span>
                                 {% trans "Edit document" %}
                             </a>
-                            <a class="dropdown-item" href="{% url 'display_collection' collection.id %}?action=remove_document&document={{ document.id }}">
+                            <a class="dropdown-item" href="{% url 'display_collection' collection.uuid %}?action=remove_document&document={{ document.uuid }}">
                                 <span class="material-icons-button material-icons">remove</span>
                                 {% trans "Remove from this collection" %}
                             </a>
@@ -148,7 +148,7 @@
                 <div class="markdown-excerpt">
                     {% autoescape off %}{{ document.content | markdown_excerpt }}{% endautoescape %}
                 </div>
-                <a href="{% url 'render_document' document.id %}" class="stretched-link"></a>
+                <a href="{% url 'render_document' document.uuid %}" class="stretched-link"></a>
             </div>
         </div>
     {% empty %}

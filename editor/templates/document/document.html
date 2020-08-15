@@ -60,7 +60,7 @@
             <div class="col-md-6">
                 <div class="lead font-weight-normal">
                     <a href="{% url 'user_profile' document.owner.username %}" class="color-primary">{{ document.owner.username }}</a> / 
-                    <a href="{% url 'render_document' document.id %}" class="font-weight-bold color-primary">{{ document.title }}</a>
+                    <a href="{% url 'render_document' document.uuid %}" class="font-weight-bold color-primary">{{ document.title }}</a>
 
                     {% if user_can_edit %}
                         <div class="btn-group ml-2" role="group">
@@ -69,15 +69,15 @@
                                 {{ document.visibility_name }}
                             </button>
                             <div class="dropdown-menu" aria-labelledby="button-change-visibility">
-                                <a class="dropdown-item" href="{% url 'render_document' document.id %}?action=visibility&visibility=pr">
+                                <a class="dropdown-item" href="{% url 'render_document' document.uuid %}?action=visibility&visibility=pr">
                                     <span class="material-icons-button material-icons">lock</span>
                                     {% trans "PRIVATE" %} - {% trans "Only you can view" %}
                                 </a>
-                                <a class="dropdown-item" href="{% url 'render_document' document.id %}?action=visibility&visibility=li">
+                                <a class="dropdown-item" href="{% url 'render_document' document.uuid %}?action=visibility&visibility=li">
                                     <span class="material-icons-button material-icons">link</span>
                                     {% trans "LINK" %} - {% trans "Anybody with link can view" %}
                                 </a>
-                                <a class="dropdown-item" href="{% url 'render_document' document.id %}?action=visibility&visibility=pu">
+                                <a class="dropdown-item" href="{% url 'render_document' document.uuid %}?action=visibility&visibility=pu">
                                     <span class="material-icons-button material-icons">public</span>
                                     {% trans "PUBLIC" %} - {% trans "Everybody can view" %}
                                 </a>
@@ -101,31 +101,31 @@
                 <div>
                     <div class="text-md-right">
                         {% if user_can_edit %}
-                            <a class="btn btn-sm btn-light" href="{% url 'edit_document' document.id %}">
+                            <a class="btn btn-sm btn-light" href="{% url 'edit_document' document.uuid %}">
                                 <span class="material-icons-button material-icons">create</span> {% trans "Edit" %}
                             </a>
-                            <a class="btn btn-sm btn-light" href="{% url 'delete_document' document.id %}">
+                            <a class="btn btn-sm btn-light" href="{% url 'delete_document' document.uuid %}">
                                 <span class="material-icons-button material-icons">delete</span> {% trans "Delete" %}
                             </a>
                         {% endif %}
-                        <a class="btn btn-sm btn-light" href="{% url 'clone_document' document.id %}">
+                        <a class="btn btn-sm btn-light" href="{% url 'clone_document' document.uuid %}">
                             <span class="material-icons-button material-icons">file_copy</span> {% trans "Clone" %}
                         </a>
-                        <a class="btn btn-sm btn-light" href="{% url 'raw_document' document.id %}" target="_blank">
+                        <a class="btn btn-sm btn-light" href="{% url 'raw_document' document.uuid %}" target="_blank">
                             <span class="material-icons-button material-icons">notes</span> {% trans "Raw" %}
                         </a>
                     </div>
                     <div class="text-md-right mt-1">
 
                         {% if has_starred %}
-                            <a class="btn btn-sm btn-light" href="{% url 'unstar_document' document.id %}">
+                            <a class="btn btn-sm btn-light" href="{% url 'unstar_document' document.uuid %}">
                                 <span class="material-icons-button material-icons">star</span> {% trans "Unstar" %}
 
                                 <span class="badge badge-light ml-2">{{ document.number_of_stars }}</span>
                                 <span class="sr-only">stars</span>
                             </a>
                         {% else %}
-                            <a class="btn btn-sm btn-light" href="{% url 'star_document' document.id %}">
+                            <a class="btn btn-sm btn-light" href="{% url 'star_document' document.uuid %}">
                                 <span class="material-icons-button material-icons">star_border</span> {% trans "Star" %}
 
                                 <span class="badge badge-light ml-2">{{ document.number_of_stars }}</span>
@@ -142,12 +142,12 @@
                                 <div class="dropdown-menu" aria-labelledby="button-add-to-collection">
                                     {% for collection, is_in_collection in collections %}
                                         {% if is_in_collection %}
-                                            <a class="dropdown-item" href="{% url 'render_document' document.id %}?action=remove&collection={{ collection.id }}">
+                                            <a class="dropdown-item" href="{% url 'render_document' document.uuid %}?action=remove&collection={{ collection.uuid }}">
                                                 <span class="material-icons-button material-icons">check</span>
                                                 {{ collection.title }}
                                             </a>
                                         {% else %}
-                                            <a class="dropdown-item" href="{% url 'render_document' document.id %}?action=add&collection={{ collection.id }}">
+                                            <a class="dropdown-item" href="{% url 'render_document' document.uuid %}?action=add&collection={{ collection.uuid }}">
                                                 <span class="material-icons-button material-icons" style="visibility: hidden;">clear</span>
                                                 {{ collection.title }}
                                             </a>
