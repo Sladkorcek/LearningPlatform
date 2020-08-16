@@ -12,13 +12,10 @@
     <link rel="stylesheet" href="{% static 'editor/css/github-markdown.css' %}">
     
     <!-- Additional style for interactive elements -->
-    <link rel="stylesheet" href="{% static 'editor/css/interactive.css' %}">
+    <link rel="stylesheet" href="{% static 'editor/css/smirk.css' %}">
 
     <!-- The main interactive script -->
-    <script src="{% static 'editor/js/interactive.js' %}"></script>
-
-    <!-- Standard library of interactive elements such as buttons, graphs, ... -->
-    <script src="{% static 'editor/js/interactive_elements.js' %}"></script>
+    <script src="{% static 'editor/js/smirk.js' %}"></script>
 
     <script>
         const ALERTS_AUTOCLOSE_DELAY = 5000;
@@ -58,11 +55,6 @@
             document.getElementById("button-copy-url").addEventListener('click', copyButtonClicked);
         });
     </script>
-
-    <!-- D3 library for working with data -->
-    <script src="https://unpkg.com/d3@3/d3.min.js"></script>
-    <!-- Library for plotting functions -->
-    <script src="https://unpkg.com/function-plot@1/dist/function-plot.js"></script>
 
     <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
