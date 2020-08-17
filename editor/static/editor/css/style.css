@@ -133,6 +133,9 @@ a.color-primary:hover { color: #e69500; }
 .color-secondary { color: #6f2da8; }
 a.color-secondary:hover { color: #622299; }
 
+.background-primary { background-color: #ffa500; }
+.background-secondary { background-color: #6f2da8; }
+
 /* Header styling */
 .border-top { border-top: 1px solid #e5e5e5; }
 .border-bottom { border-bottom: 1px solid #e5e5e5; }

@@ -49,7 +49,24 @@
                 </button>
             </div>
             <div class="modal-body">
-                <p>{% trans "To upload image, click the 'Upload image' button below and chose an image on your device to be uploaded." %}</p>
+
+                <div id="file-upload-help-text">
+                    <p>{% trans "To upload image, click the 'Upload image' button below and chose an image on your device to be uploaded." %}</p>
+                </div>
+
+                <div id="file-upload-progress" style="display: none;">
+                    <h4>{% trans "Uploading file..." %}</h4>
+                    <p>{% trans "Please wait while the file is being sent to the server." %}</p>
+                    <div class="progress">
+                        <div class="progress-bar background-secondary" id="file-upload-progressbar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                </div>
+
+                <div id="file-upload-success" style="display: none;">
+                    <h4>{% trans "Upload successfull" %}</h4>
+                    <p>{% trans "The file has been successfully uploaded to the server and inserted into your document." %}</p>
+                </div>
+
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-light" data-dismiss="modal">Close</button>
