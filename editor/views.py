@@ -1,8 +1,9 @@
-from django.shortcuts import render, get_object_or_404, redirect, reverse, HttpResponse
+from django.shortcuts import render, get_object_or_404, redirect, reverse
+from django.http import JsonResponse, HttpResponse
 from django.core.exceptions import PermissionDenied
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from .models import Document, Collection, VisibilityMixin, DocumentStar, CollectionStar, UserProfile
+from .models import Document, Collection, VisibilityMixin, DocumentStar, CollectionStar, UserProfile, ImageUpload
 from django.db.models import Count
 from django.core.paginator import Paginator
 from django.conf import settings
@@ -454,6 +455,36 @@ def edit_user_profile(request, username):
         'password_change_form': password_change_form
     })
 
+def json_error(message):
+    return JsonResponse({
+        'error': True,
+        'message': message
+    })
+
+class ImageUploadForm(forms.ModelForm):
+    class Meta:
+        model = ImageUpload
+        fields = ['image']
+
 @login_required
 def upload_image(request):
-    pass
+    form = ImageUploadForm(request.POST or None, request.FILES or None)
+    if request.method == "POST":
+        # If the form is valid, set its owner to current user and save the file
+        # to correct folder. Then return the image URL.
+        if form.is_valid():
+            form.user = request.user
+            uploaded_image = form.save()
+
+            return JsonResponse({
+                'url': reverse('get_image', args=(uploaded_image.uuid, ))
+            })
+        else:
+            message = '\n'.join([' '.join(form.errors[key]) for key in form.errors])
+            return json_error(message)
+    
+    return json_error('Only POST method allowed')
+
+def get_image(request, image_id):
+    image = get_object_or_404(ImageUpload, uuid=image_id)
+    return redirect(image.image.url)

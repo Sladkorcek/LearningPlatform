@@ -8,8 +8,9 @@ urlpatterns = [
     path('explore', views.explore, name='explore'),
     path('stars', views.stars, name='stars'),
 
-    # Image upload
+    # Image upload and access
     path('image/upload', views.upload_image, name='upload_image'),
+    path('image/<str:image_id>', views.get_image, name='get_image'),
 
     # Endpoints for users
     path('user/<str:username>/', views.user_profile, name='user_profile'),

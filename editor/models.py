@@ -209,3 +209,4 @@ class CollectionStar(TimeStampMixin):
 class ImageUpload(TimeStampMixin):
     image = models.ImageField(upload_to='images/uploads')
     user = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, blank=True, on_delete=models.SET_NULL)
+    uuid = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
