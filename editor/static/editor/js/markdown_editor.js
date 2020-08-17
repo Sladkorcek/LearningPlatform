@@ -130,6 +130,16 @@ let saveButton = {
     title: "Save document",
 };
 
+let uploadImageButton = {
+    name: "upload_image",
+    action: function() {
+        let modal = new BSN.Modal(document.getElementById("upload-image"));
+        modal.show();
+    },
+    className: "fa fa-upload",
+    title: "Upload image"
+};
+
 let lastSavedStatusItem = {
     className: "keystrokes",
     defaultValue: function(element) {
@@ -140,14 +150,24 @@ let lastSavedStatusItem = {
     }
 };
 
+var markdownEditor;
+
+// A custom function for SimpleMDE that inserts image from imageUrl at current
+// cursor position
+SimpleMDE.prototype.insertImage = function(imageUrl) {
+    let markdown = "![](" + imageUrl + ")";
+    let cursor = this.codemirror.getCursor();
+    this.codemirror.replaceRange(markdown, cursor);
+}
+
 function setupMarkdownEditor() {
-    let markdownEditor = new SimpleMDE({
+    markdownEditor = new SimpleMDE({
         element: document.getElementById("content"),
         autofocus: true,
         spellChecker: false,
         forceSync: true,
         tabSize: 4,
-        toolbar: ["bold", "italic", "strikethrough", "heading", "|", "quote", "unordered-list", "ordered-list", "code", "|", "link", "image", "table", "|", interactiveBlockButton, "|", saveButton, "|", "preview", "side-by-side", "fullscreen"],
+        toolbar: ["bold", "italic", "strikethrough", "heading", "|", "quote", "unordered-list", "ordered-list", "code", "|", "link", "|", "image", uploadImageButton, "|", "table", "|", interactiveBlockButton, "|", saveButton, "|", "preview", "side-by-side", "fullscreen"],
         status: ["lines", "words", lastSavedStatusItem]
     });
 }

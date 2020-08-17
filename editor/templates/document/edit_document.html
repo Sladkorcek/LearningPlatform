@@ -12,11 +12,14 @@
 
     <!-- Script that loads markdown editor -->
     <script src="{% static 'editor/js/markdown_editor.js' %}"></script>
+
+    <!-- Script for image uploads -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.7.2/min/dropzone.min.js"></script>
+    <script src="{% static 'editor/js/image_upload.js' %}"></script>
 {% endblock %}
 
 {% block content %}
 
-    
 <div class="container mt-5">
 
     <form method="POST" action="{% url 'edit_document' document.uuid %}" id="document-form">
@@ -32,6 +35,47 @@
         <input type="submit" value="{% trans 'Save document' %}" class="btn button-secondary mt-3">
     </form>
 
+    <div id="image-previews" style="display: none;"></div>
+
+</div>
+
+<div class="modal fade" id="upload-image" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">{% trans "Upload image" %}</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>{% trans "To upload image, click the 'Upload image' button below and chose an image on your device to be uploaded." %}</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-light" data-dismiss="modal">Close</button>
+                <button type="button" class="btn button-secondary" id="upload-image-button">Upload image</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="error-modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">{% trans "An unexpected error has occurred" %}</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p id="error-message"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-light" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
 </div>
 
 {% endblock %}

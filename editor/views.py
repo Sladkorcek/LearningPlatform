@@ -455,11 +455,11 @@ def edit_user_profile(request, username):
         'password_change_form': password_change_form
     })
 
-def json_error(message):
+def json_error(message, status_code=500):
     return JsonResponse({
         'error': True,
         'message': message
-    })
+    }, status=status_code)
 
 class ImageUploadForm(forms.ModelForm):
     class Meta:
