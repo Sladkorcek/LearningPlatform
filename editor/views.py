@@ -453,3 +453,7 @@ def edit_user_profile(request, username):
         'form': form,
         'password_change_form': password_change_form
     })
+
+@login_required
+def upload_image(request):
+    pass

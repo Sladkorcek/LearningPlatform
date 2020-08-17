@@ -205,3 +205,7 @@ class CollectionStar(TimeStampMixin):
         constraints = [
             models.UniqueConstraint(fields=['user', 'collection'], name='collection_unique_key')
         ]
+
+class ImageUpload(TimeStampMixin):
+    image = models.ImageField(upload_to='images/uploads')
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, blank=True, on_delete=models.SET_NULL)
