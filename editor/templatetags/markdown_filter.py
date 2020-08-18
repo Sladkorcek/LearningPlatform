@@ -4,6 +4,12 @@ from django.template.defaultfilters import stringfilter
 import re
 import mistune
 
+ENABLED_PLUGINS = [
+    'strikethrough',
+    'footnotes',
+    'table'
+]
+
 INTERACTIVE_BOCK_PATTERN = re.compile('{:((.(?!:}))*[^:]?):}', flags=re.MULTILINE | re.DOTALL)
 
 def parse_interactive_block(self, m, state):
@@ -30,8 +36,8 @@ def plugin_remove_interactive_block(md):
 
 register = template.Library()
 
-render_markdown = mistune.create_markdown(escape=False, plugins=[plugin_interactive_block])
-render_markdown_excerpt = mistune.create_markdown(escape=False, plugins=[plugin_remove_interactive_block])
+render_markdown = mistune.create_markdown(escape=False, plugins=ENABLED_PLUGINS+[plugin_interactive_block])
+render_markdown_excerpt = mistune.create_markdown(escape=False, plugins=ENABLED_PLUGINS+[plugin_remove_interactive_block])
 
 @register.filter(name='markdown_excerpt')
 @stringfilter
