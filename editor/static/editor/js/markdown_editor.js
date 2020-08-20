@@ -1,4 +1,4 @@
-window.onload = setupMarkdownEditor;
+window.addEventListener("load", setupMarkdownEditor);
 
 const AUTOSAVE_INTERVAL = 10000;
 let lastSavedTime = null;
@@ -160,6 +160,14 @@ SimpleMDE.prototype.insertImage = function(imageUrl) {
     this.codemirror.replaceRange(markdown, cursor);
 }
 
+// Configure MathJax to use dollar signs as delimiters
+MathJax = {
+    processEscapes: true,
+    tex: {
+        inlineMath: [['$', '$']]
+    }
+};
+
 function setupMarkdownEditor() {
     markdownEditor = new SimpleMDE({
         element: document.getElementById("content"),
@@ -168,6 +176,17 @@ function setupMarkdownEditor() {
         forceSync: true,
         tabSize: 4,
         toolbar: ["bold", "italic", "strikethrough", "heading", "|", "quote", "unordered-list", "ordered-list", "code", "|", "link", "|", "image", uploadImageButton, "|", "table", "|", interactiveBlockButton, "|", saveButton, "|", "preview", "side-by-side", "fullscreen"],
-        status: ["lines", "words", lastSavedStatusItem]
+        status: ["lines", "words", lastSavedStatusItem],
+        previewRender: function(plainText, preview) {
+
+            setTimeout(function() {
+                let renderedText = SimpleMDE.prototype.markdown(plainText);
+                preview.innerHTML = renderedText;
+                MathJax.typeset([preview]);
+            }, 0);
+            
+            // Until the m
+            return preview.innerHTML;
+        }
     });
 }
