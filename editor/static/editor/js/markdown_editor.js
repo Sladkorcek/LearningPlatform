@@ -168,6 +168,39 @@ MathJax = {
     }
 };
 
+function renderSmirkInteractiveElements(element) {
+    const smirkRegex = /{:((.(?!:}))*[^:]?):}/igm;
+
+    for (let i = 0; i < element.children.length; i++) {
+        const child = element.children[i];
+        var childContent = child.innerText;
+
+        while (match = smirkRegex.exec(childContent)) {
+            const before = childContent.substring(0, match.index);
+            const after = childContent.substring(match.index + match[0].length);
+            
+            const smirkCode = match[0].replace("{:", "").replace(":}", "");
+
+            // Construct a new Smirk element and insert it between before and
+            // after text
+            const smirkElementContainer = document.createElement("div");
+            smirkElementContainer.className = "interactive-block";
+            const interactiveBlock = document.createElement("interactive");
+            interactiveBlock.innerText = smirkCode;
+            smirkElementContainer.appendChild(interactiveBlock);
+            
+            const smirkHtml = smirkElementContainer.outerHTML;
+            
+            childContent = before + smirkHtml + after;
+        }
+
+        child.innerHTML = childContent;
+
+    }
+
+    renderAll();
+}
+
 function setupMarkdownEditor() {
     markdownEditor = new SimpleMDE({
         element: document.getElementById("content"),
@@ -182,10 +215,10 @@ function setupMarkdownEditor() {
             setTimeout(function() {
                 let renderedText = SimpleMDE.prototype.markdown(plainText);
                 preview.innerHTML = renderedText;
+                renderSmirkInteractiveElements(preview);
                 MathJax.typeset([preview]);
             }, 0);
             
-            // Until the m
             return preview.innerHTML;
         }
     });
