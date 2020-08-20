@@ -1,6 +1,11 @@
 window.addEventListener("load", setupMarkdownEditor);
 
+// How often should the document be auto-saved (10 seconds)
 const AUTOSAVE_INTERVAL = 10000;
+
+// How much time should we wait to see if the user stopped typing (0.5 seconds)
+const RENDER_INTERVAL = 500;
+
 let lastSavedTime = null;
 let isCurrentlySaving = false;
 let lastSavedElement = null;
@@ -201,7 +206,36 @@ function renderSmirkInteractiveElements(element) {
     renderAll();
 }
 
+var lastRenderedPreview = null;
+var renderTimeout = null;
+
+function renderMarkdown(plainText, previewContainer) {
+    let renderedText = SimpleMDE.prototype.markdown(plainText);
+    previewContainer.innerHTML = renderedText;
+    renderSmirkInteractiveElements(previewContainer);
+    MathJax.typeset([previewContainer]);
+    lastRenderedPreview = previewContainer.innerHTML;
+}
+
+function rerenderPreview(plainText, previewContainer) {
+    if (renderTimeout != null) {
+        clearTimeout(renderTimeout);
+    }
+    renderTimeout = setTimeout(function() {
+        renderMarkdown(plainText, previewContainer);
+    }.bind(this), RENDER_INTERVAL);
+}
+
+function renderPreview(plainText, preview) {
+    if (!lastRenderedPreview) {
+        renderMarkdown(plainText, preview);
+        return "";
+    }
+    return lastRenderedPreview;
+}
+
 function setupMarkdownEditor() {
+
     markdownEditor = new SimpleMDE({
         element: document.getElementById("content"),
         autofocus: true,
@@ -210,16 +244,12 @@ function setupMarkdownEditor() {
         tabSize: 4,
         toolbar: ["bold", "italic", "strikethrough", "heading", "|", "quote", "unordered-list", "ordered-list", "code", "|", "link", "|", "image", uploadImageButton, "|", "table", "|", interactiveBlockButton, "|", saveButton, "|", "preview", "side-by-side", "fullscreen"],
         status: ["lines", "words", lastSavedStatusItem],
-        previewRender: function(plainText, preview) {
-
-            setTimeout(function() {
-                let renderedText = SimpleMDE.prototype.markdown(plainText);
-                preview.innerHTML = renderedText;
-                renderSmirkInteractiveElements(preview);
-                MathJax.typeset([preview]);
-            }, 0);
-            
-            return preview.innerHTML;
-        }
+        previewRender: renderPreview
     });
+
+    markdownEditor.codemirror.on("change", function() {
+        if (markdownEditor.isSideBySideActive())
+            rerenderPreview(markdownEditor.value(), markdownEditor.gui.sideBySide);
+    });
+
 }
