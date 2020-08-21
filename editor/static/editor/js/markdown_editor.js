@@ -9,6 +9,7 @@ const RENDER_INTERVAL = 500;
 let lastSavedTime = null;
 let isCurrentlySaving = false;
 let lastSavedElement = null;
+let hasChanged = false;
 
 // AUTOSAVE the document every 10 seconds
 let autosaveInterval = setInterval(function() {
@@ -40,6 +41,8 @@ function updateLastSavedElement(element) {
 function saveDocument(editor) {
     // TODO: This function is run everytime user presses the save button or
     // every 10 seconds. Create a POST request to save data to server.
+    if (!hasChanged)
+        return;
 
     let documentName = document.getElementById("document-name").value;
     let documentContent = document.getElementById("content").value;
@@ -64,6 +67,7 @@ function saveDocument(editor) {
         lastSavedTime = new Date();
         isCurrentlySaving = false;
         updateLastSavedElement();
+        hasChanged = false;
     });
 
     request.addEventListener('error', function(event) {
@@ -248,6 +252,7 @@ function setupMarkdownEditor() {
     });
 
     markdownEditor.codemirror.on("change", function() {
+        hasChanged = true;
         if (markdownEditor.isSideBySideActive())
             rerenderPreview(markdownEditor.value(), markdownEditor.gui.sideBySide);
     });
