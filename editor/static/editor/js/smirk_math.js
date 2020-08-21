@@ -40,39 +40,39 @@ class Plot extends InteractiveElement {
         this.chart = functionPlot(this.plotData);
         return this;
     }
-    withGrid(displayGrid) {
+    grid(displayGrid) {
         if (displayGrid != undefined)
             this.plotData['grid'] = displayGrid;
         else
             this.plotData['grid'] = true;
         return this;
     }
-    withDomainX(interval) {
+    domainX(interval) {
         this.plotData['xAxis'] = {
             'domain': interval
         };
         return this;
     }
-    withDomainY(interval) {
+    domainY(interval) {
         this.plotData['yAxis'] = {
             'domain': interval
         };
         return this;
     }
-    withWidth(width) {
+    width(width) {
         this.plotData['width'] = width;
         return this;
     }
-    withHeight(height) {
+    height(height) {
         this.plotData['height'] = height;
         return this;
     }
-    withSize(width, height) {
+    size(width, height) {
         this.plotData['width'] = width;
         this.plotData['height'] = height;
         return this;
     }
-    withData(dataObject) {
+    data(dataObject) {
         this.environmentData = dataObject;
         return this;
     }
@@ -94,7 +94,7 @@ class Plot extends InteractiveElement {
     uniqueSliderId() {
         return this.additionalElements.length + 1;
     }
-    withSliderFor(property, interval) {
+    slider(property, interval) {
         let inputContainer = document.createElement("div");
         inputContainer.className = "plot-slider-group";
 

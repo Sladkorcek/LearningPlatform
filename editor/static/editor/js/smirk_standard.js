@@ -11,11 +11,11 @@ class Button extends InteractiveElement {
         button.className = "btn button-secondary";
         super(button);
     }
-    withText(buttonText) {
+    text(buttonText) {
         this.element.innerText = buttonText;
         return this;
     }
-    onClick(clickListener) {
+    click(clickListener) {
         this.element.onclick = clickListener;
         return this;
     }
@@ -80,10 +80,6 @@ class MultipleChoice extends InteractiveElement {
         this.correct = null;
         this.answers = [];
     }
-    question(question) {
-        this.cardHeader.innerHTML = question;
-        return this;
-    }
     createAnswerElement(text) {
         let checkboxContainer = document.createElement("div");
         checkboxContainer.className = "multiple-choice-card-answer";
@@ -107,6 +103,10 @@ class MultipleChoice extends InteractiveElement {
         }.bind(this);
 
         return checkboxContainer;
+    }
+    question(question) {
+        this.cardHeader.innerHTML = question;
+        return this;
     }
     correctAnswer(answer) {
         let answerElement = this.createAnswerElement(answer);
