@@ -254,6 +254,12 @@ function setupMarkdownEditor() {
         previewRender: renderPreview
     });
 
+    // Add "markdown-body" class to the side-by-side viewer to match styling of
+    // the rendered markdown display
+    if (markdownEditor.gui.sideBySide) {
+        markdownEditor.gui.sideBySide.className += " markdown-body";
+    }
+
     markdownEditor.codemirror.on("change", function() {
         hasChanged = true;
         if (markdownEditor.isSideBySideActive())
