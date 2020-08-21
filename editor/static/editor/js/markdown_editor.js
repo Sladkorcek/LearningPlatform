@@ -182,7 +182,7 @@ function renderSmirkInteractiveElements(element) {
 
     for (let i = 0; i < element.children.length; i++) {
         const child = element.children[i];
-        var childContent = child.innerText;
+        var childContent = child.innerHTML;
 
         while (match = smirkRegex.exec(childContent)) {
             const before = childContent.substring(0, match.index);
@@ -212,13 +212,14 @@ function renderSmirkInteractiveElements(element) {
 
 var lastRenderedPreview = null;
 var renderTimeout = null;
+var documentRenderer = null;
 
 function renderMarkdown(markdownEditor, plainText, previewContainer) {
     let renderedText = markdownEditor.markdown(plainText);
-    previewContainer.innerHTML = renderedText;
-    renderSmirkInteractiveElements(previewContainer);
-    MathJax.typeset([previewContainer]);
-    lastRenderedPreview = previewContainer.innerHTML;
+    documentRenderer.innerHTML = renderedText;
+    renderSmirkInteractiveElements(documentRenderer);
+    MathJax.typeset([documentRenderer]);
+    lastRenderedPreview = documentRenderer.innerHTML;
 }
 
 function rerenderPreview(markdownEditor, plainText, previewContainer) {
@@ -239,6 +240,8 @@ function renderPreview(plainText, preview) {
 }
 
 function setupMarkdownEditor() {
+
+    documentRenderer = document.getElementById("document-renderer");
 
     markdownEditor = new SimpleMDE({
         element: document.getElementById("content"),
