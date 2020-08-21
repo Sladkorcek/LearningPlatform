@@ -207,7 +207,6 @@ function renderSmirkInteractiveElements(element) {
 
     }
 
-    renderAll();
 }
 
 var lastRenderedPreview = null;
@@ -217,9 +216,16 @@ var documentRenderer = null;
 function renderMarkdown(markdownEditor, plainText, previewContainer) {
     let renderedText = markdownEditor.markdown(plainText);
     documentRenderer.innerHTML = renderedText;
-    renderSmirkInteractiveElements(documentRenderer);
     MathJax.typeset([documentRenderer]);
-    lastRenderedPreview = documentRenderer.innerHTML;
+    renderSmirkInteractiveElements(documentRenderer);
+
+    const html = documentRenderer.innerHTML;
+    lastRenderedPreview = html;
+    previewContainer.innerHTML = html;
+    documentRenderer.innerHTML = "";
+
+    // Rerender smirk elements
+    renderAll();
 }
 
 function rerenderPreview(markdownEditor, plainText, previewContainer) {
