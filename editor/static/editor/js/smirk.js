@@ -17,13 +17,40 @@ REQUIREMENTS[SMIRK_MATH] = [
     'https://unpkg.com/function-plot@1/dist/function-plot.js'
 ];
 
+var callbacks = {};
+var currentlyLoading = [];
+var alreadyLoaded = [];
+
 function loadScripts(scripts, callback) {
     if (scripts.length <= 0) {
         callback();
     } else {
         let script = scripts.shift();
+        
+        // If library is already loading, don't try to download it again, but
+        // wait until the download has finished and then proceed.
+        if (currentlyLoading.indexOf(script) != -1) {
+            if (!callbacks.hasOwnProperty(script))
+            callbacks[script] = [];
+            callbacks[script].push(function() {
+                loadScripts(scripts, callback);
+            });
+            return;
+        }
+
         console.log('Loading library: ' + script);
+
+        // Before starting to load library, add it to currentlyLoading array
+        currentlyLoading.push(script);
+
         loadScript(script, function() {
+            // When the script finishes loading, remove it from currentlyLoading
+            // array and add it to alreadyLoaded array
+            let index = currentlyLoading.indexOf(script);
+            if (index != -1)
+                currentlyLoading.splice(index, 1);
+            alreadyLoaded.push(script);
+
             // The script has been loaded, load the next one
             loadScripts(scripts, callback);
         });
@@ -181,6 +208,13 @@ function exception() {
 }
 
 function loadScript(url, callback){
+    if (alreadyLoaded.indexOf(url) != -1) {
+        // The script has already been loaded, don't download it again
+        if (callback)
+            callback();
+        return;
+    }
+
     var script = document.createElement("script")
     script.type = "text/javascript";
 
@@ -197,6 +231,13 @@ function loadScript(url, callback){
         script.onload = function(){
             if (callback)
                 callback();
+            // Also call other callbacks
+            if (callbacks.hasOwnProperty(url)) {
+                for (let i = 0; i < callbacks[url].length; i++) {
+                    callbacks[url][i]();
+                }
+                callback[url] = undefined;
+            }
         };
     }
 
