@@ -201,7 +201,7 @@ def raw_document(request, document_id):
     if not document.can_view(request.user):
         raise PermissionDenied
 
-    return HttpResponse(document.content)
+    return HttpResponse(document.content, content_type='text/plain; charset=utf-8')
 
 def display_collection(request, collection_id):
     collection = get_object_or_404(Collection, uuid=collection_id)
