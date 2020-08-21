@@ -178,7 +178,7 @@ MathJax = {
 };
 
 function renderSmirkInteractiveElements(element) {
-    const smirkRegex = /{:((.(?!:}))*[^:]?):}/igm;
+    const smirkRegex = /{:(([^](?!:}))*[^:]?):}/igm;
 
     for (let i = 0; i < element.children.length; i++) {
         const child = element.children[i];
@@ -195,7 +195,7 @@ function renderSmirkInteractiveElements(element) {
             const smirkElementContainer = document.createElement("div");
             smirkElementContainer.className = "interactive-block";
             const interactiveBlock = document.createElement("interactive");
-            interactiveBlock.innerText = smirkCode;
+            interactiveBlock.innerHTML = smirkCode;
             smirkElementContainer.appendChild(interactiveBlock);
             
             const smirkHtml = smirkElementContainer.outerHTML;
@@ -213,27 +213,27 @@ function renderSmirkInteractiveElements(element) {
 var lastRenderedPreview = null;
 var renderTimeout = null;
 
-function renderMarkdown(plainText, previewContainer) {
-    let renderedText = SimpleMDE.prototype.markdown(plainText);
+function renderMarkdown(markdownEditor, plainText, previewContainer) {
+    let renderedText = markdownEditor.markdown(plainText);
     previewContainer.innerHTML = renderedText;
     renderSmirkInteractiveElements(previewContainer);
     MathJax.typeset([previewContainer]);
     lastRenderedPreview = previewContainer.innerHTML;
 }
 
-function rerenderPreview(plainText, previewContainer) {
+function rerenderPreview(markdownEditor, plainText, previewContainer) {
     if (renderTimeout != null) {
         clearTimeout(renderTimeout);
     }
     renderTimeout = setTimeout(function() {
-        renderMarkdown(plainText, previewContainer);
+        renderMarkdown(markdownEditor, plainText, previewContainer);
     }.bind(this), RENDER_INTERVAL);
 }
 
 function renderPreview(plainText, preview) {
     if (!lastRenderedPreview) {
-        renderMarkdown(plainText, preview);
-        return "";
+        renderMarkdown(this.parent, plainText, preview);
+        return lastRenderedPreview;
     }
     return lastRenderedPreview;
 }
@@ -246,6 +246,9 @@ function setupMarkdownEditor() {
         spellChecker: false,
         forceSync: true,
         tabSize: 4,
+        renderingConfig: {
+            singleLineBreaks: false
+        },
         toolbar: ["bold", "italic", "strikethrough", "heading", "|", "quote", "unordered-list", "ordered-list", "code", "|", "link", "|", "image", uploadImageButton, "|", "table", "|", interactiveBlockButton, "|", saveButton, "|", "preview", "side-by-side", "fullscreen"],
         status: ["lines", "words", lastSavedStatusItem],
         previewRender: renderPreview
@@ -254,7 +257,7 @@ function setupMarkdownEditor() {
     markdownEditor.codemirror.on("change", function() {
         hasChanged = true;
         if (markdownEditor.isSideBySideActive())
-            rerenderPreview(markdownEditor.value(), markdownEditor.gui.sideBySide);
+            rerenderPreview(markdownEditor, markdownEditor.value(), markdownEditor.gui.sideBySide);
     });
 
 }
