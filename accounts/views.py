@@ -11,17 +11,9 @@ User = get_user_model()
 # Modified from https://gist.github.com/schwuk/2725286
 class UserCreationWithEmailForm(UserCreationForm):
     email = EmailField(label=_("Email address"), required=True)
-
     class Meta:
         model = User
-        fields = ("username", "email", "password1", "password2")
-
-    def save(self, commit=True):
-        user = super(UserCreationForm, self).save(commit=False)
-        user.email = self.cleaned_data["email"]
-        if commit:
-            user.save()
-        return user
+        fields = UserCreationForm.Meta.fields + ("email",)
 
 def register(request):
 
