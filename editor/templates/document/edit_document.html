@@ -45,7 +45,7 @@
             <input type="text" class="form-control title-input-field" id="document-name" name="document_name" value="{{ document.title }}">
         </div>
         
-        <textarea name="document_content" id="content">{{ document.content }}</textarea>
+        <textarea name="document_content" id="content" style="width: 100%; border: none;">{{ document.content }}</textarea>
         
         <input type="submit" value="{% trans 'Save document' %}" class="btn button-secondary mt-3">
     </form>
