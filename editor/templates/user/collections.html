@@ -33,6 +33,12 @@
         {% else %}
             <div class="no-elements"><strong>{{ user.username }}</strong> {% trans 'has no public collections yet.' %}</div>
         {% endif %}
+        <div class="text-center mt-3">
+            <a href="{% url 'create_collection' %}" class="btn btn-sm button-secondary">
+                <span class="material-icons-button material-icons">book</span>
+                {% trans "Create a new collection" %}
+            </a>
+        </div>
     {% endfor %}
 </section>
 

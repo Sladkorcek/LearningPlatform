@@ -17,6 +17,12 @@
             {% else %}
                 <div class="no-elements"><strong>{{ user.username }}</strong> {% trans 'has no public documents yet.' %}</div>
             {% endif %}
+            <div class="text-center mt-3">
+                <a href="{% url 'create_document' %}" class="btn btn-sm button-secondary">
+                    <span class="material-icons-button material-icons">insert_drive_file</span>
+                    {% trans "Create a new document" %}
+                </a>
+            </div>
         {% endfor %}
     </ul>
 
