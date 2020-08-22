@@ -60,4 +60,26 @@ window.addEventListener('load', function() {
 
     });
 
+    window.addEventListener("paste", function(event) {
+        // If there is no clipboard data, do nothing
+        if (event.clipboardData == false)
+            return;
+        
+        const items = (event.clipboardData || event.originalEvent.clipboardData).items;
+        if(items == undefined)
+            return;
+        
+        for (var i = 0; i < items.length; i++) {
+            // If current element contains no image, skip it
+            if (items[i].type.indexOf("image") == -1)
+                continue;
+
+            // Get image from clipboard as blob
+            const blob = items[i].getAsFile();
+
+            // Use dropzone to upload image to the server
+            imageUploader.addFile(blob)
+        }
+    }, false);
+
 });
