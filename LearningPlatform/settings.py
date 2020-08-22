@@ -137,3 +137,6 @@ COLLECTIONS_PER_PAGE = 10
 
 # Number of documents displayed per page
 DOCUMENTS_PER_PAGE = 10
+
+# Path to the document that is used as a tutorial document
+TUTORIAL_DOCUMENT = 'TUTORIAL.md'

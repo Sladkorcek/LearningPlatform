@@ -109,6 +109,14 @@ class Document(TimeStampMixin, VisibilityMixin):
         )
     
     @staticmethod
+    def tutorial(content, user):
+        return Document(
+            title=_('Tutorial'),
+            content=content,
+            owner=user
+        )
+    
+    @staticmethod
     def clone(document, user):
         return Document(
             title=document.title,

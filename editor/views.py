@@ -7,6 +7,7 @@ from .models import Document, Collection, VisibilityMixin, DocumentStar, Collect
 from django.db.models import Count
 from django.core.paginator import Paginator
 from django.conf import settings
+from django.template.loader import render_to_string
 
 from django import forms
 from django.contrib.auth.forms import PasswordChangeForm
@@ -131,10 +132,23 @@ def render_document(request, document_id):
 
 @login_required
 def create_document(request):
-    # When creating a new document, first a new database object should be
-    # inserted, then user should be redirected to edit document page
-    document = Document.empty_document(request.user)
+    document_type = request.GET.get('type', None)
+
+    if document_type is None:
+        # When creating a new document, first a new database object should be
+        # inserted, then user should be redirected to edit document page
+        document = Document.empty_document(request.user)
+    elif document_type == 'tutorial':
+        document_content = render_to_string(
+            settings.TUTORIAL_DOCUMENT,
+            context={
+                'user': request.user
+            }, request=request
+        )
+        document = Document.tutorial(document_content, request.user)
+
     document.save()
+    
     # After the document has been saved, its id can be read and used to
     # construct the edit url
     return redirect(reverse('edit_document', args=(document.uuid, )))
