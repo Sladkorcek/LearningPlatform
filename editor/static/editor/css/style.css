@@ -422,12 +422,16 @@ interactive {
 }
 
 /* Introduction / Tutorial styling */
-.first-step button.driver-next-btn {
-    background-color: #6f2da8 !important;
-    color: white !important;
-    text-shadow: none !important;
+.driver-close-btn {
+    float: none!important;
 }
 
-.driver-close-btn {
-    float: none !important;
+.colorful-next button.driver-next-btn {
+    background-color: #6f2da8!important;
+    color: white!important;
+    text-shadow: none!important;
 }
+
+.no-close .driver-close-btn { display: none!important; }
+.no-next .driver-next-btn { display: none!important; }
+.no-previous .driver-prev-btn { display: none!important; }
