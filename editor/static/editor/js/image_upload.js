@@ -1,14 +1,11 @@
-const AUTOCLOSE_FILE_UPLOAD_MODAL_TIME = 2000;
-
 // Don't auto discover dropzones
 Dropzone.autoDiscover = false;
 
 var csrfToken = '';
 
-function setupFileUploadModal(displayHelpText, displayUploadProgress, displaySuccessMessage) {
+function setupFileUploadModal(displayHelpText, displayUploadProgress) {
     document.getElementById("file-upload-help-text").style.display = displayHelpText ? "block" : "none";
     document.getElementById("file-upload-progress").style.display = displayUploadProgress ? "block" : "none";
-    document.getElementById("file-upload-success").style.display = displaySuccessMessage ? "block" : "none";
 }
 
 window.addEventListener('load', function() {
@@ -17,7 +14,8 @@ window.addEventListener('load', function() {
     csrfToken = csrfTokenField.value;
 
     var fileUploadProgressbar = document.getElementById("file-upload-progressbar");
-
+    var topProgressbar = document.getElementById("top-progressbar");
+    
     imageUploadElement = document.getElementById("image-upload");
 
     var imageUploader = new Dropzone(imageUploadElement, {
@@ -29,12 +27,13 @@ window.addEventListener('load', function() {
     });
 
     imageUploader.on('addedfile', function(file) {
-        setupFileUploadModal(false, true, false);
+        setupFileUploadModal(false, true);
     });
 
     imageUploader.on("uploadprogress", function(file, progress) {
         fileUploadProgressbar.setAttribute("aria-valuenow", progress);
         fileUploadProgressbar.style.width = progress + "%";
+        topProgressbar.style.width = progress + "%";
     });
 
     imageUploader.on("error", function(file, response) {
@@ -45,8 +44,11 @@ window.addEventListener('load', function() {
 
         var errorModal = new BSN.Modal('#error-modal');
         errorModal.show();
+
+        setupFileUploadModal(true, false);
         
-        setupFileUploadModal(true, false, false);
+        topProgressbar.style.width = "0";
+        fileUploadProgressbar.style.width = "0";
     });
 
     imageUploader.on("success", function(file, response) {
@@ -54,15 +56,13 @@ window.addEventListener('load', function() {
         markdownEditor.insertImage(response.url);
         this.removeFile(file);
         
-        setupFileUploadModal(false, false, true);
-        
-        // Hide the file upload modal if it is show
-        setTimeout(function() {
-            let modal = new BSN.Modal(document.getElementById("upload-image"));
-            modal.hide();
-            setupFileUploadModal(true, false, false);
-        }, AUTOCLOSE_FILE_UPLOAD_MODAL_TIME);
+        setupFileUploadModal(true, false);
 
+        let modal = new BSN.Modal(document.getElementById("upload-image"));
+        modal.hide();
+
+        topProgressbar.style.width = "0";
+        fileUploadProgressbar.style.width = "0";
     });
 
     window.addEventListener("paste", function(event) {
