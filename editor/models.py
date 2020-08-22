@@ -20,6 +20,7 @@ class TimeStampMixin(models.Model):
 
     class Meta:
         abstract = True
+        ordering = ['-created_at']
 
 class VisibilityMixin(models.Model):
     # Each document also has three possible visiblity options:
