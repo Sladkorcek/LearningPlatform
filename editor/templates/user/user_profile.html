@@ -4,6 +4,11 @@
 {% load i18n %}
 
 {% block head %}
+    {% if request.session.tutorial and is_own_page %}
+        <script src="https://unpkg.com/driver.js/dist/driver.min.js"></script>
+        <link rel="stylesheet" href="https://unpkg.com/driver.js/dist/driver.min.css">
+        <script src="{% static 'editor/js/tutorial/tutorial_user_profile.js' %}"></script>
+    {% endif %}
 {% endblock %}
 
 {% block title %}{% trans 'Your documents and collections' %}{% endblock %}
