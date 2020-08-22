@@ -20,6 +20,9 @@
 {% endblock %}
 
 {% block head %}
+<!-- Notebook style -->
+<link rel="stylesheet" href="{% static 'editor/css/github-markdown.css' %}">
+
 <script>
     function copyButtonClicked(event) {
             let inputField = document.getElementById("collection-url");
@@ -166,7 +169,7 @@
             <div class="text-secondary"><small>{% trans "Last updated" %} {{ document.updated_at | naturaltime }}</small></div>
 
             <div class="markdown-excerpt-container mt-3">
-                <div class="markdown-excerpt">
+                <div class="markdown-body markdown-excerpt">
                     {% autoescape off %}{{ document.content | markdown_excerpt }}{% endautoescape %}
                 </div>
                 <a href="{% url 'render_document' document.uuid %}" class="stretched-link"></a>
