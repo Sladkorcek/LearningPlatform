@@ -1,13 +1,6 @@
 // This script ONLY gets loaded if user has just registered. The "driver.js" library is also loaded, so that we can
 // drive user's attention around the page.
 
-/*
-// This changes the link of the "new" button for creating a new document to
-      // a pre-filled document (for the sake of the tutorial)
-      let gumb = document.getElementById("new_document_button");
-      gumb.href = gumb.href + "?type=tutorial";
-*/
-
 window.addEventListener('load', function() {
     // This function gets called when the page is loaded, everything should be
     // initialized here  
@@ -83,6 +76,10 @@ window.addEventListener('load', function() {
     // Load last executed step from local storage
     let lastStep = getLastStep();
 
+    // Based on the last step, setup current page - create new elements, setup
+    // event listeners, etc.
+    setup(lastStep);
+
     const driver = new Driver({
       allowClose: false, // click on overlay should not close the tutorial
 
@@ -96,6 +93,15 @@ window.addEventListener('load', function() {
     // Start the driver from last step
     driver.start(lastStep);
 });
+
+function setup(lastStep) {
+  if (lastStep < 2) {
+    // This changes the link of the "new" button for creating a new document to
+    // a pre-filled document (for the sake of the tutorial)
+    let gumb = document.getElementById("new_document_button");
+    gumb.href = gumb.href + "?type=tutorial";
+  }
+}
 
 function saveLastStep(step) {
   localStorage.setItem('tutorial_step', step);
