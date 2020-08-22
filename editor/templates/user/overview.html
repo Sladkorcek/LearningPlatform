@@ -56,7 +56,7 @@
         {% if is_own_page %}
             <h3>{% trans "My documents" %}</h3>
             <div>
-                <a href="{% url 'create_document' %}" class="btn btn-sm button-secondary">
+                <a href="{% url 'create_document' %}" class="btn btn-sm button-secondary new_document_button" id="new_document_button">
                     <span class="material-icons-button material-icons">insert_drive_file</span> {% trans "New" %}
                 </a>
             </div>

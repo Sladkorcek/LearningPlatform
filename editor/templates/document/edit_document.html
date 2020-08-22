@@ -27,6 +27,12 @@
     <!-- Smirk library -->
     <link rel="stylesheet" href="{% static 'editor/css/smirk.css' %}">
     <script src="{% static 'editor/js/smirk.js' %}"></script>
+
+    {% if request.session.tutorial %}
+        <script src="https://unpkg.com/driver.js/dist/driver.min.js"></script>
+        <link rel="stylesheet" href="https://unpkg.com/driver.js/dist/driver.min.css">
+        <script src="{% static 'editor/js/tutorial/tutorial_user_profile.js' %}"></script>
+    {% endif %}
 {% endblock %}
 
 {% block content %}
@@ -47,7 +53,7 @@
         
         <textarea name="document_content" id="content" style="width: 100%; border: none;">{{ document.content }}</textarea>
         
-        <input type="submit" value="{% trans 'Save document' %}" class="btn button-secondary mt-3">
+        <input type="submit" value="{% trans 'Save document' %}" class="btn button-secondary mt-3" id="save_document_button">
     </form>
 
     <div id="image-previews" style="display: none;"></div>
