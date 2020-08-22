@@ -1,27 +1,10 @@
 // This script ONLY gets loaded if user has just registered. The "driver.js" library is also loaded, so that we can
 // drive user's attention around the page.
 
-var stepCounter = 0; // count the steps
-window.stepCounter = 0;
-
 window.addEventListener('load', function() {
     // This function gets called when the page is loaded, everything should be
     // initialized here  
-
-    const driver = new Driver({
-      allowClose: false, // click on overlay should not close the tutorial
-      onHighlightStarted: function() {console.log(toString(window.stepCounter));}
-    });
-
-    if(stepCounter == 0) {
-      // This changes the link of the "new" button for creating a new document to
-      // a pre-filled document (for the sake of the tutorial)
-      let gumb = document.getElementById("new_document_button");
-      gumb.href = gumb.href + "?type=tutorial";
-    }
-
-    // Define the steps for introduction
-    driver.defineSteps([
+    const steps = [
       {
         element: '#tutorial_welcome', // id of a html element that we want to highlight
         popover: {
@@ -31,7 +14,6 @@ window.addEventListener('load', function() {
           position: 'bottom', // where in relation to the hihlighted document should the popup be
           nextBtnText: 'Let\'s go!', // text on the next button
           closeBtnText: 'Skip', // text on the close button
-          onHighlightStarted: function() {window.stepCounter += 1; console.log(toString(window.stepCounter));}
         }
       },
       {
@@ -89,12 +71,48 @@ window.addEventListener('load', function() {
           position: 'top'
         }
       }
-    ]);
+    ];
 
+    // Load last executed step from local storage
+    let lastStep = getLastStep();
 
-    driver.start(stepNumber = 0);
-    console.log('Tutorial!');
+    // Based on the last step, setup current page - create new elements, setup
+    // event listeners, etc.
+    setup(lastStep);
+
+    const driver = new Driver({
+      allowClose: false, // click on overlay should not close the tutorial
+
+      // When the highlight changes, get its index and save it to local storage
+      onHighlightStarted: function(element) {
+        saveLastStep(element.popover.options.currentIndex);
+      }
+    });
+    driver.defineSteps(steps);
+
+    // Start the driver from last step
+    driver.start(lastStep);
 });
+
+function setup(lastStep) {
+  if (lastStep < 2) {
+    // This changes the link of the "new" button for creating a new document to
+    // a pre-filled document (for the sake of the tutorial)
+    let gumb = document.getElementById("new_document_button");
+    gumb.href = gumb.href + "?type=tutorial";
+  }
+}
+
+function saveLastStep(step) {
+  localStorage.setItem('tutorial_step', step);
+}
+
+function getLastStep() {
+  const lastStep = localStorage.getItem('tutorial_step');
+  if (!lastStep)
+    return 0;
+  return Number(lastStep);
+}
 
 function endTutorial(callback) {
     // If this function is called, a request should be made to Django backend
