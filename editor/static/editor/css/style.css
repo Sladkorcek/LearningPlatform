@@ -150,6 +150,28 @@ a.color-secondary:hover { color: #622299; }
     padding: 2em 0;
 }
 
+/* Footer styling */
+.footer ul h4 {
+    color: #454545;
+    font-size: 0.9em;
+}
+
+.footer ul li {
+    color: #696969;
+    font-size: 0.9em;
+}
+
+.footer a {
+    color: #696969;
+    font-weight: 500;
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+.footer a:hover {
+    color: #ffa500;
+}
+
 /* Google material icon styling for buttons */
 .material-icons-button {
     font-size: .875rem !important;

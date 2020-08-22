@@ -8,6 +8,13 @@ urlpatterns = [
     path('explore', views.explore, name='explore'),
     path('stars', views.stars, name='stars'),
 
+    path('faq', views.frequent_asked_questions, name='frequent_asked_questions'),
+    path('media', views.media, name='media'),
+    path('pricing', views.pricing, name='pricing'),
+    path('about', views.about, name='about'),
+    path('contact', views.contact, name='contact'),
+    path('privacy', views.privacy, name='privacy'),
+
     # Image upload and access
     path('image/upload', views.upload_image, name='upload_image'),
     path('image/<str:image_id>', views.get_image, name='get_image'),

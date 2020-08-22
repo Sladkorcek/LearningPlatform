@@ -116,7 +116,36 @@
     {% endblock %}
 
     {% block footer %}
-        <footer class="footer"></footer>
+        <footer class="footer container">
+            <div class="row">
+                <div class="col-4">stvari.si</div>
+                <div class="col-8">
+                    <div class="row">
+
+                        <ul class="col-3 list-unstyled">
+                            <h6>PRODUCT</h6>
+                            <li><a href="{% url 'help_center' %}">Tutorial</a></li>
+                            <li><a href="{% url 'frequent_asked_questions' %}">FAQ</a></li>
+                            <li><a href="{% url 'pricing' %}">Pricing</a></li>
+                        </ul>
+    
+                        <ul class="col-3 list-unstyled">
+                            <h6>OPEN SOURCE</h6>
+                            <li><a href="https://github.com/Sladkorcek/Smirk">Smirk library</a></li>
+                            <li><a href="{% url 'media' %}">Media</a></li>
+                        </ul>
+    
+                        <ul class="col-3 list-unstyled">
+                            <h6>ABOUT</h6>
+                            <li><a href="{% url 'about' %}">About us</a></li>
+                            <li><a href="{% url 'contact' %}">Contact us</a></li>
+                            <li><a href="{% url 'privacy' %}">Privacy</a></li>
+                        </ul>
+
+                    </div>
+                </div>
+            </div>
+        </footer>
     {% endblock %}
 </body>
 </html>

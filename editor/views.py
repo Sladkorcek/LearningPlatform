@@ -502,3 +502,21 @@ def upload_image(request):
 def get_image(request, image_id):
     image = get_object_or_404(ImageUpload, uuid=image_id)
     return redirect(image.image.url)
+
+def frequent_asked_questions(request):
+    return HttpResponse('FAQ')
+
+def media(request):
+    return HttpResponse('Why download our logo from Google photos if you can get it from us?')
+
+def pricing(request):
+    return HttpResponse('PRICING')
+
+def about(request):
+    return HttpResponse('ABOUT US')
+
+def contact(request):
+    return HttpResponse('CONTACT US')
+
+def privacy(request):
+    return HttpResponse('PRIVACY POLICY')
