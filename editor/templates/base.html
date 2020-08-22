@@ -46,7 +46,7 @@
                 <ul class="navbar-nav ml-auto align-items-center">
                     {% block navigation %}{% endblock %}
 
-                    <li class="nav-item" id="explore-button"><a class="nav-link" href="{% url 'explore' %}">{% trans "Explore" %}</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'explore' %}">{% trans "Explore" %}</a></li>
 
                     {% if request.user.is_authenticated %}
 
