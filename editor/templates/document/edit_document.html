@@ -111,7 +111,14 @@
 </div>
 
 <div id="image-upload" draggable="true">
-    <span>{% trans 'Drop image anywhere' %}</span>
+    <div class="call-to-action-container" style="width: 100%">
+        <div class="container">
+            <div class="text-center branding-padding">
+                <h1 class="mb-4">{% trans "Drop image here!" %}</h1>
+                <p class="lead">{% trans "The image will be uploaded to our server and inserted into your document." %}</p>
+            </div>
+        </div>
+    </div>
 </div>
 
 <div id="document-renderer" class="markdown-body" style="display: none;"></div>
