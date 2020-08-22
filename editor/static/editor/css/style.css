@@ -420,3 +420,14 @@ interactive {
     background-color: #6f2da8;
     position: absolute; left: 0; top: 0;
 }
+
+/* Introduction / Tutorial styling */
+.first-step button.driver-next-btn {
+    background-color: #6f2da8 !important;
+    color: white !important;
+    text-shadow: none !important;
+}
+
+.driver-close-btn {
+    float: none !important;
+}
