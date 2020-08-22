@@ -374,12 +374,17 @@ interactive {
     width: 100%; height: 100%;
     background-color: rgba(255, 255, 255, 0.95);
     border: 5px dashed #6f2da8;
-    transition: all 300ms;
-    
+    visibility: hidden;
+    opacity: 0;
     display: flex;
     justify-content: center;
     align-items: center;
     font-size: 2em;
     font-weight: bold;
     color: #6f2da8;
+    transition: all 300ms;
+}
+
+#image-upload * {
+    pointer-events: none;
 }

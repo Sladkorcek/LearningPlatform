@@ -1,5 +1,8 @@
 const AUTOCLOSE_FILE_UPLOAD_MODAL_TIME = 2000;
 
+// Don't auto discover dropzones
+Dropzone.autoDiscover = false;
+
 var csrfToken = '';
 
 function setupFileUploadModal(displayHelpText, displayUploadProgress, displaySuccessMessage) {
@@ -15,7 +18,7 @@ window.addEventListener('load', function() {
 
     var fileUploadProgressbar = document.getElementById("file-upload-progressbar");
 
-    var imageUploadElement = document.getElementById("image-upload");
+    imageUploadElement = document.getElementById("image-upload");
 
     var imageUploader = new Dropzone(imageUploadElement, {
         url: "/image/upload",
@@ -84,30 +87,38 @@ window.addEventListener('load', function() {
         }
     }, false);
 
+    window.addEventListener('dragenter', function(event) {
+        if (isFileUploadEvent(event))
+            displayDropZone(true);
+    });
+    
+    imageUploadElement.addEventListener('dragover', function(event) {
+        if (isFileUploadEvent(event))
+            displayDropZone(true);
+    });
+    
+    imageUploadElement.addEventListener('dragleave', function(event) {
+        displayDropZone(false);
+    });
+
+    imageUploadElement.addEventListener('drop', function(event) {
+        displayDropZone(false);
+    });
+
 });
 
-var lastTarget = null;
-
-window.addEventListener("dragenter", function(event) {
-    lastTarget = event.target;
-    document.getElementById("image-upload").style.visibility = "";
-    document.getElementById("image-upload").style.opacity = 1;
-});
-
-window.addEventListener("dragleave", function(event) {
-    event.preventDefault();
-    if(event.target === lastTarget || event.target === document) {
-        document.getElementById("image-upload").style.visibility = "hidden";
-        document.getElementById("image-upload").style.opacity = 0;
+function isFileUploadEvent(event) {
+    if (event.dataTransfer.types) {
+        for (var i = 0; i < event.dataTransfer.types.length; i++) {
+            if (event.dataTransfer.types[i] == "Files")
+                return true;
+        }
     }
-});
+    return false;
+}
 
-window.addEventListener("dragover", function (e) {
-    e.preventDefault();
-});
-
-window.addEventListener("drop", function (e) {
-    e.preventDefault();
-    document.getElementById("image-upload").style.visibility = "hidden";
-    document.getElementById("image-upload").style.opacity = 0;
-});
+var imageUploadElement;
+function displayDropZone(visibility) {
+    imageUploadElement.style.visibility = visibility ? "visible" : "hidden";
+    imageUploadElement.style.opacity = visibility ? "1" : "0";
+}

@@ -269,6 +269,14 @@ function setupMarkdownEditor() {
         markdownEditor.gui.sideBySide.className += " markdown-body";
     }
 
+    markdownEditor.codemirror.on('dragenter', function(editor, event) {
+        // If the drag event is file upload event, display dropzone
+        if (isFileUploadEvent(event)) {
+            displayDropZone(true);
+            event.preventDefault();
+        }
+    });
+
     markdownEditor.codemirror.on("change", function() {
         hasChanged = true;
         if (markdownEditor.isSideBySideActive())
