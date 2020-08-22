@@ -15,7 +15,9 @@ window.addEventListener('load', function() {
 
     var fileUploadProgressbar = document.getElementById("file-upload-progressbar");
 
-    var imageUploader = new Dropzone(document.body, {
+    var imageUploadElement = document.getElementById("image-upload");
+
+    var imageUploader = new Dropzone(imageUploadElement, {
         url: "/image/upload",
         headers: { "X-CSRFToken": csrfToken },
         paramName: 'image',
@@ -82,4 +84,30 @@ window.addEventListener('load', function() {
         }
     }, false);
 
+});
+
+var lastTarget = null;
+
+window.addEventListener("dragenter", function(event) {
+    lastTarget = event.target;
+    document.getElementById("image-upload").style.visibility = "";
+    document.getElementById("image-upload").style.opacity = 1;
+});
+
+window.addEventListener("dragleave", function(event) {
+    event.preventDefault();
+    if(event.target === lastTarget || event.target === document) {
+        document.getElementById("image-upload").style.visibility = "hidden";
+        document.getElementById("image-upload").style.opacity = 0;
+    }
+});
+
+window.addEventListener("dragover", function (e) {
+    e.preventDefault();
+});
+
+window.addEventListener("drop", function (e) {
+    e.preventDefault();
+    document.getElementById("image-upload").style.visibility = "hidden";
+    document.getElementById("image-upload").style.opacity = 0;
 });
