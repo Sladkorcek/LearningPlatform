@@ -6,21 +6,21 @@ window.addEventListener('load', function () {
   // initialized here  
   const steps = [
     {
-      element: '#tutorial_welcome', // id of a html element that we want to highlight PREMAKNI NA NEK DRUG ELEMENT
+      element: '#tutorial_welcome', // id of a html element that we want to highlight PREMAKNI NA NEK DRUG ELEMENT
       popover: {
-        className: 'colorful-next no-previous', // class of the popover html element
-        title: '<p>Welcome to <strong>stvari.si</strong>!</p>', // title of the popover
-        description: 'We\'ll quickly guide you through the basics.', // body of a popover
-        position: 'bottom', // where in relation to the hihlighted document should the popup be
-        nextBtnText: 'Let\'s go!', // text on the next button
-        closeBtnText: 'Skip', // text on the close button
+        className: 'colorful-next no-previous', // class of the popover html element
+        title: '<p>Welcome to <strong>stvari.si</strong>!</p>', // title of the popover
+        description: 'We\'ll quickly guide you through the basics.', // body of a popover
+        position: 'bottom', // where in relation to the hihlighted document should the popup be
+        nextBtnText: 'Let\'s go!', // text on the next button
+        closeBtnText: 'Skip', // text on the close button
       }
     },
     {
       element: '#new_document_button',
       popover: {
         title: 'Documents',
-        description: '<p>You can write your notes into a document. Let\'s create one right now and see how this works.</p><p>Click the purple "new" button.</p>',
+        description: '<p>You can write your notes into a document. Let\'s create one right now and see how this works.</p><p>Click the purple "new" button.</p>',
         showButtons: false,
         position: 'top'
       }
@@ -29,7 +29,7 @@ window.addEventListener('load', function () {
       element: '#document-form',
       popover: {
         title: 'Editor',
-        description: '<p>We\'ve prepared a sample document for you below. You can use Markdown and LateX language to style the document and Smrik to add interactive elements. More on that later. You can try editing this document now or come back later when you learn more.</p><p>When you are ready to continue the tour, click on purple "Save and view" button at the bottom.</p>', // SPREMENI V SAVE AND VIEW IN SPREMENI HTML; DA LAHKO POSEBAJ OZNAČIŠ EDITOR BREZ SAVE BUTTONA, NATO DODAJ KORAK; KJER IMAMO SAMO SAVE
+        description: '<p>We\'ve prepared a sample document for you below. You can use Markdown and LateX language to style the document and Smrik to add interactive elements. More on that later. You can try editing this document now or come back later when you learn more.</p><p>When you are ready to continue the tour, click on purple "Save and view" button at the bottom.</p>', // SPREMENI V SAVE AND VIEW IN SPREMENI HTML; DA LAHKO POSEBAJ OZNAČIŠ EDITOR BREZ SAVE BUTTONA, NATO DODAJ KORAK; KJER IMAMO SAMO SAVE
         showButtons: false,
         position: 'left'
       }
@@ -37,18 +37,18 @@ window.addEventListener('load', function () {
     {
       element: '#button-change-visibility',
       popover: {
-        className: 'colorful-next no-previous no-close',
+        className: 'colorful-next no-previous no-close',
         title: 'Visibility',
-        description: '<p>As you can see, this document is currently PRIVATE, which means you are the only one who can see it. You can change visibility to LINK and make it accessible to anyone with the link, or to PUBLIC so everyone can see it.</p>',
+        description: '<p>As you can see, this document is currently PRIVATE, which means you are the only one who can see it. You can change visibility to LINK and make it accessible to anyone with the link, or to PUBLIC so everyone can see it.</p>',
         position: 'bottom',
-        nextBtnText: 'Okay, go on.'
+        nextBtnText: 'Okay, go on.'
       }
     },
     {
       element: '#explore-button',
       popover: {
         title: 'Explore!',
-        description: '<p>Public documents will appear on the explore page, let\'s head there now.</p><p>Click "Explore".</p>',
+        description: '<p>Public documents will appear on the explore page, let\'s head there now.</p><p>Click "Explore".</p>',
         showButtons: false,
         position: 'bottom'
       }
@@ -56,7 +56,7 @@ window.addEventListener('load', function () {
     {
       element: '#explore-page-content',
       popover: {
-        className: 'colorful-next no-previous no-close',
+        className: 'colorful-next no-previous no-close',
         title: 'Collaboration',
         description: '<p>All documents and collections here allow you to build upon them and to collaborate. </p>',
         nextBtnText: 'Let me see!',
@@ -75,7 +75,7 @@ window.addEventListener('load', function () {
     {
       element: '#star-button',
       popover: {
-        className: 'colorful-next no-previous no-close',
+        className: 'colorful-next no-previous no-close',
         title: 'Stars',
         description: 'If you like a document or a collection and/or want to save it for later, give it a star!',
         nextBtnText: 'Nice, where can I see them?',
@@ -85,7 +85,7 @@ window.addEventListener('load', function () {
     {
       element: '#starred',
       popover: {
-        className: 'colorful-next no-previous no-close',
+        className: 'colorful-next no-previous no-close',
         title: 'Starred',
         description: 'Glad you asked. You can see your starred documents right here. You can try it out on your own. Now let\'s continue.',
         nextBtnText: 'Okay.',
@@ -113,7 +113,7 @@ window.addEventListener('load', function () {
     {
       element: '#add-to-collection-dropdown',
       popover: {
-        className: 'colorful-next no-previous no-close',
+        className: 'colorful-next no-previous no-close',
         title: 'Collections',
         description: '<p>You\'ve probably already noticed collections during our time together. Collections are a neat way to organize your documents in your own way. You can think of them as binders, folders, repositories, boxes, library iles, ... whichever is the most familliar to you.</p><p>Here you can add this document to a collection by checking the box next to it.</p>',
         nextBtnText: 'Great!',

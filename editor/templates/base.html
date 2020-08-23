@@ -29,6 +29,11 @@
     <link rel="stylesheet" href="{% static 'editor/css/style.css' %}">
 
     {% block head %}
+        {% if request.session.tutorial%}
+            <script src="https://unpkg.com/driver.js/dist/driver.min.js"></script>
+            <link rel="stylesheet" href="https://unpkg.com/driver.js/dist/driver.min.css">
+            <script src="{% static 'editor/js/tutorial/tutorial_user_profile.js' %}"></script>
+        {% endif %}
     {% endblock %}
 
 </head>
