@@ -119,7 +119,7 @@
                                 <span class="material-icons-button material-icons">delete</span> {% trans "Delete" %}
                             </a>
                         {% endif %}
-                        <a class="btn btn-sm btn-light" href="{% url 'clone_document' document.uuid %}">
+                        <a class="btn btn-sm btn-light" href="{% url 'clone_document' document.uuid %}" id="clone-button">
                             <span class="material-icons-button material-icons">file_copy</span> {% trans "Clone" %}
                         </a>
                         <button type="button" class="btn btn-sm btn-light" data-toggle="modal" data-target="#share-modal">
@@ -136,7 +136,7 @@
                                 <span class="sr-only">stars</span>
                             </a>
                         {% else %}
-                            <a class="btn btn-sm btn-light" href="{% url 'star_document' document.uuid %}">
+                            <a class="btn btn-sm btn-light" href="{% url 'star_document' document.uuid %}" id ="star-button">
                                 <span class="material-icons-button material-icons">star_border</span> {% trans "Star" %}
 
                                 <span class="badge badge-light ml-2">{{ document.number_of_stars }}</span>
@@ -145,7 +145,7 @@
                         {% endif %}
 
                         {% if collections %}
-                            <div class="btn-group" role="group">
+                            <div class="btn-group" role="group" id="add-to-collection-dropdown">
                                 <button id="button-add-to-collection" type="button" class="btn btn-sm btn-light dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     <span class="material-icons-button material-icons">playlist_add</span>
                                     {% trans 'Add to collection' %}
