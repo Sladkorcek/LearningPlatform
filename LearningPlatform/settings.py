@@ -140,3 +140,13 @@ DOCUMENTS_PER_PAGE = 10
 
 # Path to the document that is used as a tutorial document
 TUTORIAL_DOCUMENT = 'TUTORIAL.md'
+
+# The id of the Document object for tutorial
+TUTORIAL_DOCUMENT_ID = 11
+
+# Collection that will be created when a tutorial document is created
+TUTORIAL_COLLECTION = {
+    'title': 'Tutorial',
+    'description': 'A tutorial collection that we have created just for you.',
+    'image': None
+}

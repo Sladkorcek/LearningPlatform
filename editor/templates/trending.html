@@ -14,9 +14,9 @@
 {% block title %}{% trans 'Explore trending' %}{% endblock %}
 
 {% block content %}
-<div class="container mt-5" style="padding-bottom: 10rem;">
+<div class="container mt-5" style="padding-bottom: 10rem;" id="explore-page-content">
 
-    <div class="row" id="explore-page-content">
+    <div class="row">
 
         <div class="col-sm-12">
             <h3 class="mb-3">{% trans 'Trending collections' %}</h3>
@@ -64,7 +64,7 @@
             <h3 class="mb-3 mt-5">{% trans 'Trending documents' %}</h3>
             <div class="list-group">
                 {% for document, has_starred in trending_documents %}
-                    <div class="list-group-item list-group-item-action" id="trending-document">
+                    <div class="list-group-item list-group-item-action" {% if document.id == tutorial_document.id %}id="tutorial-document"{% endif %}>
                         <div class="d-flex flex-wrap justify-content-left align-items-center">
                             <div>
                                 <a href="{% url 'render_document' document.uuid %}" class="color-primary">

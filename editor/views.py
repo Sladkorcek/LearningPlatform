@@ -138,6 +138,7 @@ def create_document(request):
         # When creating a new document, first a new database object should be
         # inserted, then user should be redirected to edit document page
         document = Document.empty_document(request.user)
+        document.save()
     elif document_type == 'tutorial':
         document_content = render_to_string(
             settings.TUTORIAL_DOCUMENT,
@@ -146,8 +147,17 @@ def create_document(request):
             }, request=request
         )
         document = Document.tutorial(document_content, request.user)
-
-    document.save()
+        document.save()
+        # Also create a tutorial collection
+        tutorial_collection = Collection(
+            title=settings.TUTORIAL_COLLECTION['title'],
+            description=settings.TUTORIAL_COLLECTION['description'],
+            image=settings.TUTORIAL_COLLECTION['image'],
+            owner=request.user
+        )
+        tutorial_collection.save()
+        tutorial_collection.documents.add(document)
+        tutorial_collection.save()
     
     # After the document has been saved, its id can be read and used to
     # construct the edit url
@@ -410,10 +420,21 @@ def explore(request):
     trending_collections = Collection.objects.filter(visibility=VisibilityMixin.PUBLIC).annotate(total_stars=Count('stars')).filter(total_stars__gt=0)
     has_starred_collections = [collection.has_starred(request.user) for collection in trending_collections]
 
-    return render(request, 'trending.html', {
-        'trending_documents': zip(trending_documents, has_starred_documents),
+    context = {
+        'trending_documents': list(zip(trending_documents, has_starred_documents)),
         'trending_collections': zip(trending_collections, has_starred_collections)
-    })
+    }
+
+    if request.session.get('tutorial', False) and hasattr(settings, "TUTORIAL_DOCUMENT_ID"):
+        try:
+            tutorial_document = Document.objects.get(pk=settings.TUTORIAL_DOCUMENT_ID)
+            context['tutorial_document'] = tutorial_document
+            context['trending_documents'].insert(0, (tutorial_document, False))
+        except Exception as e:
+            print(e)
+            pass
+
+    return render(request, 'trending.html', context)
 
 @login_required
 def stars(request):
