@@ -7,6 +7,14 @@
 
 {% block title %}{{ document.owner.username }}/{{ document.title }}{% endblock %}
 
+{% block metadata %}
+    <meta property="og:url" content="{{ request.scheme }}://{{ request.get_host }}{% url 'render_document' document.uuid %}" />
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content="{{ document.title }}" />
+    <meta property="og:description" content="{{ document.content | markdown | striptags | truncatechars:60 }}" />
+    <meta property="og:image" content="{% static 'editor/images/facebook_share_document.png' %}" />
+{% endblock %}
+
 {% block head %}
 
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap" rel="stylesheet">
