@@ -1,9 +1,17 @@
 {% extends 'base.html' %}
 
-{% load static %}
+{% load static markdown %}
 {% load i18n %}
 
 {% block title %}{% trans 'Edit document' %} {{ document.title }}{% endblock %}
+
+{% block metadata %}
+    <meta property="og:url" content="{{ request.scheme }}://{{ request.get_host }}{% url 'edit_document' document.uuid %}" />
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content="{% trans 'Edit document' %} {{ document.title }}" />
+    <meta property="og:description" content="{{ document.content | markdown | striptags | truncatechars:60 }}" />
+    <meta property="og:image" content="{% static 'editor/images/facebook_share_document.png' %}" />
+{% endblock %}
 
 {% block head %}
     <!-- Markdown editor -->
